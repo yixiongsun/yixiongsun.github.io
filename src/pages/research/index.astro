@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { Image } from 'astro:assets';
+import { research } from '../../data/portfolio';
+import { withBase } from '../../utils/paths';
+
+const archive = [...research].sort((a, b) => Number(b.year) - Number(a.year));
+---
+
+<BaseLayout
+  title="Research — Yixiong Sun"
+  description="Publications, posters, and presentations by Yixiong Sun."
+>
+  <div class="site-shell archive-shell">
+    <SiteHeader />
+    <main>
+      <header class="page-intro">
+        <h1>Research archive</h1>
+        <p>Publications, posters, and talks. Hover over a poster for a preview, or select any record to open its details.</p>
+      </header>
+
+      <div class="archive-filters" aria-label="Filter research by format">
+        <button type="button" data-filter="all" aria-pressed="true">All <span>{research.length}</span></button>
+        <button type="button" data-filter="publication" aria-pressed="false">Publications <span>{research.filter((item) => item.type === 'publication').length}</span></button>
+        <button type="button" data-filter="poster" aria-pressed="false">Posters <span>{research.filter((item) => item.type === 'poster').length}</span></button>
+        <button type="button" data-filter="talk" aria-pressed="false">Talks <span>{research.filter((item) => item.type === 'talk').length}</span></button>
+      </div>
+
+      <div class="archive-list" aria-live="polite">
+        {archive.map((item) => (
+          <a
+            class="archive-row"
+            href={withBase(`research/${item.slug}/`)}
+            data-research-type={item.type}
+            data-entry-url={withBase(`research/${item.slug}/`)}
+            data-entry-template={item.image ? `research-media-${item.slug}` : undefined}
+            data-entry-year={item.year}
+            data-entry-kind={item.type}
+            data-entry-title={item.title}
+            data-entry-venue={`${item.venue}${item.status ? ` · ${item.status}` : ''}`}
+            data-entry-authors={item.authors}
+          >
+            <span class="year">{item.year}</span>
+            <span class="archive-type">{item.type}</span>
+            <span class="row-copy">
+              <strong>{item.title}</strong>
+              <small>{item.venue}{item.status ? ` · ${item.status}` : ''}</small>
+            </span>
+            <span class="arrow" aria-hidden="true">↗</span>
+            {item.image && (
+              <span class="archive-hover-preview" aria-hidden="true">
+                <Image src={item.image} alt="" width={280} format="webp" loading="lazy" />
+              </span>
+            )}
+          </a>
+        ))}
+      </div>
+
+      {archive.filter((item) => item.image).map((item) => (
+        <template id={`research-media-${item.slug}`}>
+          <Image
+            class="dialog-poster"
+            src={item.image!}
+            alt={`Poster for ${item.title}`}
+            width={900}
+            format="webp"
+            loading="lazy"
+          />
+        </template>
+      ))}
+
+      <dialog class="research-dialog" aria-labelledby="research-dialog-title">
+        <button class="dialog-close" type="button" aria-label="Close details">Close</button>
+        <div class="dialog-media"></div>
+        <div class="dialog-meta"><span data-dialog-year></span><span data-dialog-kind></span></div>
+        <h2 id="research-dialog-title"></h2>
+        <p class="dialog-venue"></p>
+        <p class="dialog-authors"></p>
+        <a class="dialog-detail-link" href="">Open full page ↗</a>
+      </dialog>
+    </main>
+    <SiteFooter />
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const rows = document.querySelectorAll<HTMLAnchorElement>('[data-research-type]');
+    const dialog = document.querySelector<HTMLDialogElement>('.research-dialog');
+    const dialogMedia = dialog?.querySelector<HTMLElement>('.dialog-media');
+    const dialogTitle = dialog?.querySelector<HTMLElement>('#research-dialog-title');
+    const dialogVenue = dialog?.querySelector<HTMLElement>('.dialog-venue');
+    const dialogAuthors = dialog?.querySelector<HTMLElement>('.dialog-authors');
+    const dialogYear = dialog?.querySelector<HTMLElement>('[data-dialog-year]');
+    const dialogKind = dialog?.querySelector<HTMLElement>('[data-dialog-kind]');
+    const dialogLink = dialog?.querySelector<HTMLAnchorElement>('.dialog-detail-link');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+        buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        rows.forEach((row) => {
+          row.hidden = filter !== 'all' && row.dataset.researchType !== filter;
+        });
+      });
+    });
+
+    rows.forEach((row) => {
+      row.addEventListener('click', (event) => {
+        if (!dialog || !dialogMedia || !dialogTitle || !dialogVenue || !dialogAuthors || !dialogYear || !dialogKind || !dialogLink) return;
+        event.preventDefault();
+
+        dialogMedia.replaceChildren();
+        const templateId = row.dataset.entryTemplate;
+        const template = templateId ? document.getElementById(templateId) : null;
+        if (template instanceof HTMLTemplateElement) {
+          dialogMedia.append(template.content.cloneNode(true));
+          dialogMedia.hidden = false;
+        } else {
+          dialogMedia.hidden = true;
+        }
+
+        dialogTitle.textContent = row.dataset.entryTitle ?? '';
+        dialogVenue.textContent = row.dataset.entryVenue ?? '';
+        dialogAuthors.textContent = row.dataset.entryAuthors ?? '';
+        dialogAuthors.hidden = !row.dataset.entryAuthors;
+        dialogYear.textContent = row.dataset.entryYear ?? '';
+        dialogKind.textContent = row.dataset.entryKind ?? '';
+        dialogLink.href = row.dataset.entryUrl ?? row.href;
+        dialog.showModal();
+      });
+    });
+
+    dialog?.querySelector<HTMLButtonElement>('.dialog-close')?.addEventListener('click', () => dialog.close());
+    dialog?.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  </script>
+</BaseLayout>

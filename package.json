@@ -1,0 +1,17 @@
+{
+  "name": "yixiong-sun-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "latest",
+    "astro": "latest",
+    "sharp": "^0.35.4",
+    "typescript": "^6.0.0"
+  }
+}

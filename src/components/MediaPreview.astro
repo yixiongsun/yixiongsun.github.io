@@ -1,0 +1,48 @@
+---
+import type { Media } from '../data/portfolio';
+import { withBase } from '../utils/paths';
+
+interface Props {
+  media: Media;
+  compact?: boolean;
+}
+
+const { media, compact = false } = Astro.props;
+---
+
+<span class:list={['media-preview', { compact }]}>
+  {media.type === 'image' && <img src={withBase(media.src)} alt={media.alt} loading="lazy" />}
+  {media.type === 'video' && (
+    <video
+      src={withBase(media.src)}
+      poster={media.poster ? withBase(media.poster) : undefined}
+      aria-label={media.alt}
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    ></video>
+  )}
+  {media.type === 'signal' && (
+    <span class="signal-preview" aria-label={media.alt} role="img">
+      {Array.from({ length: 24 }).map((_, index) => <i style={`--i:${index}`}></i>)}
+    </span>
+  )}
+</span>
+
+<script>
+  const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+  document.querySelectorAll<HTMLVideoElement>('.media-preview video').forEach((video) => {
+    const row = video.closest('.index-row');
+    if (!mediaQuery.matches) {
+      video.controls = true;
+      return;
+    }
+    if (!row) return;
+    row.addEventListener('mouseenter', () => video.play().catch(() => undefined));
+    row.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+    });
+  });
+</script>

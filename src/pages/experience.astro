@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { experience } from '../data/portfolio';
+---
+
+<BaseLayout
+  title="Experience — Yixiong Sun"
+  description="Research and software engineering experience from Yixiong Sun."
+>
+  <div class="site-shell archive-shell">
+    <SiteHeader />
+    <main>
+      <header class="page-intro">
+        <h1>Experience</h1>
+        <p>Research and software engineering work across neuroscience, machine learning, full-stack systems, mobile applications, and cloud infrastructure.</p>
+      </header>
+
+      <div class="directory-list">
+        {experience.map((item) => (
+          <article class="index-row index-row-static">
+            <span class="year">{item.period}</span>
+            <span class="row-copy">
+              <strong>{item.organization} · {item.role}</strong>
+              <small>{item.summary}</small>
+              <span class="row-tools">{item.tools.join(' · ')}</span>
+            </span>
+            <span aria-hidden="true"></span>
+          </article>
+        ))}
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>
