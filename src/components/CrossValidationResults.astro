@@ -1,0 +1,222 @@
+---
+import results from '../data/neural-event-results.json';
+
+const yMin = 0.78;
+const yMax = 0.90;
+const chartTop = 22;
+const chartBottom = 246;
+const fullX = 104;
+const compactX = 326;
+const yPosition = (score: number) =>
+  chartBottom - ((score - yMin) / (yMax - yMin)) * (chartBottom - chartTop);
+const ticks = [0.80, 0.85, 0.90];
+const classMin = 0.70;
+const classMax = 0.92;
+const classPosition = (score: number) => `${((score - classMin) / (classMax - classMin)) * 100}%`;
+const classLabels: Record<string, string> = { ripple: 'Ripple', ied: 'IED', noise: 'Noise' };
+---
+
+<section class="cv-results" aria-labelledby="cv-results-title">
+  <header class="results-intro">
+    <p>Internal validation</p>
+    <div>
+      <h2 id="cv-results-title">The compact model matches the full baseline</h2>
+      <p>
+        Fifteen paired runs show nearly identical average macro F1, while the class breakdown
+        makes the remaining weakness on noise events visible.
+      </p>
+    </div>
+  </header>
+
+  <div class="headline-results" aria-label="Compact model headline results">
+    <p><strong>{results.summary.compact_macro_f1_mean.toFixed(3)}</strong><span>macro F1</span></p>
+    <p><strong>{results.summary.compact_accuracy_mean.toFixed(3)}</strong><span>accuracy</span></p>
+    <p><strong>15</strong><span>paired runs · 5 folds × 3 seeds</span></p>
+  </div>
+
+  <figure>
+    <div class="result-panels">
+      <section class="paired-panel" aria-labelledby="paired-runs-title">
+        <header>
+          <div>
+            <span>A</span>
+            <h3 id="paired-runs-title">Paired run performance</h3>
+          </div>
+          <p>Macro F1</p>
+        </header>
+
+        <svg viewBox="0 0 430 292" role="img" aria-label="Macro F1 for 15 paired full-baseline and compact-model runs">
+          {ticks.map((tick) => (
+            <g class="gridline">
+              <line x1="52" x2="382" y1={yPosition(tick)} y2={yPosition(tick)} />
+              <text x="43" y={yPosition(tick) + 3}>{tick.toFixed(2)}</text>
+            </g>
+          ))}
+
+          {results.paired_runs.map((run) => (
+            <g class="run-pair">
+              <title>{`Seed ${run.seed}, fold ${run.fold}: full ${run.baseline_macro_f1.toFixed(3)}, compact ${run.compact_macro_f1.toFixed(3)}`}</title>
+              <line
+                x1={fullX}
+                x2={compactX}
+                y1={yPosition(run.baseline_macro_f1)}
+                y2={yPosition(run.compact_macro_f1)}
+              />
+              <circle class="full-point" cx={fullX} cy={yPosition(run.baseline_macro_f1)} r="3.2" />
+              <circle class="compact-point" cx={compactX} cy={yPosition(run.compact_macro_f1)} r="3.2" />
+            </g>
+          ))}
+
+          <g class="mean-marker">
+            <line x1="80" x2="128" y1={yPosition(results.summary.baseline_macro_f1_mean)} y2={yPosition(results.summary.baseline_macro_f1_mean)} />
+            <line x1="302" x2="350" y1={yPosition(results.summary.compact_macro_f1_mean)} y2={yPosition(results.summary.compact_macro_f1_mean)} />
+          </g>
+          <text class="model-label" x={fullX} y="273">Full baseline</text>
+          <text class="model-label" x={compactX} y="273">Compact</text>
+          <text class="mean-label" x={fullX} y="287">mean {results.summary.baseline_macro_f1_mean.toFixed(3)}</text>
+          <text class="mean-label" x={compactX} y="287">mean {results.summary.compact_macro_f1_mean.toFixed(3)}</text>
+        </svg>
+
+        <div class="paired-summary">
+          <p><strong>+{results.summary.paired_macro_f1_difference.toFixed(4)}</strong><span>mean paired difference</span></p>
+          <p><strong>{results.summary.compact_wins} / {results.summary.compact_losses}</strong><span>compact wins / losses</span></p>
+        </div>
+      </section>
+
+      <section class="class-panel" aria-labelledby="class-results-title">
+        <header>
+          <div>
+            <span>B</span>
+            <h3 id="class-results-title">Compact model by class</h3>
+          </div>
+          <p>Mean F1</p>
+        </header>
+
+        <div class="class-scale" aria-hidden="true"><span>0.70</span><span>0.80</span><span>0.90</span></div>
+        <div class="class-scores">
+          {results.class_f1.map((entry) => (
+            <div class:list={['class-score', entry.class]}>
+              <div>
+                <strong>{classLabels[entry.class]}</strong>
+                <span>{entry.f1.toFixed(3)}</span>
+              </div>
+              <div class="score-track" style={`--position: ${classPosition(entry.f1)}`}>
+                <i aria-hidden="true"></i>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="class-takeaway">
+          Noise remains the hardest class, despite similar aggregate performance between models.
+        </p>
+      </section>
+    </div>
+
+    <figcaption>
+      Five subject-level folds were repeated across three seeds. Each line joins the same
+      seed/fold pairing; the runs reuse subjects and are descriptive internal cross-validation,
+      not 15 independent cohorts or an external test set.
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .cv-results {
+    --ripple: #6caedb;
+    --ied: #eaa252;
+    --noise: #a99bc2;
+    margin: 0 0 46px;
+    padding: 30px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .results-intro {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 28px;
+    margin-bottom: 26px;
+  }
+  .results-intro > p {
+    margin: 3px 0 0;
+    color: var(--faint);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .results-intro h2 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: -.01em;
+  }
+  .results-intro div > p {
+    max-width: 560px;
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .headline-results { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 18px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .headline-results p { display: flex; min-width: 0; flex-direction: column; gap: 4px; margin: 0; padding: 15px 0; }
+  .headline-results p + p { padding-left: 18px; border-left: 1px solid var(--subtle-rule); }
+  .headline-results strong { color: var(--text-strong); font-size: 17px; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .headline-results span { color: var(--muted); font-size: 9px; line-height: 1.4; }
+
+  figure { margin: 0; }
+  .result-panels { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(230px, .8fr); gap: 18px; }
+  .paired-panel,
+  .class-panel { min-width: 0; padding: 17px; border: 1px solid var(--rule); background: #141513; }
+  .paired-panel > header,
+  .class-panel > header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid var(--subtle-rule); }
+  .paired-panel header div,
+  .class-panel header div { display: flex; align-items: baseline; gap: 9px; }
+  .paired-panel header span,
+  .class-panel header span { color: var(--faint); font-size: 9px; }
+  .paired-panel h3,
+  .class-panel h3 { margin: 0; color: var(--text); font-size: 12px; font-weight: 500; }
+  .paired-panel header p,
+  .class-panel header p { margin: 0; color: var(--faint); font-size: 9px; }
+
+  .paired-panel svg { display: block; width: 100%; height: auto; margin-top: 9px; overflow: visible; }
+  .gridline line { stroke: #32332f; stroke-width: 1; }
+  .gridline text { fill: #777873; font-size: 8px; text-anchor: end; }
+  .run-pair line { stroke: #777873; stroke-width: 1; opacity: .52; }
+  .full-point { fill: #141513; stroke: #92938d; stroke-width: 1.4; }
+  .compact-point { fill: #deded9; stroke: #deded9; stroke-width: 1; }
+  .mean-marker line { stroke: #f0f0eb; stroke-width: 3; }
+  .model-label { fill: #deded9; font-size: 9px; text-anchor: middle; }
+  .mean-label { fill: #888984; font-size: 7.5px; text-anchor: middle; }
+  .paired-summary { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--subtle-rule); }
+  .paired-summary p { display: flex; flex-direction: column; gap: 3px; margin: 0; padding: 13px 0 0; }
+  .paired-summary p + p { padding-left: 14px; border-left: 1px solid var(--subtle-rule); }
+  .paired-summary strong { color: var(--text); font-size: 12px; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .paired-summary span { color: var(--faint); font-size: 8px; line-height: 1.35; }
+
+  .class-scale { display: flex; justify-content: space-between; margin: 23px 0 9px 0; color: var(--faint); font-size: 8px; font-variant-numeric: tabular-nums; }
+  .class-scores { display: grid; gap: 27px; padding-top: 5px; }
+  .class-score > div:first-child { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+  .class-score strong { color: var(--text); font-size: 11px; font-weight: 500; }
+  .class-score span { color: var(--text); font-size: 10px; font-variant-numeric: tabular-nums; }
+  .score-track { position: relative; height: 1px; background: #454641; }
+  .score-track::before { content: ''; position: absolute; inset: -4px auto -4px var(--position); width: 1px; background: #2d2e2b; }
+  .score-track i { position: absolute; top: 50%; left: var(--position); width: 9px; height: 9px; background: currentColor; transform: translate(-50%, -50%); }
+  .ripple { color: var(--ripple); }
+  .ripple .score-track i { border-radius: 50%; }
+  .ied { color: var(--ied); }
+  .ied .score-track i { transform: translate(-50%, -50%) rotate(45deg); }
+  .noise { color: var(--noise); }
+  .class-takeaway { margin: 31px 0 0; padding-top: 14px; border-top: 1px solid var(--subtle-rule); color: var(--muted); font-size: 9px; line-height: 1.55; }
+
+  figcaption { margin: 14px 0 0 140px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+
+  @media (max-width: 620px) {
+    .results-intro { grid-template-columns: 1fr; gap: 12px; }
+    .results-intro h2 { font-size: 19px; }
+    .headline-results { grid-template-columns: 1fr; }
+    .headline-results p + p { padding-left: 0; border-top: 1px solid var(--subtle-rule); border-left: 0; }
+    .result-panels { grid-template-columns: 1fr; }
+    figcaption { margin-left: 0; }
+  }
+</style>

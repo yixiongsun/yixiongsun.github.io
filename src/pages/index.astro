@@ -12,6 +12,11 @@ const highlightedExperience = experience.filter((item) =>
 const highlightedProjects = projects.filter((project) =>
   ['evidneuro', 'neural-event-classification'].includes(project.slug),
 );
+const neuralEventPreview = {
+  type: 'image' as const,
+  src: 'media/neural-event-classification/02_representative_events.svg',
+  alt: 'Representative ripple, IED, and noise events shown as multichannel waveforms and spectrograms',
+};
 ---
 
 <BaseLayout
@@ -59,7 +64,13 @@ const highlightedProjects = projects.filter((project) =>
         <div class="index-list">
           {highlightedProjects.map((project) => (
             <a
-              class:list={['index-row', { 'row-with-preview': project.media }]}
+              class:list={[
+                'index-row',
+                {
+                  'row-with-preview': project.media,
+                  'neural-event-preview': project.slug === 'neural-event-classification',
+                },
+              ]}
               href={withBase(`work/${project.slug}/`)}
             >
               <span class="year">{project.year}</span>
@@ -68,7 +79,12 @@ const highlightedProjects = projects.filter((project) =>
                 <small>{project.summary}</small>
               </span>
               <span class="arrow" aria-hidden="true">↗</span>
-              {project.media && <MediaPreview media={project.media} compact />}
+              {project.media && (
+                <MediaPreview
+                  media={project.slug === 'neural-event-classification' ? neuralEventPreview : project.media}
+                  compact
+                />
+              )}
             </a>
           ))}
           <a class="section-link" href={withBase('work/')}>

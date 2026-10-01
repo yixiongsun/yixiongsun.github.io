@@ -22,7 +22,10 @@ import { withBase } from '../../utils/paths';
       <div class="directory-list">
         {projects.map((project) => (
           <a
-            class:list={['index-row', { 'row-with-preview': project.media }]}
+            class:list={[
+              'index-row',
+              { 'row-with-preview': project.media && project.slug !== 'neural-event-classification' },
+            ]}
             href={withBase(`work/${project.slug}/`)}
           >
             <span class="year">{project.year}</span>
@@ -32,7 +35,9 @@ import { withBase } from '../../utils/paths';
               <span class="row-tools">{project.tools.join(' · ')}</span>
             </span>
             <span class="arrow" aria-hidden="true">↗</span>
-            {project.media && <MediaPreview media={project.media} compact />}
+            {project.media && project.slug !== 'neural-event-classification' && (
+              <MediaPreview media={project.media} compact />
+            )}
           </a>
         ))}
       </div>

@@ -100,10 +100,10 @@ export const projects: Project[] = [
   {
     slug: 'neural-event-classification',
     year: '2026—',
-    title: 'Multimodal neural event classification',
+    title: 'Neural event classification',
     summary: 'Sharp-wave ripple and interictal epileptiform discharge classification',
     description:
-      'An end-to-end pipeline for detecting, curating, and classifying 7,701 neural events from 30 subjects as sharp-wave ripples, interictal epileptiform discharges (IEDs), or noise. The multimodal CNN combines LFP waveforms, time-frequency spectrograms, cross-channel attention, and coherence- and entropy-based features. Leakage-free, subject-held-out three-fold cross-validation achieved 86.3% accuracy and 0.859 macro F1, compared with 60.8% accuracy and 0.313 macro F1 for a naïve thresholding baseline.',
+      'An end-to-end pipeline for detecting, curating, and classifying 7,701 neural events from 30 subjects as sharp-wave ripples, interictal epileptiform discharges (IEDs), or noise. The selected compact model combines multichannel waveforms, cross-channel attention, and coherence- and entropy-based features with calibrated rejection for uncertain events. Repeated subject-grouped internal cross-validation achieved 86.1% accuracy and 0.849 macro F1 across five folds and three seeds; no independent external cohort was evaluated.',
     tools: ['Python', 'PyTorch', 'Signal processing', 'CNNs', 'Subject-held-out evaluation'],
     url: 'https://github.com/yixiongsun/ripple_ied_classification',
     media: { type: 'signal', alt: 'Animated neural signal preview' },

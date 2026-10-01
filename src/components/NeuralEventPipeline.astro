@@ -1,0 +1,253 @@
+<section class="neural-pipeline" aria-labelledby="pipeline-title">
+  <header class="pipeline-intro">
+    <p class="eyebrow">Pipeline</p>
+    <div>
+      <h2 id="pipeline-title">From recordings to calibrated decisions</h2>
+      <p>
+        Five stages turn multichannel hippocampal recordings into ripple or IED predictions,
+        while uncertain events are rejected as noise.
+      </p>
+    </div>
+  </header>
+
+  <ol class="pipeline-stages">
+    <li class="pipeline-stage">
+      <div class="stage-rail" aria-hidden="true"><span>1</span></div>
+      <div class="stage-content">
+        <header>
+          <h3>Recordings</h3>
+          <p>Cleaned hippocampal LFP with channel and sleep-stage context.</p>
+        </header>
+        <svg class="example" viewBox="0 0 280 104" role="img" aria-label="Three aligned neural recording traces">
+          <path d="M8 23 C24 23 35 23 48 23 C58 23 60 19 64 27 C69 35 72 10 78 31 C84 49 89 3 95 29 C102 52 108 4 115 25 C123 43 129 11 136 24 C146 35 153 17 161 24 C177 28 191 23 208 23 C230 23 250 23 272 23" />
+          <path d="M8 52 C28 52 38 52 50 52 C61 52 64 46 69 59 C74 69 79 35 85 62 C91 82 97 29 103 59 C110 82 117 30 123 55 C130 73 137 39 145 54 C154 65 162 44 171 52 C188 55 207 52 224 52 C242 52 256 52 272 52" />
+          <path d="M8 81 C27 81 42 81 54 81 C64 81 68 76 73 87 C78 97 83 65 89 90 C95 105 101 60 107 87 C114 104 121 62 128 84 C136 98 143 70 151 83 C161 91 169 75 178 81 C195 84 215 81 231 81 C247 81 260 81 272 81" />
+        </svg>
+      </div>
+    </li>
+
+    <li class="pipeline-stage">
+      <div class="stage-rail" aria-hidden="true"><span>2</span></div>
+      <div class="stage-content">
+        <header>
+          <h3>Detect candidates</h3>
+          <p>Ripple and IED envelopes identify consensus event windows.</p>
+        </header>
+        <svg class="example detector" viewBox="0 0 280 104" role="img" aria-label="Blue ripple and orange IED detection envelopes crossing a threshold">
+          <rect x="80" y="11" width="84" height="82" rx="3" class="window" />
+          <path class="threshold" d="M8 69 H272" />
+          <path class="ripple-line" d="M8 88 C50 88 66 86 80 72 C93 59 101 26 119 19 C137 13 147 47 161 67 C177 87 206 88 272 88" />
+          <path class="ied-line" d="M8 88 C82 88 100 87 119 78 C137 69 150 38 169 31 C188 24 205 57 220 72 C236 87 251 88 272 88" />
+        </svg>
+        <div class="class-key" aria-label="Class color key">
+          <span class="ripple">Ripple envelope</span>
+          <span class="ied">IED envelope</span>
+        </div>
+      </div>
+    </li>
+
+    <li class="pipeline-stage">
+      <div class="stage-rail" aria-hidden="true"><span>3</span></div>
+      <div class="stage-content">
+        <header>
+          <h3>Represent and label</h3>
+          <p>Each 100 ms event becomes a normalized waveform; spectrograms support interpretation and manual labels.</p>
+        </header>
+        <svg class="example representation" viewBox="0 0 280 112" role="img" aria-label="Waveform above a grayscale time-frequency representation">
+          <path d="M8 20 C39 20 52 20 67 20 C79 20 84 13 90 28 C97 43 104 2 112 30 C120 52 128 2 136 26 C145 46 154 8 163 23 C174 35 184 14 194 21 C216 24 242 20 272 20" />
+          <path d="M8 37 C43 37 58 37 72 37 C84 37 90 30 97 45 C104 58 112 20 120 46 C128 64 137 20 145 43 C154 58 163 29 173 41 C184 50 195 33 206 38 C225 40 246 37 272 37" />
+          <g class="spectrum">
+            <defs>
+              <g id="event-spectrum-row">
+                <rect x="8" width="33" height="5" fill="#deded9" />
+                <rect x="41" width="33" height="5" fill="#b6b7b1" />
+                <rect x="74" width="33" height="5" fill="#888984" />
+                <rect x="107" width="33" height="5" fill="#535550" />
+                <rect x="140" width="33" height="5" fill="#373936" />
+                <rect x="173" width="33" height="5" fill="#888984" />
+                <rect x="206" width="33" height="5" fill="#b6b7b1" />
+                <rect x="239" width="33" height="5" fill="#deded9" />
+              </g>
+            </defs>
+            <use href="#event-spectrum-row" y="55" opacity=".42" />
+            <use href="#event-spectrum-row" y="60.5" opacity=".55" />
+            <use href="#event-spectrum-row" y="66" opacity=".70" />
+            <use href="#event-spectrum-row" y="71.5" opacity=".86" />
+            <use href="#event-spectrum-row" y="77" opacity="1" />
+            <use href="#event-spectrum-row" y="82.5" opacity=".86" />
+            <use href="#event-spectrum-row" y="88" opacity=".68" />
+            <use href="#event-spectrum-row" y="93.5" opacity=".50" />
+          </g>
+        </svg>
+        <p class="stage-note">The selected compact model omits the spectrogram branch.</p>
+      </div>
+    </li>
+
+    <li class="pipeline-stage">
+      <div class="stage-rail" aria-hidden="true"><span>4</span></div>
+      <div class="stage-content">
+        <header>
+          <h3>Train and calibrate</h3>
+          <p>An outer subject-grouped fold keeps evaluation separate from both fitting and threshold selection.</p>
+        </header>
+        <div class="subject-split">
+          <div><strong>Model fitting</strong><span>Learn parameters</span></div>
+          <div><strong>Calibration</strong><span>20% of training subjects · set threshold</span></div>
+          <div><strong>Held-out validation</strong><span>Evaluate only</span></div>
+        </div>
+      </div>
+    </li>
+
+    <li class="pipeline-stage">
+      <div class="stage-rail" aria-hidden="true"><span>5</span></div>
+      <div class="stage-content">
+        <header>
+          <h3>Predict</h3>
+          <p>A binary ripple–IED score is compared with a calibrated confidence threshold.</p>
+        </header>
+        <div class="decision">
+          <p><strong>Low score magnitude</strong><span>Reject as noise</span></p>
+          <p><strong>Confident score</strong><span>Use the score direction</span></p>
+        </div>
+        <div class="outcomes" aria-label="Possible classification outcomes">
+          <span class="noise"><i aria-hidden="true"></i>Noise</span>
+          <span class="ripple"><i aria-hidden="true"></i>Ripple</span>
+          <span class="ied"><i aria-hidden="true"></i>IED</span>
+        </div>
+      </div>
+    </li>
+  </ol>
+
+  <aside class="pipeline-guardrail">
+    <strong>Subject separation is preserved.</strong>
+    <span>No validation subject contributes to model fitting or threshold calibration.</span>
+  </aside>
+</section>
+
+<style>
+  .neural-pipeline {
+    --ripple: #6caedb;
+    --ied: #eaa252;
+    --noise: #a99bc2;
+    margin: 0 0 46px;
+    padding: 30px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .pipeline-intro {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 28px;
+    margin-bottom: 38px;
+  }
+
+  .pipeline-intro .eyebrow {
+    margin: 3px 0 0;
+    color: var(--faint);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  .pipeline-intro h2 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: -.01em;
+  }
+
+  .pipeline-intro div > p {
+    max-width: 560px;
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .pipeline-stages { margin: 0; padding: 0; list-style: none; }
+  .pipeline-stage { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); }
+  .pipeline-stage:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    left: 14px;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .stage-rail { position: relative; z-index: 1; padding-top: 1px; }
+  .stage-rail span {
+    display: grid;
+    width: 29px;
+    height: 29px;
+    place-items: center;
+    border: 1px solid #686964;
+    border-radius: 50%;
+    background: var(--background);
+    color: var(--text-strong);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stage-content { min-width: 0; padding: 0 0 42px; }
+  .stage-content > header { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 26px; padding-top: 5px; }
+  .stage-content h3 { margin: 0; color: var(--text-strong); font-size: 15px; line-height: 1.4; font-weight: 500; }
+  .stage-content header p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+
+  .example { display: block; width: min(100%, 360px); height: auto; margin-top: 22px; overflow: visible; }
+  .example path { fill: none; stroke: #b6b7b1; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+  .example.detector { height: auto; }
+  .detector .window { fill: rgba(108, 174, 219, .06); }
+  .detector .threshold { stroke: #777873; stroke-dasharray: 4 5; }
+  .detector .ripple-line { stroke: var(--ripple); stroke-width: 2; }
+  .detector .ied-line { stroke: var(--ied); stroke-width: 2; }
+  .class-key { display: flex; gap: 18px; margin-top: 7px; font-size: 9px; }
+  .class-key span::before { content: ''; display: inline-block; width: 12px; height: 2px; margin: 0 6px 3px 0; background: currentColor; }
+  .ripple { color: var(--ripple); }
+  .ied { color: var(--ied); }
+  .noise { color: var(--noise); }
+
+  .representation { height: auto; }
+  .representation .tone-1 { fill: #deded9; }
+  .representation .tone-2 { fill: #b6b7b1; }
+  .representation .tone-3 { fill: #888984; }
+  .representation .tone-4 { fill: #535550; }
+  .representation .tone-5 { fill: #373936; }
+  .stage-note { margin: 8px 0 0; color: var(--faint); font-size: 10px; line-height: 1.5; }
+
+  .subject-split { margin-top: 24px; border-top: 1px solid var(--rule); }
+  .subject-split > div { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 26px; padding: 13px 0; border-bottom: 1px solid var(--subtle-rule); }
+  .subject-split strong { color: var(--text); font-size: 11px; font-weight: 500; }
+  .subject-split span { color: var(--muted); font-size: 10px; }
+
+  .decision { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 24px; background: var(--rule); border: 1px solid var(--rule); }
+  .decision p { display: flex; min-height: 72px; flex-direction: column; justify-content: center; gap: 6px; margin: 0; padding: 14px 16px; background: #111210; }
+  .decision strong { color: var(--text); font-size: 11px; font-weight: 500; }
+  .decision span { color: var(--muted); font-size: 10px; }
+  .outcomes { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; color: var(--text); font-size: 10px; }
+  .outcomes span { display: inline-flex; align-items: center; gap: 7px; color: var(--text); }
+  .outcomes i { display: block; width: 8px; height: 8px; background: currentColor; }
+  .outcomes .noise i { color: var(--noise); }
+  .outcomes .ripple i { color: var(--ripple); border-radius: 50%; }
+  .outcomes .ied i { color: var(--ied); transform: rotate(45deg); }
+
+  .pipeline-guardrail { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 26px; margin-left: 44px; padding: 16px 0; border-top: 1px solid #686964; border-bottom: 1px solid var(--rule); }
+  .pipeline-guardrail strong { color: var(--text); font-size: 11px; font-weight: 500; }
+  .pipeline-guardrail span { color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+  @media (max-width: 620px) {
+    .pipeline-intro { grid-template-columns: 1fr; gap: 12px; }
+    .pipeline-intro h2 { font-size: 19px; }
+    .pipeline-stage { grid-template-columns: 36px minmax(0, 1fr); }
+    .pipeline-stage:not(:last-child)::before { left: 12px; }
+    .stage-rail span { width: 25px; height: 25px; }
+    .stage-content > header { grid-template-columns: 1fr; gap: 7px; }
+    .stage-content { padding-bottom: 34px; }
+    .subject-split > div { grid-template-columns: 1fr; gap: 5px; }
+    .decision { grid-template-columns: 1fr; }
+    .pipeline-guardrail { grid-template-columns: 1fr; gap: 6px; margin-left: 36px; }
+  }
+</style>
