@@ -1,0 +1,283 @@
+<div class="evidneuro-case-study">
+  <section class="case-section overview" aria-labelledby="evidneuro-overview">
+    <p class="section-label">Overview</p>
+    <div class="section-body">
+      <h2 id="evidneuro-overview">Evidence should keep its experimental context</h2>
+      <p>
+        EvidNeuro reads scientific PDFs with awareness of document layout, then represents source
+        evidence, claims, measurements, and research topics as linked objects. Neuroscience-specific
+        identity and ontology information helps retrieval distinguish findings that use similar
+        language but describe different experiments. The system is designed so a higher-level
+        result can be traced back through its supporting claims and evidence to the relevant part
+        of the source document. Uncertainty and incomplete interpretation remain visible instead
+        of being silently replaced by generated prose.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-section" aria-labelledby="evidneuro-challenge">
+    <p class="section-label">The challenge</p>
+    <div class="section-body">
+      <h2 id="evidneuro-challenge">Similar language does not mean equivalent evidence</h2>
+      <p>
+        Scientific search can conflate findings: it can treat nearby wording as interchangeable
+        even when the underlying species, brain region, cell type, intervention, or experimental
+        condition differs. A result about the mouse hippocampus, for example, should not
+        automatically become evidence for an apparently similar human finding. EvidNeuro treats
+        those conditions as part of the claim rather than disposable context.
+      </p>
+    </div>
+  </section>
+
+  <section class="case-section pipeline-section" aria-labelledby="evidneuro-pipeline">
+    <p class="section-label">Pipeline</p>
+    <div class="section-body">
+      <h2 id="evidneuro-pipeline">From source documents to auditable evidence</h2>
+      <p>
+        The intended architecture is a linked evidence ladder. Captured documents can be archived,
+        normalized, and inspected today; interpretation and the complete automatic path through
+        every downstream layer are still being integrated.
+      </p>
+
+      <figure class="evidence-ladder">
+        <ol aria-label="EvidNeuro evidence pipeline">
+          <li>
+            <span class="stage-code">Source</span>
+            <div><strong>Scientific PDF</strong><small>The original document remains the source of truth.</small></div>
+          </li>
+          <li>
+            <span class="stage-code">Capture</span>
+            <div><strong>Layout-aware source blocks</strong><small>Text, geometry, reading order, tables, figures, equations, captions, and source references.</small></div>
+          </li>
+          <li>
+            <span class="stage-code">L0</span>
+            <div><strong>Evidence objects</strong><small>Stable, source-bound objects preserve document structure instead of flattening it into generic chunks.</small></div>
+          </li>
+          <li>
+            <span class="stage-code">L1</span>
+            <div><strong>Claims and measurements</strong><small>Conditioned assertions and numeric results retain links to their supporting evidence.</small></div>
+          </li>
+          <li>
+            <span class="stage-code">L2</span>
+            <div><strong>Topics, methods, and experiments</strong><small>Claims can belong to several groupings rather than a single rigid hierarchy.</small></div>
+          </li>
+          <li>
+            <span class="stage-code">L3</span>
+            <div><strong>Provenance-bound synthesis</strong><small>Consensus, disagreement, open questions, and timelines retain references to lower layers.</small></div>
+          </li>
+        </ol>
+        <figcaption>
+          A six-stage path from the original PDF to synthesis. The lower source and evidence layers
+          remain available as higher-level structure is added.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="case-section" aria-labelledby="evidneuro-provenance">
+    <p class="section-label">Provenance</p>
+    <div class="section-body">
+      <h2 id="evidneuro-provenance">Every result should remain drillable</h2>
+      <p>
+        Stable identifiers and explicit source spans connect each layer. Page geometry and document
+        structure preserve the context of tables, figures, captions, and equations, while
+        claim-bearing prose stays distinct from surrounding material. When interpretation is
+        uncertain, the system records a named warning or withholds the passage rather than
+        substituting generated text for evidence.
+      </p>
+
+      <figure class="provenance-chain">
+        <ol aria-label="Provenance path from synthesis to the source PDF">
+          <li>Synthesis</li>
+          <li>Claim</li>
+          <li>Evidence object</li>
+          <li>Source block</li>
+          <li>PDF region</li>
+        </ol>
+        <figcaption>Synthesis → claim → evidence object → source block → PDF region.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="case-section" aria-labelledby="evidneuro-domain">
+    <p class="section-label">Domain model</p>
+    <div class="section-body">
+      <h2 id="evidneuro-domain">Retrieval that respects experimental identity</h2>
+      <p>
+        Domain information is carried with evidence instead of added only after retrieval.
+        Supporting mappings can connect original language to resources such as UBERON, Cell
+        Ontology, and Allen Brain Map without erasing the wording used by the paper.
+      </p>
+
+      <div class="capability-grid">
+        <article>
+          <h3>Species and brain regions</h3>
+          <p>Retain identity information needed to separate otherwise similar findings.</p>
+        </article>
+        <article>
+          <h3>Ontology-backed normalization</h3>
+          <p>Connect surface forms to canonical concepts and external identifiers while preserving the source wording.</p>
+        </article>
+        <article>
+          <h3>Conditions and evidence strength</h3>
+          <p>Carry experimental context, evidence type, null findings, and reproducibility information with claims.</p>
+        </article>
+        <article>
+          <h3>Contradictions and measurements</h3>
+          <p>Preserve opposing findings and structured numeric results instead of collapsing them into one summary.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section" aria-labelledby="evidneuro-system">
+    <p class="section-label">System</p>
+    <div class="section-body">
+      <h2 id="evidneuro-system">A retrieval engine built around evidence bundles</h2>
+      <p>
+        The system combines lexical and vector retrieval, reciprocal-rank fusion, and optional
+        reranking, then returns structured evidence bundles rather than a loose collection of text
+        fragments. Tool choices support that evidence flow rather than define it.
+      </p>
+      <dl class="system-list">
+        <div><dt>Service layer</dt><dd>TypeScript services and HTTP APIs</dd></div>
+        <div><dt>Document path</dt><dd>Background PDF parsing and MinerU-based layout capture</dd></div>
+        <div><dt>Retrieval</dt><dd>BM25 and vector search joined with reciprocal-rank fusion</dd></div>
+        <div><dt>Storage</dt><dd>File-backed development storage with PostgreSQL and pgvector options</dd></div>
+        <div><dt>Review</dt><dd>An inspection and labeling workspace for human decisions</dd></div>
+        <div><dt>Output</dt><dd>Evidence bundles with provenance-aware retrieval results</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="case-section" aria-labelledby="evidneuro-current-state">
+    <p class="section-label">Current state</p>
+    <div class="section-body">
+      <h2 id="evidneuro-current-state">Built in stages, with unresolved work kept visible</h2>
+      <ul class="plain-list">
+        <li>Automatic source interpretation and evidence construction are under active development.</li>
+        <li>Captured documents are archived, normalized, and inspectable; newly captured documents do not yet automatically complete the full evidence-to-synthesis ladder.</li>
+        <li>Model-proposed document joins are recorded for review rather than applied automatically.</li>
+        <li>Ambiguous or contaminated passages can be withheld instead of promoted as claim evidence.</li>
+        <li>Evaluation is internal and ongoing, using frozen document sets and human-reviewed references.</li>
+        <li>Broader corpus coverage and retrieval-quality validation remain future work.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="case-section" aria-labelledby="evidneuro-next">
+    <p class="section-label">Next</p>
+    <div class="section-body">
+      <h2 id="evidneuro-next">What comes next</h2>
+      <ul class="plain-list">
+        <li>Connect the remaining evidence-to-claim ingestion path.</li>
+        <li>Improve handling of ambiguous document boundaries and mixed caption/body content.</li>
+        <li>Expand human-reviewed claim-quality evaluation.</li>
+        <li>Validate on fresh document families without tuning against held-out material.</li>
+        <li>Prepare the technical report/manuscript.</li>
+      </ul>
+    </div>
+  </section>
+
+  <aside class="closing-status" aria-labelledby="evidneuro-status-title">
+    <p>Project status</p>
+    <div>
+      <h2 id="evidneuro-status-title">Work in progress</h2>
+      <p>
+        The repository is private, and a technical report/manuscript is in preparation.
+        Screenshots and a public demo will be added only when the system and evaluation are ready
+        for release.
+      </p>
+      <small>Work in progress · Private repository · Report/manuscript in preparation</small>
+    </div>
+  </aside>
+</div>
+
+<style>
+  .evidneuro-case-study { --accent: #86a8a0; }
+  .case-section,
+  .closing-status {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 28px;
+    margin: 0 0 46px;
+    padding: 30px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .section-label,
+  .closing-status > p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .section-body { min-width: 0; }
+  .section-body h2,
+  .closing-status h2 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: -.01em;
+  }
+  .section-body > p,
+  .closing-status div > p {
+    max-width: 590px;
+    margin: 14px 0 0;
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.75;
+  }
+  figure { margin: 28px 0 0; }
+  figcaption { margin-top: 12px; color: var(--muted); font-size: 9px; line-height: 1.55; }
+
+  .evidence-ladder ol { margin: 0; padding: 0; list-style: none; }
+  .evidence-ladder li { position: relative; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--subtle-rule); }
+  .evidence-ladder li:last-child { border-bottom: 1px solid var(--subtle-rule); }
+  .evidence-ladder li:not(:last-child)::after { content: '↓'; position: absolute; bottom: -8px; left: 26px; z-index: 1; padding: 0 5px; background: var(--background); color: var(--faint); font-size: 10px; }
+  .stage-code { color: var(--accent); font-size: 9px; text-transform: uppercase; letter-spacing: .07em; }
+  .evidence-ladder li div { display: grid; gap: 5px; }
+  .evidence-ladder strong { color: var(--text); font-size: 11px; font-weight: 500; }
+  .evidence-ladder small { color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+  .provenance-chain ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; border: 1px solid var(--rule); list-style: none; }
+  .provenance-chain li { position: relative; display: grid; min-height: 70px; place-items: center; padding: 10px; background: #141513; color: var(--text); font-size: 9px; line-height: 1.35; text-align: center; }
+  .provenance-chain li + li { border-left: 1px solid var(--rule); }
+  .provenance-chain li:not(:last-child)::after { content: '→'; position: absolute; z-index: 1; right: -8px; padding: 2px; background: #141513; color: var(--accent); }
+
+  .capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 26px; border: 1px solid var(--rule); background: var(--rule); }
+  .capability-grid article { min-width: 0; padding: 17px; background: #141513; }
+  .capability-grid h3 { margin: 0; color: var(--text); font-size: 11px; line-height: 1.4; font-weight: 500; }
+  .capability-grid p { margin: 8px 0 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+
+  .system-list { margin: 25px 0 0; border-top: 1px solid var(--rule); }
+  .system-list div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--subtle-rule); }
+  .system-list dt { color: var(--text); font-size: 10px; }
+  .system-list dd { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+  .plain-list { display: grid; gap: 10px; max-width: 590px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .plain-list li { position: relative; padding-left: 16px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+  .plain-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+
+  .closing-status { padding: 24px 0; border-bottom: 1px solid var(--rule); }
+  .closing-status div { padding: 17px; border: 1px solid var(--rule); background: #141513; }
+  .closing-status h2 { font-size: 17px; }
+  .closing-status div > p { margin-top: 9px; color: var(--muted); font-size: 11px; }
+  .closing-status small { display: block; margin-top: 14px; color: var(--muted); font-size: 9px; line-height: 1.5; }
+
+  @media (max-width: 620px) {
+    .case-section,
+    .closing-status { grid-template-columns: 1fr; gap: 12px; }
+    .section-body h2 { font-size: 19px; }
+    .evidence-ladder li { grid-template-columns: 58px minmax(0, 1fr); gap: 12px; }
+    .evidence-ladder li:not(:last-child)::after { left: 20px; }
+    .provenance-chain ol { grid-template-columns: 1fr; }
+    .provenance-chain li { min-height: 48px; }
+    .provenance-chain li + li { border-top: 1px solid var(--rule); border-left: 0; }
+    .provenance-chain li:not(:last-child)::after { content: '↓'; right: auto; bottom: -9px; }
+    .capability-grid { grid-template-columns: 1fr; }
+    .system-list div { grid-template-columns: 1fr; gap: 5px; }
+  }
+</style>

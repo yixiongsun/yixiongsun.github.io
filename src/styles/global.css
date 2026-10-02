@@ -137,10 +137,14 @@ a:focus-visible { outline: 1px solid var(--text); outline-offset: 5px; }
 .project-detail > header,
 .research-detail > header { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 28px; padding: 24px 0 42px; border-top: 1px solid var(--rule); }
 .project-detail > header > span { color: var(--faint); font-size: 10px; }
+.project-detail--evidneuro > header > span { color: var(--muted); }
 .project-detail > header h1,
 .research-detail > header h1 { grid-column: 2; margin: 0; color: var(--text-strong); font-size: 27px; line-height: 1.25; font-weight: 400; letter-spacing: -.015em; }
 .project-detail > header p,
 .research-detail > header p { grid-column: 2; margin: -12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.project-status { grid-column: 2; display: grid; gap: 6px; margin-top: 4px; padding: 14px 16px; border: 1px solid var(--rule); background: #141513; }
+.project-status strong { color: var(--text-strong); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; }
+.project-status span { max-width: 570px; color: var(--muted); font-size: 11px; line-height: 1.55; }
 .research-detail > header > div { display: flex; flex-direction: column; gap: 5px; color: var(--faint); font-size: 9px; text-transform: uppercase; letter-spacing: .05em; }
 .media-preview:not(.compact) { position: relative; display: block; min-height: 260px; margin-bottom: 40px; overflow: hidden; background: #111210; }
 .media-preview:not(.compact) img,
@@ -180,7 +184,8 @@ a:focus-visible { outline: 1px solid var(--text); outline-offset: 5px; }
   .project-detail > header h1,
   .research-detail > header h1,
   .project-detail > header p,
-  .research-detail > header p { grid-column: 1; margin: 0; }
+  .research-detail > header p,
+  .project-status { grid-column: 1; margin: 0; }
   .project-detail > header h1,
   .research-detail > header h1 { font-size: 22px; }
   .research-detail > header > div { flex-direction: row; gap: 12px; }

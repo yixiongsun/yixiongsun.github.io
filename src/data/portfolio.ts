@@ -83,9 +83,9 @@ export const projects: Project[] = [
     slug: 'evidneuro',
     year: '2026—',
     title: 'EvidNeuro',
-    summary: 'Evidence-grounded neuroscience retrieval engine',
+    summary: 'Evidence-grounded retrieval for neuroscience literature',
     description:
-      'A scientific retrieval engine that converts research PDFs into layout-aware evidence objects, typed claims, measurements, normalized entities, and directed knowledge-graph relations, with provenance linking every result to its source. It combines hybrid BM25 and vector retrieval with reciprocal-rank fusion and optional LLM reranking, species-aware ontology normalization, evidence-strength grading, cross-paper contradiction detection, and cross-scale graph queries. The system is validated by 1,017 passing tests across 92 test files and a 60-paper neuroscience corpus containing 15,170 evidence objects, 9,047 claims, 598 measurements, and 2,990 directed relations.',
+      'EvidNeuro is a scientific retrieval and evidence-inspection system designed to preserve experimental context, provenance, and uncertainty across the neuroscience literature.',
     tools: [
       'TypeScript',
       'LLM-assisted extraction',

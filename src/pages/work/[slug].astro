@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CrossValidationResults from '../../components/CrossValidationResults.astro';
+import EvidNeuroCaseStudy from '../../components/EvidNeuroCaseStudy.astro';
 import MediaPreview from '../../components/MediaPreview.astro';
 import NeuralEventChallenge from '../../components/NeuralEventChallenge.astro';
 import NeuralEventConclusion from '../../components/NeuralEventConclusion.astro';
@@ -20,6 +21,7 @@ export function getStaticPaths() {
 interface Props { project: Project }
 const { project } = Astro.props;
 const isNeuralEventProject = project.slug === 'neural-event-classification';
+const isEvidNeuroProject = project.slug === 'evidneuro';
 ---
 
 <BaseLayout title={`${project.title} — Yixiong Sun`} description={project.description}>
@@ -27,11 +29,20 @@ const isNeuralEventProject = project.slug === 'neural-event-classification';
     <SiteHeader />
     <main>
       <a class="back-link" href={withBase('work/')}>← All projects</a>
-      <article class="project-detail">
+      <article class:list={['project-detail', { 'project-detail--evidneuro': isEvidNeuroProject }]}>
         <header>
           <span>{project.year}</span>
           <h1>{project.title}</h1>
           <p>{project.summary}</p>
+          {isEvidNeuroProject && (
+            <aside class="project-status" aria-label="Project status">
+              <strong>Work in progress</strong>
+              <span>
+                EvidNeuro is an active research and engineering project. The repository is private,
+                and a technical report/manuscript is in preparation.
+              </span>
+            </aside>
+          )}
         </header>
         {isNeuralEventProject && (
           <div class="detail-copy detail-copy--lead">
@@ -47,7 +58,9 @@ const isNeuralEventProject = project.slug === 'neural-event-classification';
             )}
           </div>
         )}
-        {isNeuralEventProject ? (
+        {isEvidNeuroProject ? (
+          <EvidNeuroCaseStudy />
+        ) : isNeuralEventProject ? (
           <>
             <NeuralEventChallenge />
             <NeuralEventPipeline />
@@ -60,7 +73,7 @@ const isNeuralEventProject = project.slug === 'neural-event-classification';
         ) : (
           project.media && <MediaPreview media={project.media} />
         )}
-        {!isNeuralEventProject && (
+        {!isNeuralEventProject && !isEvidNeuroProject && (
           <div class="detail-copy">
             <h2>Overview</h2>
             <p>{project.description}</p>
