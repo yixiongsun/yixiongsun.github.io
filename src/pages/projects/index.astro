@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MediaPreview from '../../components/MediaPreview.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { projects } from '../../data/portfolio';
+import { withBase } from '../../utils/paths';
+---
+
+<BaseLayout
+  title="Projects — Yixiong Sun"
+  description="Neuroscience, machine learning, and software projects by Yixiong Sun."
+>
+  <div class="site-shell archive-shell">
+    <SiteHeader />
+    <main>
+      <header class="page-intro">
+        <h1>Projects</h1>
+        <p>Selected research and software work spanning neural data, scientific retrieval, computational biology, and production applications.</p>
+      </header>
+
+      <div class="directory-list">
+        {projects.map((project) => (
+          <a
+            class:list={[
+              'index-row',
+              { 'row-with-preview': project.media && project.slug !== 'neural-event-classification' },
+            ]}
+            href={withBase(`projects/${project.slug}/`)}
+          >
+            <span class="year">{project.year}</span>
+            <span class="row-copy">
+              <strong>{project.title}</strong>
+              <small>{project.summary}</small>
+              <span class="row-tools">{project.tools.join(' · ')}</span>
+            </span>
+            <span class="arrow" aria-hidden="true">↗</span>
+            {project.media && project.slug !== 'neural-event-classification' && (
+              <MediaPreview media={project.media} compact />
+            )}
+          </a>
+        ))}
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

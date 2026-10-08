@@ -1,20 +1,4 @@
 <div class="evidneuro-case-study">
-  <section class="case-section overview" aria-labelledby="evidneuro-overview">
-    <p class="section-label">Overview</p>
-    <div class="section-body">
-      <h2 id="evidneuro-overview">Evidence should keep its experimental context</h2>
-      <p>
-        EvidNeuro reads scientific PDFs with awareness of document layout, then represents source
-        evidence, claims, measurements, and research topics as linked objects. Neuroscience-specific
-        identity and ontology information helps retrieval distinguish findings that use similar
-        language but describe different experiments. The system is designed so a higher-level
-        result can be traced back through its supporting claims and evidence to the relevant part
-        of the source document. Uncertainty and incomplete interpretation remain visible instead
-        of being silently replaced by generated prose.
-      </p>
-    </div>
-  </section>
-
   <section class="case-section" aria-labelledby="evidneuro-challenge">
     <p class="section-label">The challenge</p>
     <div class="section-body">
@@ -200,15 +184,15 @@
     display: grid;
     grid-template-columns: 112px minmax(0, 1fr);
     gap: 28px;
-    margin: 0 0 46px;
-    padding: 30px 0 0;
+    margin: 0 0 var(--project-section-gap);
+    padding: 28px 0 0;
     border-top: 1px solid var(--rule);
   }
   .section-label,
   .closing-status > p {
     margin: 3px 0 0;
     color: var(--muted);
-    font-size: 10px;
+    font-size: var(--project-label-size);
     text-transform: uppercase;
     letter-spacing: .06em;
   }
@@ -217,7 +201,7 @@
   .closing-status h2 {
     margin: 0;
     color: var(--text-strong);
-    font-size: 22px;
+    font-size: var(--project-heading-size);
     line-height: 1.3;
     font-weight: 400;
     letter-spacing: -.01em;
@@ -227,11 +211,11 @@
     max-width: 590px;
     margin: 14px 0 0;
     color: var(--text);
-    font-size: 12px;
-    line-height: 1.75;
+    font-size: var(--project-body-size);
+    line-height: var(--project-body-leading);
   }
   figure { margin: 28px 0 0; }
-  figcaption { margin-top: 12px; color: var(--muted); font-size: 9px; line-height: 1.55; }
+  figcaption { margin-top: 12px; color: var(--muted); font-size: var(--project-support-size); line-height: 1.55; }
 
   .evidence-ladder ol { margin: 0; padding: 0; list-style: none; }
   .evidence-ladder li { position: relative; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-top: 1px solid var(--subtle-rule); }
@@ -239,8 +223,8 @@
   .evidence-ladder li:not(:last-child)::after { content: '↓'; position: absolute; bottom: -8px; left: 26px; z-index: 1; padding: 0 5px; background: var(--background); color: var(--faint); font-size: 10px; }
   .stage-code { color: var(--accent); font-size: 9px; text-transform: uppercase; letter-spacing: .07em; }
   .evidence-ladder li div { display: grid; gap: 5px; }
-  .evidence-ladder strong { color: var(--text); font-size: 11px; font-weight: 500; }
-  .evidence-ladder small { color: var(--muted); font-size: 10px; line-height: 1.5; }
+  .evidence-ladder strong { color: var(--text); font-size: var(--project-body-size); font-weight: 500; }
+  .evidence-ladder small { color: var(--text); font-size: var(--project-support-size); line-height: 1.5; }
 
   .provenance-chain ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; border: 1px solid var(--rule); list-style: none; }
   .provenance-chain li { position: relative; display: grid; min-height: 70px; place-items: center; padding: 10px; background: #141513; color: var(--text); font-size: 9px; line-height: 1.35; text-align: center; }
@@ -249,28 +233,28 @@
 
   .capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: 26px; border: 1px solid var(--rule); background: var(--rule); }
   .capability-grid article { min-width: 0; padding: 17px; background: #141513; }
-  .capability-grid h3 { margin: 0; color: var(--text); font-size: 11px; line-height: 1.4; font-weight: 500; }
-  .capability-grid p { margin: 8px 0 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+  .capability-grid h3 { margin: 0; color: var(--text); font-size: var(--project-body-size); line-height: 1.4; font-weight: 500; }
+  .capability-grid p { margin: 8px 0 0; color: var(--text); font-size: var(--project-support-size); line-height: 1.6; }
 
   .system-list { margin: 25px 0 0; border-top: 1px solid var(--rule); }
   .system-list div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--subtle-rule); }
-  .system-list dt { color: var(--text); font-size: 10px; }
-  .system-list dd { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+  .system-list dt { color: var(--text); font-size: var(--project-support-size); }
+  .system-list dd { margin: 0; color: var(--text); font-size: var(--project-support-size); line-height: 1.5; }
 
   .plain-list { display: grid; gap: 10px; max-width: 590px; margin: 22px 0 0; padding: 0; list-style: none; }
-  .plain-list li { position: relative; padding-left: 16px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+  .plain-list li { position: relative; padding-left: 16px; color: var(--text); font-size: var(--project-body-size); line-height: var(--project-body-leading); }
   .plain-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
 
   .closing-status { padding: 24px 0; border-bottom: 1px solid var(--rule); }
   .closing-status div { padding: 17px; border: 1px solid var(--rule); background: #141513; }
   .closing-status h2 { font-size: 17px; }
-  .closing-status div > p { margin-top: 9px; color: var(--muted); font-size: 11px; }
+  .closing-status div > p { margin-top: 9px; color: var(--text); font-size: var(--project-support-size); }
   .closing-status small { display: block; margin-top: 14px; color: var(--muted); font-size: 9px; line-height: 1.5; }
 
   @media (max-width: 620px) {
     .case-section,
     .closing-status { grid-template-columns: 1fr; gap: 12px; }
-    .section-body h2 { font-size: 19px; }
+    .section-body h2 { font-size: var(--project-heading-size); }
     .evidence-ladder li { grid-template-columns: 58px minmax(0, 1fr); gap: 12px; }
     .evidence-ladder li:not(:last-child)::after { left: 20px; }
     .provenance-chain ol { grid-template-columns: 1fr; }

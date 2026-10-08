@@ -1,0 +1,1013 @@
+---
+import { withBase } from '../../../utils/paths';
+
+const populations = [
+  { id: 'pfc-py', label: 'PFC pyramidal', color: '#8f948d' },
+  { id: 'pfc-in', label: 'PFC interneurons', color: '#8f948d' },
+  { id: 'ca3-py', label: 'CA3 pyramidal', color: '#b9bdb7' },
+  { id: 'ca3-in', label: 'CA3 interneurons', color: '#b9bdb7' },
+  { id: 'ca1-py', label: 'CA1 pyramidal', color: '#e5e7e2' },
+  { id: 'ca1-in', label: 'CA1 interneurons', color: '#e5e7e2' },
+];
+---
+
+<section
+  class="network-comparison"
+  data-network-comparison
+  data-catalog-url={withBase('data/pfc-hpc/runs.json')}
+  aria-labelledby="network-comparison-title"
+  aria-busy="true"
+>
+  <header class="comparison-header">
+    <h2 id="network-comparison-title">Baseline and experience-strengthened runs</h2>
+    <p class="comparison-status" data-comparison-status>Loading both simulation runs…</p>
+  </header>
+
+  <div class="condition-grid">
+    <article class="condition-panel" data-run-panel="default_sv0">
+      <header><h3 data-run-label>Baseline</h3></header>
+      <div class="comparison-view-heading">
+        <span>View</span>
+        <h4 data-network-heading>Interspersed neuron view</h4>
+      </div>
+      <canvas class="comparison-network-canvas" width="500" height="420" data-comparison-network role="img" tabindex="0" aria-label="Baseline selectable network spike activity"></canvas>
+      <div class="comparison-signal-header">
+        <h4>CA1 somatic-current proxy</h4>
+        <label class="comparison-window-control"><span>Window</span><select data-comparison-window disabled><option value="500">0.5 s</option><option value="1000">1 s</option><option value="2000" selected>2 s</option><option value="5000">5 s</option></select></label>
+      </div>
+      <canvas class="comparison-current-canvas" width="500" height="150" data-comparison-currents role="img" aria-label="Baseline summed CA1 somatic model current, an LFP-like proxy rather than a measured LFP or membrane voltage"></canvas>
+      <section class="comparison-rate-legacy" hidden><canvas class="comparison-rate-canvas" width="500" height="328" data-comparison-rates></canvas></section>
+    </article>
+
+    <article class="condition-panel" data-run-panel="exp_25%_150_sv0">
+      <header><h3 data-run-label>Experience-strengthened</h3></header>
+      <div class="comparison-view-heading">
+        <span>View</span>
+        <h4 data-network-heading>Interspersed neuron view</h4>
+      </div>
+      <canvas class="comparison-network-canvas" width="500" height="420" data-comparison-network role="img" tabindex="0" aria-label="Experience-strengthened selectable network spike activity"></canvas>
+      <div class="comparison-signal-header">
+        <h4>CA1 somatic-current proxy</h4>
+        <label class="comparison-window-control"><span>Window</span><select data-comparison-window disabled><option value="500">0.5 s</option><option value="1000">1 s</option><option value="2000" selected>2 s</option><option value="5000">5 s</option></select></label>
+      </div>
+      <canvas class="comparison-current-canvas" width="500" height="150" data-comparison-currents role="img" aria-label="Experience-strengthened summed CA1 somatic model current, an LFP-like proxy rather than a measured LFP or membrane voltage"></canvas>
+      <section class="comparison-rate-legacy" hidden><canvas class="comparison-rate-canvas" width="500" height="328" data-comparison-rates></canvas></section>
+    </article>
+  </div>
+
+  <div class="comparison-controls" aria-label="Shared comparison controls">
+    <button type="button" data-comparison-play disabled>Play</button>
+    <button type="button" data-comparison-restart disabled>Restart</button>
+    <button type="button" data-comparison-view disabled>View: neurons</button>
+    <button type="button" data-comparison-layout disabled aria-pressed="true">Layout: interspersed</button>
+    <output data-comparison-time>0.000 s / 30.000 s</output>
+    <label class="comparison-speed-control">
+      <span>Speed</span>
+      <select data-comparison-speed disabled>
+        <option value="0.25">0.25×</option>
+        <option value="0.5" selected>0.5×</option>
+        <option value="1">1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </label>
+  </div>
+
+  <label class="comparison-timeline-label" for="comparison-timeline">Simulation time</label>
+  <input id="comparison-timeline" class="comparison-timeline" data-comparison-timeline type="range" min="0" max="30000" step="1" value="0" disabled />
+
+  <fieldset class="comparison-populations" data-comparison-populations disabled>
+    <legend>Visible populations</legend>
+    <div>
+      {populations.map((population) => (
+        <label style={`--population-color:${population.color}`}>
+          <input type="checkbox" checked value={population.id} data-comparison-population />
+          <span>{population.label}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <p class="comparison-warning" data-comparison-warning hidden></p>
+  <p class="comparison-error" data-comparison-error hidden></p>
+</section>
+
+<script>
+  import {
+    lowerBound,
+    parseSignalDataset,
+    parseSpikeDataset,
+    validateEventsDocument,
+    validateManifest,
+    validateRunCatalog,
+    type PopulationDescriptor,
+    type RunCatalog,
+    type SignalDataset,
+    type SignalGroupDescriptor,
+    type SimulationManifestV2,
+    type SpikeDataset,
+    type SpwrEvent,
+  } from '../../../lib/network-data';
+  import { downsampleMinMax, type SignalDomain } from '../../../lib/signal-viewer';
+  import { nearestNeuronId } from '../../../lib/neuron-inspector';
+  import {
+    alignedTraceWindow,
+    comparisonTimeBounds,
+    computeUnionDomains,
+  } from '../../../lib/comparison-viewer';
+
+  const RUN_IDS = ['default_sv0', 'exp_25%_150_sv0'] as const;
+  const REGION_COLORS: Record<string, string> = { PFC: '#8f948d', CA3: '#b9bdb7', CA1: '#e5e7e2' };
+  const REGIONS = ['PFC', 'CA3', 'CA1'] as const;
+  const ACTIVE_WINDOW_MS = 500;
+  const DECAY_MS = 120;
+
+  interface RunView {
+    id: typeof RUN_IDS[number];
+    panel: HTMLElement;
+    networkCanvas: HTMLCanvasElement;
+    currentCanvas: HTMLCanvasElement;
+    rateCanvas: HTMLCanvasElement;
+    networkContext: CanvasRenderingContext2D;
+    currentContext: CanvasRenderingContext2D;
+    rateContext: CanvasRenderingContext2D;
+    labelOutput: HTMLElement;
+    networkHeading: HTMLElement;
+    catalog?: RunCatalog['runs'][number];
+    manifest?: SimulationManifestV2;
+    spikes?: SpikeDataset;
+    currentDescriptor?: SignalGroupDescriptor;
+    currents?: SignalDataset;
+    rateDescriptor?: SignalGroupDescriptor;
+    rates?: SignalDataset;
+    events: SpwrEvent[];
+    eventIndex: number;
+    actualMs: number;
+    eventCursor: number;
+    lastSpikeTicks: Int32Array;
+    xPositions: Float32Array;
+    yPositions: Float32Array;
+    interspersedXPositions: Float32Array;
+    interspersedYPositions: Float32Array;
+    populationByNeuron: Uint8Array;
+    background: HTMLCanvasElement;
+    cssWidth: number;
+    cssHeight: number;
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-network-comparison]').forEach((root) => {
+    const status = root.querySelector<HTMLElement>('[data-comparison-status]')!;
+    const errorOutput = root.querySelector<HTMLElement>('[data-comparison-error]')!;
+    const playButton = root.querySelector<HTMLButtonElement>('[data-comparison-play]')!;
+    const restartButton = root.querySelector<HTMLButtonElement>('[data-comparison-restart]')!;
+    const viewButton = root.querySelector<HTMLButtonElement>('[data-comparison-view]')!;
+    const layoutButton = root.querySelector<HTMLButtonElement>('[data-comparison-layout]')!;
+    const windowSelects = [...root.querySelectorAll<HTMLSelectElement>('[data-comparison-window]')];
+    const speedSelect = root.querySelector<HTMLSelectElement>('[data-comparison-speed]')!;
+    const timeOutput = root.querySelector<HTMLOutputElement>('[data-comparison-time]')!;
+    const timeline = root.querySelector<HTMLInputElement>('[data-comparison-timeline]')!;
+    const populationControls = root.querySelector<HTMLFieldSetElement>('[data-comparison-populations]')!;
+    const populationToggles = [...root.querySelectorAll<HTMLInputElement>('[data-comparison-population]')];
+
+    const runs = RUN_IDS.map((id): RunView => {
+      const panel = root.querySelector<HTMLElement>(`[data-run-panel="${id}"]`)!;
+      const networkCanvas = panel.querySelector<HTMLCanvasElement>('[data-comparison-network]')!;
+      const currentCanvas = panel.querySelector<HTMLCanvasElement>('[data-comparison-currents]')!;
+      const rateCanvas = panel.querySelector<HTMLCanvasElement>('[data-comparison-rates]')!;
+      const networkContext = networkCanvas.getContext('2d');
+      const currentContext = currentCanvas.getContext('2d');
+      const rateContext = rateCanvas.getContext('2d');
+      if (!networkContext || !currentContext || !rateContext) throw new Error('Comparison canvas rendering is unavailable.');
+      return {
+        id,
+        panel,
+        networkCanvas,
+        currentCanvas,
+        rateCanvas,
+        networkContext,
+        currentContext,
+        rateContext,
+        labelOutput: panel.querySelector<HTMLElement>('[data-run-label]')!,
+        networkHeading: panel.querySelector<HTMLElement>('[data-network-heading]')!,
+        events: [],
+        eventIndex: -1,
+        actualMs: 0,
+        eventCursor: 0,
+        lastSpikeTicks: new Int32Array(),
+        xPositions: new Float32Array(),
+        yPositions: new Float32Array(),
+        interspersedXPositions: new Float32Array(),
+        interspersedYPositions: new Float32Array(),
+        populationByNeuron: new Uint8Array(),
+        background: document.createElement('canvas'),
+        cssWidth: 500,
+        cssHeight: 300,
+      };
+    });
+
+    const alignment = 'absolute' as const;
+    let sharedTimeMs = 0;
+    let windowMs = 2_000;
+    let speed = 0.5;
+    let networkView: 'neurons' | 'activity' = 'neurons';
+    let layoutMix = 1;
+    let layoutTarget = 1;
+    let layoutAnimationRequest = 0;
+    let selectedNeuronId = -1;
+    let focusMix = 0;
+    let focusAnimationRequest = 0;
+    let playing = false;
+    let frameRequest = 0;
+    let anchorRealMs = 0;
+    let anchorSharedMs = 0;
+    let durationMs = 30_000;
+    let visiblePopulations: boolean[] = [];
+    let sharedCurrentDomains: SignalDomain[] = [];
+    let sharedRateDomains: SignalDomain[] = [];
+
+    function hexToRgba(hex: string, alpha: number) {
+      const value = Number.parseInt(hex.slice(1), 16);
+      return `rgba(${value >> 16}, ${(value >> 8) & 255}, ${value & 255}, ${alpha})`;
+    }
+
+    function formatAxisValue(value: number) {
+      const magnitude = Math.abs(value);
+      if (magnitude >= 10_000) return `${(value / 1_000).toFixed(0)}k`;
+      if (magnitude >= 1_000) return `${(value / 1_000).toFixed(1)}k`;
+      if (magnitude >= 10) return value.toFixed(0);
+      return value.toFixed(1);
+    }
+
+    function yForValue(value: number, domain: SignalDomain, top: number, height: number) {
+      return top + height - ((value - domain.min) / (domain.max - domain.min)) * height;
+    }
+
+    function comparisonPlotBounds(width: number) {
+      return { left: width < 420 ? 84 : 98, right: 14 };
+    }
+
+    function traceNeuron(target: CanvasRenderingContext2D, x: number, y: number, radius: number, cellType: PopulationDescriptor['cellType']) {
+      target.beginPath();
+      if (cellType === 'pyramidal') {
+        target.moveTo(x, y - radius);
+        target.lineTo(x + radius * 0.9, y + radius * 0.62);
+        target.lineTo(x - radius * 0.9, y + radius * 0.62);
+        target.closePath();
+      } else {
+        target.arc(x, y, radius, 0, Math.PI * 2);
+      }
+    }
+
+    function rebuildNetwork(run: RunView) {
+      if (!run.manifest) return;
+      const rect = run.networkCanvas.getBoundingClientRect();
+      run.cssWidth = Math.max(280, rect.width);
+      run.cssHeight = Math.max(260, rect.height);
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      run.networkCanvas.width = Math.round(run.cssWidth * pixelRatio);
+      run.networkCanvas.height = Math.round(run.cssHeight * pixelRatio);
+      run.background.width = run.networkCanvas.width;
+      run.background.height = run.networkCanvas.height;
+      run.xPositions = new Float32Array(run.manifest.neuronCount);
+      run.yPositions = new Float32Array(run.manifest.neuronCount);
+      run.interspersedXPositions = new Float32Array(run.manifest.neuronCount);
+      run.interspersedYPositions = new Float32Array(run.manifest.neuronCount);
+      run.populationByNeuron = new Uint8Array(run.manifest.neuronCount);
+      const labelWidth = run.cssWidth < 420 ? 42 : 52;
+      const right = 12;
+      const top = 12;
+      const gap = 9;
+      const bandHeight = (run.cssHeight - top * 2 - gap * 2) / 3;
+
+      run.manifest.populations.forEach((population, populationIndex) => {
+        const regionIndex = REGIONS.indexOf(population.region);
+        const bandTop = top + regionIndex * (bandHeight + gap);
+        const width = run.cssWidth - labelWidth - right - 8;
+        const separatedTop = population.cellType === 'pyramidal' ? bandTop + 14 : bandTop + bandHeight * 0.79;
+        const separatedHeight = population.cellType === 'pyramidal' ? bandHeight * 0.56 : Math.max(4, bandHeight * 0.07);
+        const separatedColumns = Math.max(1, Math.ceil(Math.sqrt(population.count * width / separatedHeight)));
+        const separatedRows = Math.ceil(population.count / separatedColumns);
+        const separatedSpacingX = width / Math.max(separatedColumns - 1, 1);
+        const separatedSpacingY = separatedHeight / Math.max(separatedRows - 1, 1);
+        for (let localId = 0; localId < population.count; localId += 1) {
+          const globalId = population.idStart + localId;
+          run.xPositions[globalId] = labelWidth + 8 + (localId % separatedColumns) * separatedSpacingX;
+          run.yPositions[globalId] = separatedTop + Math.floor(localId / separatedColumns) * separatedSpacingY;
+          run.populationByNeuron[globalId] = populationIndex;
+        }
+
+        const combinedCount = population.region === 'PFC' ? 1250 : 1100;
+        const interneuronCount = population.region === 'PFC' ? 250 : 100;
+        const interval = combinedCount / interneuronCount;
+        const height = bandHeight * 0.72;
+        const columns = Math.max(1, Math.ceil(Math.sqrt(combinedCount * width / height)));
+        const rows = Math.ceil(combinedCount / columns);
+        const spacingX = width / Math.max(columns - 1, 1);
+        const spacingY = height / Math.max(rows - 1, 1);
+        for (let localId = 0; localId < population.count; localId += 1) {
+          const globalId = population.idStart + localId;
+          const combinedIndex = population.cellType === 'interneuron'
+            ? interval * (localId + 1) - 1
+            : localId + Math.floor(localId / (interval - 1));
+          const column = combinedIndex % columns;
+          const row = Math.floor(combinedIndex / columns);
+          run.interspersedXPositions[globalId] = labelWidth + 8 + column * spacingX;
+          run.interspersedYPositions[globalId] = bandTop + 16 + row * spacingY;
+        }
+      });
+
+      drawNetworkBackground(run);
+      renderNetwork(run);
+    }
+
+    function neuronX(run: RunView, neuronId: number) {
+      return run.xPositions[neuronId] + (run.interspersedXPositions[neuronId] - run.xPositions[neuronId]) * layoutMix;
+    }
+
+    function neuronY(run: RunView, neuronId: number) {
+      return run.yPositions[neuronId] + (run.interspersedYPositions[neuronId] - run.yPositions[neuronId]) * layoutMix;
+    }
+
+    function drawNetworkBackground(run: RunView) {
+      if (!run.manifest) return;
+      const labelWidth = run.cssWidth < 420 ? 42 : 52;
+      const right = 12;
+      const top = 12;
+      const gap = 9;
+      const bandHeight = (run.cssHeight - top * 2 - gap * 2) / 3;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const background = run.background.getContext('2d');
+      if (!background) return;
+      background.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      background.fillStyle = '#0f110f';
+      background.fillRect(0, 0, run.cssWidth, run.cssHeight);
+      REGIONS.forEach((region, regionIndex) => {
+        const bandTop = top + regionIndex * (bandHeight + gap);
+        const emphasized = region === 'CA1';
+        if (emphasized) {
+          background.fillStyle = 'rgba(238, 240, 235, .025)';
+          background.fillRect(0, bandTop, run.cssWidth, bandHeight);
+          background.fillStyle = '#eef0eb';
+          background.fillRect(labelWidth - 2, bandTop, 2, bandHeight);
+        }
+        background.fillStyle = emphasized ? '#ffffff' : '#c5c8c2';
+        background.font = '10px Arial, sans-serif';
+        background.fillText(region, 10, bandTop + 14);
+        background.fillStyle = emphasized ? '#e1e3de' : '#cfd2cc';
+        background.font = '8px Arial, sans-serif';
+        background.fillText(layoutMix >= 0.5 ? 'MIXED' : 'PY / IN', 10, bandTop + 28);
+        if (regionIndex < 2) {
+          background.strokeStyle = '#282b27';
+          background.beginPath();
+          background.moveTo(labelWidth, bandTop + bandHeight + gap / 2);
+          background.lineTo(run.cssWidth - right, bandTop + bandHeight + gap / 2);
+          background.stroke();
+        }
+      });
+      run.manifest.populations.forEach((population, populationIndex) => {
+        if (!visiblePopulations[populationIndex]) return;
+        const color = REGION_COLORS[population.region];
+        background.fillStyle = hexToRgba(color, population.cellType === 'pyramidal' ? 0.27 : 0.18);
+        background.strokeStyle = hexToRgba(color, 0.5);
+        background.lineWidth = 0.7;
+        for (let localId = 0; localId < population.count; localId += 1) {
+          const neuronId = population.idStart + localId;
+          traceNeuron(background, neuronX(run, neuronId), neuronY(run, neuronId), run.cssWidth < 420 ? 0.9 : 1.15, population.cellType);
+          if (population.cellType === 'pyramidal') background.fill();
+          else background.stroke();
+        }
+      });
+    }
+
+    function renderNetwork(run: RunView) {
+      if (!run.manifest || !run.spikes) return;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const target = run.networkContext;
+      target.setTransform(1, 0, 0, 1, 0, 0);
+      target.clearRect(0, 0, run.networkCanvas.width, run.networkCanvas.height);
+      if (networkView === 'activity' && selectedNeuronId < 0) {
+        target.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        renderPopulationActivity(run);
+        return;
+      }
+      target.globalAlpha = 1 - focusMix;
+      target.drawImage(run.background, 0, 0);
+      target.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      const currentTick = run.actualMs / run.manifest.tickMs;
+      for (let neuronId = 0; neuronId < run.manifest.neuronCount; neuronId += 1) {
+        const populationIndex = run.populationByNeuron[neuronId];
+        if (!visiblePopulations[populationIndex]) continue;
+        const ageMs = (currentTick - run.lastSpikeTicks[neuronId]) * run.manifest.tickMs;
+        if (ageMs < 0 || ageMs > ACTIVE_WINDOW_MS) continue;
+        const population = run.manifest.populations[populationIndex];
+        const intensity = Math.exp(-ageMs / DECAY_MS);
+        const baseRadius = run.cssWidth < 420 ? 0.9 : 1.15;
+        const radius = baseRadius + intensity * (run.cssWidth < 420 ? 2.7 : 2.45);
+        target.fillStyle = hexToRgba(REGION_COLORS[population.region], intensity * 0.95);
+        traceNeuron(target, neuronX(run, neuronId), neuronY(run, neuronId), radius, population.cellType);
+        target.fill();
+      }
+      target.globalAlpha = 1;
+      if (selectedNeuronId >= 0 && focusMix > 0.001) renderFocusedNetwork(run);
+    }
+
+    function renderFocusedNetwork(run: RunView) {
+      if (!run.manifest) return;
+      const population = run.manifest.populations.find((entry) => selectedNeuronId >= entry.idStart && selectedNeuronId < entry.idStart + entry.count);
+      if (!population) return;
+      const target = run.networkContext;
+      const centerX = run.cssWidth / 2;
+      const centerY = run.cssHeight / 2 + 12;
+      const baseX = neuronX(run, selectedNeuronId);
+      const baseY = neuronY(run, selectedNeuronId);
+      const zoomX = run.cssWidth < 420 ? 3.2 : 4;
+      const zoomY = run.cssWidth < 420 ? 5.5 : 7;
+      target.globalAlpha = focusMix;
+      target.fillStyle = '#0f110f';
+      target.fillRect(0, 0, run.cssWidth, run.cssHeight);
+      target.fillStyle = '#d7dad4';
+      target.font = '10px Arial, sans-serif';
+      target.textAlign = 'left';
+      target.fillText(`${population.label} · neuron ${selectedNeuronId.toLocaleString()} · synchronized focus`, 10, 18);
+      const currentTick = run.actualMs / run.manifest.tickMs;
+      for (let localId = 0; localId < population.count; localId += 1) {
+        const neuronId = population.idStart + localId;
+        const focusedX = centerX + (neuronX(run, neuronId) - baseX) * zoomX;
+        const focusedY = centerY + (neuronY(run, neuronId) - baseY) * zoomY;
+        if (focusedX < 10 || focusedX > run.cssWidth - 10 || focusedY < 38 || focusedY > run.cssHeight - 12) continue;
+        const x = neuronX(run, neuronId) + (focusedX - neuronX(run, neuronId)) * focusMix;
+        const y = neuronY(run, neuronId) + (focusedY - neuronY(run, neuronId)) * focusMix;
+        const ageMs = (currentTick - run.lastSpikeTicks[neuronId]) * run.manifest.tickMs;
+        const intensity = ageMs >= 0 && ageMs <= ACTIVE_WINDOW_MS ? Math.exp(-ageMs / DECAY_MS) : 0;
+        const selected = neuronId === selectedNeuronId;
+        target.fillStyle = hexToRgba(REGION_COLORS[population.region], selected ? 1 : 0.3 + intensity * 0.65);
+        traceNeuron(target, x, y, selected ? 6 : 1.8 + intensity * 2, population.cellType);
+        if (population.cellType === 'interneuron') {
+          target.strokeStyle = target.fillStyle;
+          target.stroke();
+        } else target.fill();
+        if (selected) {
+          target.strokeStyle = '#eef0e9';
+          target.lineWidth = 1.3;
+          target.beginPath();
+          target.arc(x, y, 9, 0, Math.PI * 2);
+          target.stroke();
+        }
+      }
+      target.globalAlpha = 1;
+    }
+
+    function renderPopulationActivity(run: RunView) {
+      if (!run.manifest || !run.spikes || !run.rates || !run.rateDescriptor) return;
+      const target = run.networkContext;
+      const { left, right } = comparisonPlotBounds(run.cssWidth);
+      const labelX = run.cssWidth < 420 ? 12 : 16;
+      const plotWidth = Math.max(1, Math.floor(run.cssWidth - left - right));
+      const selectedEvent = run.events[run.eventIndex];
+      const visible = alignedTraceWindow(alignment, sharedTimeMs, durationMs, windowMs, selectedEvent);
+      const windowDuration = Math.max(1, visible.endMs - visible.startMs);
+      const groupsTop = 12;
+      const groupsBottom = 18;
+      const groupGap = 3;
+      const groupHeight = (run.cssHeight - groupsTop - groupsBottom - groupGap * 5) / 6;
+      const rasterHeight = groupHeight * 0.53;
+      const rateHeight = groupHeight - rasterHeight;
+      const playheadX = left + (run.actualMs - visible.startMs) / windowDuration * plotWidth;
+
+      target.fillStyle = '#0f110f';
+      target.fillRect(0, 0, run.cssWidth, run.cssHeight);
+      target.textBaseline = 'top';
+
+      run.manifest.populations.forEach((population, populationIndex) => {
+        const groupTop = groupsTop + populationIndex * (groupHeight + groupGap);
+        const rateTop = groupTop + rasterHeight;
+        const channel = run.rateDescriptor!.channels.findIndex((metadata) => metadata.id === population.id);
+        const maximum = Math.max(1, channel >= 0 ? sharedRateDomains[channel]?.max ?? 1 : 1);
+        const domain = { min: 0, max: maximum };
+        const color = REGION_COLORS[population.region];
+        const emphasized = population.region === 'CA1';
+        const populationVisible = visiblePopulations[populationIndex];
+        target.fillStyle = emphasized ? '#141714' : populationIndex % 2 === 0 ? '#111310' : '#10120f';
+        target.fillRect(left, groupTop, plotWidth, rasterHeight);
+        target.fillStyle = emphasized ? '#111411' : '#0d0f0d';
+        target.fillRect(left, rateTop, plotWidth, rateHeight);
+        target.fillStyle = populationVisible ? (emphasized ? '#f3f4f0' : '#d4d7d1') : '#777b75';
+        target.font = '9px Arial, sans-serif';
+        target.fillText(population.region, labelX, groupTop + 2);
+        target.font = '8px Arial, sans-serif';
+        target.fillText(population.cellType === 'pyramidal' ? 'PYRAMIDAL' : 'INTERNEURON', labelX, groupTop + 13);
+        target.fillStyle = '#cfd2cc';
+        target.font = '8px Arial, sans-serif';
+        target.fillText(`≤ ${formatAxisValue(maximum)}`, labelX, rateTop + Math.max(1, rateHeight - 9));
+        if (channel >= 0 && populationVisible) {
+          const envelope = downsampleMinMax(run.rates!, channel, run.rateDescriptor!.sampleRateHz, visible.startMs, visible.endMs, plotWidth);
+          target.strokeStyle = color;
+          target.lineWidth = population.cellType === 'interneuron' ? 1.15 : 1;
+          target.setLineDash(population.cellType === 'interneuron' ? [4, 3] : []);
+          target.beginPath();
+          for (let pixel = 0; pixel < plotWidth; pixel += 1) {
+            const x = left + pixel + 0.5;
+            const value = (envelope.minimums[pixel] + envelope.maximums[pixel]) / 2;
+            const y = yForValue(value, domain, rateTop + 2, rateHeight - 4);
+            if (pixel === 0) target.moveTo(x, y);
+            else target.lineTo(x, y);
+          }
+          target.stroke();
+          target.setLineDash([]);
+        }
+        target.strokeStyle = emphasized ? '#666b64' : '#30332f';
+        target.strokeRect(left + 0.5, groupTop + 0.5, plotWidth - 1, groupHeight - 1);
+        target.strokeStyle = '#242724';
+        target.beginPath();
+        target.moveTo(left, rateTop + 0.5);
+        target.lineTo(left + plotWidth, rateTop + 0.5);
+        target.stroke();
+      });
+
+      const startSpike = lowerBound(run.spikes.times, Math.max(0, Math.floor(visible.startMs / run.manifest.tickMs)));
+      const endSpike = lowerBound(run.spikes.times, Math.ceil(visible.endMs / run.manifest.tickMs) + 1);
+      for (let index = startSpike; index < endSpike; index += 1) {
+        const neuronId: number = run.spikes.neuronIds[index];
+        const populationIndex = run.populationByNeuron[neuronId];
+        if (!visiblePopulations[populationIndex]) continue;
+        const population = run.manifest.populations[populationIndex];
+        const x = left + (run.spikes.times[index] * run.manifest.tickMs - visible.startMs) / windowDuration * plotWidth;
+        const localFraction = (neuronId - population.idStart + 0.5) / population.count;
+        const groupTop = groupsTop + populationIndex * (groupHeight + groupGap);
+        target.fillStyle = hexToRgba(REGION_COLORS[population.region], 0.62);
+        target.fillRect(x, groupTop + localFraction * rasterHeight, 1, 1);
+      }
+
+      target.strokeStyle = 'rgba(238, 240, 233, .7)';
+      target.beginPath();
+      target.moveTo(playheadX + 0.5, groupsTop);
+      target.lineTo(playheadX + 0.5, run.cssHeight - groupsBottom);
+      target.stroke();
+      target.fillStyle = '#cfd2cc';
+      target.font = '8px Arial, sans-serif';
+      target.textAlign = 'left';
+      target.fillText(`${(visible.startMs / 1_000).toFixed(2)} s`, left, run.cssHeight - 10);
+      target.textAlign = 'right';
+      target.fillText(`${(visible.endMs / 1_000).toFixed(2)} s`, left + plotWidth, run.cssHeight - 10);
+    }
+
+    function resizeSignalCanvas(canvas: HTMLCanvasElement, height: number) {
+      const width = Math.max(280, canvas.getBoundingClientRect().width);
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * pixelRatio);
+      canvas.height = Math.round(height * pixelRatio);
+      canvas.style.height = `${height}px`;
+    }
+
+    function renderSignals(run: RunView, role: 'current' | 'rate') {
+      if (!run.manifest) return;
+      const dataset = role === 'current' ? run.currents : run.rates;
+      const descriptor = role === 'current' ? run.currentDescriptor : run.rateDescriptor;
+      const domains = role === 'current' ? sharedCurrentDomains : sharedRateDomains;
+      const canvas = role === 'current' ? run.currentCanvas : run.rateCanvas;
+      const target = role === 'current' ? run.currentContext : run.rateContext;
+      if (!dataset || !descriptor || domains.length === 0) return;
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      const width = canvas.width / pixelRatio;
+      const height = canvas.height / pixelRatio;
+      const { left, right } = comparisonPlotBounds(width);
+      const top = 10;
+      const channels = role === 'current' ? 1 : dataset.channelCount;
+      const gap = role === 'current' ? 9 : 5;
+      const bottom = 14;
+      const bandHeight = (height - top - bottom - gap * (channels - 1)) / channels;
+      const plotWidth = Math.max(1, Math.floor(width - left - right));
+      const selectedEvent = run.events[run.eventIndex];
+      const visible = alignedTraceWindow(alignment, sharedTimeMs, durationMs, windowMs, selectedEvent);
+      const colors = role === 'current'
+        ? ['#cfd3cd', '#b9bdb7', '#e5e7e2']
+        : descriptor.channels.map((channel) => {
+            const population = run.manifest!.populations.find((entry) => entry.id === channel.id);
+            return population ? REGION_COLORS[population.region] : '#c7c9c2';
+          });
+
+      target.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      target.clearRect(0, 0, width, height);
+      target.fillStyle = '#0f110f';
+      target.fillRect(0, 0, width, height);
+      for (let channel = 0; channel < channels; channel += 1) {
+        const bandTop = top + channel * (bandHeight + gap);
+        const domain = domains[channel];
+        target.fillStyle = channel % 2 === 0 ? '#111310' : '#10120f';
+        target.fillRect(left, bandTop, plotWidth, bandHeight);
+        if (role === 'current' && channel === 0) {
+          run.events.forEach((event, eventIndex) => {
+            if (event.endMs < visible.startMs || event.startMs > visible.endMs) return;
+            const x = left + (event.startMs - visible.startMs) / (visible.endMs - visible.startMs) * plotWidth;
+            const eventWidth = Math.max(1, (event.endMs - event.startMs) / (visible.endMs - visible.startMs) * plotWidth);
+            target.fillStyle = eventIndex === run.eventIndex ? 'rgba(207, 211, 205, .24)' : 'rgba(207, 211, 205, .1)';
+            target.fillRect(x, bandTop, eventWidth, bandHeight);
+          });
+        }
+        const envelope = downsampleMinMax(dataset, channel, descriptor.sampleRateHz, visible.startMs, visible.endMs, plotWidth);
+        const population = role === 'rate'
+          ? run.manifest.populations.find((entry) => entry.id === descriptor.channels[channel].id)
+          : undefined;
+        target.strokeStyle = colors[channel];
+        target.lineWidth = population?.cellType === 'interneuron' ? 1.2 : 1;
+        target.setLineDash(population?.cellType === 'interneuron' ? [4, 3] : []);
+        target.beginPath();
+        for (let pixel = 0; pixel < plotWidth; pixel += 1) {
+          const x = left + pixel + 0.5;
+          if (role === 'current') {
+            target.moveTo(x, yForValue(envelope.minimums[pixel], domain, bandTop, bandHeight));
+            target.lineTo(x, yForValue(envelope.maximums[pixel], domain, bandTop, bandHeight));
+          } else {
+            const value = (envelope.minimums[pixel] + envelope.maximums[pixel]) / 2;
+            const y = yForValue(value, domain, bandTop, bandHeight);
+            if (pixel === 0) target.moveTo(x, y);
+            else target.lineTo(x, y);
+          }
+        }
+        target.stroke();
+        target.setLineDash([]);
+        const playheadX = left + (run.actualMs - visible.startMs) / (visible.endMs - visible.startMs) * plotWidth;
+        target.strokeStyle = 'rgba(238, 240, 233, .7)';
+        target.beginPath();
+        target.moveTo(playheadX + 0.5, bandTop);
+        target.lineTo(playheadX + 0.5, bandTop + bandHeight);
+        target.stroke();
+        target.strokeStyle = '#343733';
+        target.strokeRect(left + 0.5, bandTop + 0.5, plotWidth - 1, bandHeight - 1);
+        target.fillStyle = colors[channel];
+        target.font = `${width < 420 ? 8 : 9}px Arial, sans-serif`;
+        target.textAlign = 'left';
+        target.textBaseline = 'top';
+        const label = descriptor.channels[channel].label.replace(' input to CA1', ' input');
+        target.fillText(label, 7, bandTop + 3, left - 11);
+        target.fillStyle = '#cfd2cc';
+        target.font = '8px Arial, sans-serif';
+        target.fillText(formatAxisValue(domain.max), 7, bandTop + bandHeight - 9);
+      }
+      const startLabel = `${(visible.startMs / 1_000).toFixed(2)} s`;
+      const endLabel = `${(visible.endMs / 1_000).toFixed(2)} s`;
+      target.fillStyle = '#cfd2cc';
+      target.font = '8px Arial, sans-serif';
+      target.textBaseline = 'bottom';
+      target.textAlign = 'left';
+      target.fillText(startLabel, left, height - 3);
+      target.textAlign = 'right';
+      target.fillText(endLabel, left + plotWidth, height - 3);
+    }
+
+    function actualTime() {
+      return Math.max(0, Math.min(durationMs, sharedTimeMs));
+    }
+
+    function reconstructRun(run: RunView) {
+      if (!run.manifest || !run.spikes) return;
+      run.actualMs = actualTime();
+      run.lastSpikeTicks.fill(-1_000_000_000);
+      const currentTick = Math.floor(run.actualMs / run.manifest.tickMs);
+      const startTick = Math.max(0, Math.floor((run.actualMs - ACTIVE_WINDOW_MS) / run.manifest.tickMs));
+      const start = lowerBound(run.spikes.times, startTick);
+      const end = lowerBound(run.spikes.times, currentTick + 1);
+      for (let index = start; index < end; index += 1) run.lastSpikeTicks[run.spikes.neuronIds[index]] = run.spikes.times[index];
+      run.eventCursor = end;
+    }
+
+    function advanceRun(run: RunView) {
+      if (!run.manifest || !run.spikes) return;
+      const nextActualMs = actualTime();
+      if (nextActualMs < run.actualMs) {
+        reconstructRun(run);
+        return;
+      }
+      const nextTick = Math.floor(nextActualMs / run.manifest.tickMs);
+      const end = lowerBound(run.spikes.times, nextTick + 1);
+      for (let index = run.eventCursor; index < end; index += 1) run.lastSpikeTicks[run.spikes.neuronIds[index]] = run.spikes.times[index];
+      run.eventCursor = end;
+      run.actualMs = nextActualMs;
+    }
+
+    function updateTimeControls() {
+      const bounds = comparisonTimeBounds(alignment, durationMs, windowMs);
+      timeline.min = String(bounds.minMs);
+      timeline.max = String(bounds.maxMs);
+      timeline.value = String(Math.round(sharedTimeMs));
+      timeOutput.value = `${(sharedTimeMs / 1_000).toFixed(3)} s / ${(durationMs / 1_000).toFixed(3)} s`;
+    }
+
+    function render() {
+      updateTimeControls();
+      runs.forEach((run) => {
+        renderNetwork(run);
+        renderSignals(run, 'current');
+      });
+    }
+
+    function seek(milliseconds: number) {
+      const bounds = comparisonTimeBounds(alignment, durationMs, windowMs);
+      sharedTimeMs = Math.max(bounds.minMs, Math.min(bounds.maxMs, milliseconds));
+      runs.forEach(reconstructRun);
+      anchorRealMs = performance.now();
+      anchorSharedMs = sharedTimeMs;
+      render();
+    }
+
+    function setPlaying(next: boolean) {
+      playing = next;
+      cancelAnimationFrame(frameRequest);
+      const bounds = comparisonTimeBounds(alignment, durationMs, windowMs);
+      playButton.textContent = playing ? 'Pause' : sharedTimeMs >= bounds.maxMs ? 'Replay' : 'Play';
+      playButton.setAttribute('aria-pressed', String(playing));
+      if (playing) {
+        if (sharedTimeMs >= bounds.maxMs) seek(bounds.minMs);
+        anchorRealMs = performance.now();
+        anchorSharedMs = sharedTimeMs;
+        frameRequest = requestAnimationFrame(advance);
+      }
+    }
+
+    function advance(now: number) {
+      if (!playing) return;
+      const bounds = comparisonTimeBounds(alignment, durationMs, windowMs);
+      sharedTimeMs = Math.min(bounds.maxMs, anchorSharedMs + (now - anchorRealMs) * speed);
+      runs.forEach(advanceRun);
+      render();
+      if (sharedTimeMs >= bounds.maxMs) {
+        setPlaying(false);
+        return;
+      }
+      frameRequest = requestAnimationFrame(advance);
+    }
+
+    function setNetworkView(nextView: 'neurons' | 'activity') {
+      if (selectedNeuronId >= 0) return;
+      networkView = nextView;
+      const activity = networkView === 'activity';
+      viewButton.textContent = activity ? 'View: population activity' : 'View: neurons';
+      viewButton.setAttribute('aria-pressed', String(activity));
+      layoutButton.disabled = activity;
+      runs.forEach((run) => {
+        run.networkHeading.textContent = activity
+          ? 'Population rasters and firing rates'
+          : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+        run.networkCanvas.setAttribute('aria-label', activity
+          ? `${run.catalog?.label ?? run.id} grouped population spike rasters and smoothed firing rates`
+          : `${run.catalog?.label ?? run.id} selectable network spike activity`);
+      });
+      render();
+    }
+
+    function animateLayout(nextTarget: number) {
+      cancelAnimationFrame(layoutAnimationRequest);
+      layoutTarget = nextTarget;
+      layoutButton.textContent = layoutTarget === 1 ? 'Layout: interspersed' : 'Layout: separated';
+      layoutButton.setAttribute('aria-pressed', String(layoutTarget === 1));
+      runs.forEach((run) => {
+        run.networkHeading.textContent = layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+      });
+      const startMix = layoutMix;
+      const startedAt = performance.now();
+      const step = (now: number) => {
+        const progress = Math.min(1, (now - startedAt) / 560);
+        const eased = 0.5 - Math.cos(progress * Math.PI) / 2;
+        layoutMix = startMix + (layoutTarget - startMix) * eased;
+        runs.forEach(drawNetworkBackground);
+        render();
+        if (progress < 1) layoutAnimationRequest = requestAnimationFrame(step);
+      };
+      layoutAnimationRequest = requestAnimationFrame(step);
+    }
+
+    function animateFocus(nextTarget: number, onComplete?: () => void) {
+      cancelAnimationFrame(focusAnimationRequest);
+      const startMix = focusMix;
+      const startedAt = performance.now();
+      const step = (now: number) => {
+        const progress = Math.min(1, (now - startedAt) / 520);
+        const eased = 0.5 - Math.cos(progress * Math.PI) / 2;
+        focusMix = startMix + (nextTarget - startMix) * eased;
+        render();
+        if (progress < 1) focusAnimationRequest = requestAnimationFrame(step);
+        else onComplete?.();
+      };
+      focusAnimationRequest = requestAnimationFrame(step);
+    }
+
+    function selectNeuron(neuronId: number) {
+      const population = runs[0].manifest?.populations.find((entry) => neuronId >= entry.idStart && neuronId < entry.idStart + entry.count);
+      if (!population) return;
+      selectedNeuronId = neuronId;
+      viewButton.disabled = true;
+      layoutButton.disabled = true;
+      runs.forEach((run) => {
+        run.networkHeading.textContent = `${population.label} neuron ${neuronId.toLocaleString()}`;
+        run.networkCanvas.setAttribute('aria-label', `${run.catalog?.label ?? run.id} focused ${population.label} neuron ${neuronId}; click outside the selected neuron or press Escape to return`);
+      });
+      animateFocus(1);
+    }
+
+    function clearNeuronSelection() {
+      animateFocus(0, () => {
+        selectedNeuronId = -1;
+        viewButton.disabled = false;
+        layoutButton.disabled = networkView === 'activity';
+        runs.forEach((run) => {
+          run.networkHeading.textContent = layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+          run.networkCanvas.setAttribute('aria-label', `${run.catalog?.label ?? run.id} selectable network spike activity`);
+        });
+        render();
+      });
+    }
+
+    function selectNeuronAt(run: RunView, clientX: number, clientY: number) {
+      if (!run.manifest || networkView === 'activity') return;
+      const rect = run.networkCanvas.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      if (selectedNeuronId >= 0) {
+        if (Math.hypot(x - run.cssWidth / 2, y - (run.cssHeight / 2 + 12)) > 14) clearNeuronSelection();
+        return;
+      }
+      const displayX = new Float32Array(run.manifest.neuronCount);
+      const displayY = new Float32Array(run.manifest.neuronCount);
+      for (let neuronId = 0; neuronId < run.manifest.neuronCount; neuronId += 1) {
+        displayX[neuronId] = neuronX(run, neuronId);
+        displayY[neuronId] = neuronY(run, neuronId);
+      }
+      const neuronId = nearestNeuronId(x, y, displayX, displayY, run.cssWidth < 420 ? 11 : 8, (candidate) => visiblePopulations[run.populationByNeuron[candidate]]);
+      if (neuronId >= 0) selectNeuron(neuronId);
+    }
+
+    playButton.addEventListener('click', () => setPlaying(!playing));
+    restartButton.addEventListener('click', () => {
+      setPlaying(false);
+      seek(comparisonTimeBounds(alignment, durationMs, windowMs).minMs);
+    });
+    timeline.addEventListener('input', () => {
+      setPlaying(false);
+      seek(Number(timeline.value));
+    });
+    windowSelects.forEach((windowSelect) => windowSelect.addEventListener('change', () => {
+      setPlaying(false);
+      windowMs = Number(windowSelect.value);
+      windowSelects.forEach((control) => { control.value = windowSelect.value; });
+      render();
+    }));
+    speedSelect.addEventListener('change', () => {
+      speed = Number(speedSelect.value);
+      anchorRealMs = performance.now();
+      anchorSharedMs = sharedTimeMs;
+    });
+    viewButton.addEventListener('click', () => setNetworkView(networkView === 'neurons' ? 'activity' : 'neurons'));
+    layoutButton.addEventListener('click', () => animateLayout(layoutTarget === 1 ? 0 : 1));
+    runs.forEach((run) => {
+      run.networkCanvas.addEventListener('click', (event) => selectNeuronAt(run, event.clientX, event.clientY));
+      run.networkCanvas.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && selectedNeuronId >= 0) {
+          event.preventDefault();
+          clearNeuronSelection();
+        }
+      });
+    });
+    populationToggles.forEach((toggle) => toggle.addEventListener('change', () => {
+      const populationIndex = runs[0].manifest?.populations.findIndex((population) => population.id === toggle.value) ?? -1;
+      if (populationIndex >= 0) visiblePopulations[populationIndex] = toggle.checked;
+      runs.forEach(rebuildNetwork);
+    }));
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (!runs.every((run) => run.manifest)) return;
+      runs.forEach((run) => {
+        rebuildNetwork(run);
+        resizeSignalCanvas(run.currentCanvas, run.currentCanvas.getBoundingClientRect().width < 420 ? 180 : 150);
+      });
+      render();
+    });
+    runs.forEach((run) => {
+      resizeObserver.observe(run.networkCanvas);
+      resizeObserver.observe(run.currentCanvas);
+    });
+
+    async function loadRun(run: RunView, catalog: RunCatalog, catalogResponseUrl: string) {
+      const entry = catalog.runs.find((candidate) => candidate.id === run.id);
+      if (!entry) throw new Error(`Run catalog is missing ${run.id}.`);
+      run.catalog = entry;
+      const manifestResponse = await fetch(new URL(entry.manifestUrl, catalogResponseUrl));
+      if (!manifestResponse.ok) throw new Error(`${entry.label} manifest could not be loaded (${manifestResponse.status}).`);
+      const manifest = validateManifest(await manifestResponse.json());
+      if (manifest.schemaVersion !== 2) throw new Error(`${entry.label} does not provide schema-v2 comparison data.`);
+      run.manifest = manifest;
+      const currentDescriptor = manifest.signalGroups?.find((group) => group.semanticRole === 'model-current');
+      const rateDescriptor = manifest.signalGroups?.find((group) => group.semanticRole === 'population-firing-rate');
+      if (!currentDescriptor || !rateDescriptor || !manifest.events) throw new Error(`${entry.label} is missing comparison signal data.`);
+      run.currentDescriptor = currentDescriptor;
+      run.rateDescriptor = rateDescriptor;
+      const [spikeResponse, currentResponse, rateResponse, eventResponse] = await Promise.all([
+        fetch(new URL(manifest.spikeFile, manifestResponse.url)),
+        fetch(new URL(currentDescriptor.file, manifestResponse.url)),
+        fetch(new URL(rateDescriptor.file, manifestResponse.url)),
+        fetch(new URL(manifest.events.file, manifestResponse.url)),
+      ]);
+      if (!spikeResponse.ok || !currentResponse.ok || !rateResponse.ok || !eventResponse.ok) {
+        throw new Error(`${entry.label} comparison payload could not be loaded.`);
+      }
+      run.spikes = parseSpikeDataset(await spikeResponse.arrayBuffer(), manifest);
+      run.currents = parseSignalDataset(await currentResponse.arrayBuffer(), currentDescriptor);
+      run.rates = parseSignalDataset(await rateResponse.arrayBuffer(), rateDescriptor);
+      run.events = validateEventsDocument(await eventResponse.json(), manifest.events.count).events;
+      run.lastSpikeTicks = new Int32Array(manifest.neuronCount);
+      run.labelOutput.textContent = entry.label;
+    }
+
+    async function load() {
+      try {
+        const catalogUrl = root.dataset.catalogUrl;
+        if (!catalogUrl) throw new Error('Run catalog URL is missing.');
+        const catalogResponse = await fetch(catalogUrl);
+        if (!catalogResponse.ok) throw new Error(`Run catalog could not be loaded (${catalogResponse.status}).`);
+        const catalog = validateRunCatalog(await catalogResponse.json());
+        await Promise.all(runs.map((run) => loadRun(run, catalog, catalogResponse.url)));
+        durationMs = Math.min(...runs.map((run) => run.manifest!.durationMs));
+        visiblePopulations = runs[0].manifest!.populations.map(() => true);
+        sharedCurrentDomains = computeUnionDomains(runs.map((run) => run.currents!));
+        sharedRateDomains = computeUnionDomains(runs.map((run) => run.rates!), true);
+        [playButton, restartButton, viewButton, layoutButton, ...windowSelects, speedSelect, timeline].forEach((control) => { control.disabled = false; });
+        populationControls.disabled = false;
+        status.hidden = true;
+        root.setAttribute('aria-busy', 'false');
+        runs.forEach((run) => {
+          rebuildNetwork(run);
+          resizeSignalCanvas(run.currentCanvas, run.currentCanvas.getBoundingClientRect().width < 420 ? 180 : 150);
+        });
+        seek(0);
+      } catch (error) {
+        root.setAttribute('aria-busy', 'false');
+        status.textContent = 'Unable to load comparison';
+        errorOutput.textContent = error instanceof Error ? error.message : 'The comparison could not be loaded.';
+        errorOutput.hidden = false;
+      }
+    }
+
+    load();
+  });
+</script>
+
+<style>
+  .network-comparison { width: min(var(--project-figure-width), calc(100vw - 36px)); margin: 0 0 var(--project-section-gap) 50%; padding: 20px; transform: translateX(-50%); border: 1px solid var(--rule); background: #131512; }
+  .comparison-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 17px; }
+  .comparison-header h2 { margin: 0; color: var(--text-strong); font-size: 18px; line-height: 1.35; font-weight: 400; }
+  .comparison-status { max-width: 360px; margin: 0; color: var(--text); font-size: 11px; line-height: 1.45; text-align: right; }
+  .comparison-controls { display: grid; grid-template-columns: auto auto auto auto minmax(190px, 1fr) auto; gap: 9px; align-items: center; margin-top: 14px; }
+  button, select { min-height: 36px; border: 1px solid #464944; border-radius: 0; background: #1a1c19; color: var(--text); font: inherit; font-size: 11px; }
+  button { min-width: 68px; padding: 0 14px; cursor: pointer; }
+  [data-comparison-view][aria-pressed="true"], [data-comparison-layout][aria-pressed="true"] { border-color: #777a74; background: #242622; color: var(--text-strong); }
+  select { padding: 0 26px 0 9px; }
+  button:disabled, select:disabled { cursor: not-allowed; opacity: .45; }
+  button:hover:not(:disabled), select:hover:not(:disabled) { border-color: #777a74; color: var(--text-strong); }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px solid var(--text); outline-offset: 3px; }
+  .comparison-speed-control { display: flex; align-items: center; gap: 8px; font-size: 11px; text-transform: none; letter-spacing: 0; }
+  .comparison-controls output { align-self: center; color: var(--text); font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
+  .comparison-timeline-label { display: block; margin: 14px 0 7px; color: var(--text); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+  .comparison-timeline { width: 100%; height: 20px; margin: 0; accent-color: #c7c9c2; }
+  .comparison-populations { margin: 13px 0 0; padding: 0; border: 0; }
+  .comparison-populations legend { margin-bottom: 9px; color: var(--text); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+  .comparison-populations > div { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  .comparison-populations label { display: flex; align-items: center; gap: 6px; color: var(--text); font-size: 11px; }
+  .comparison-populations input { margin: 0; accent-color: var(--population-color); }
+  .condition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+  .condition-panel { min-width: 0; padding: 13px; border: 1px solid #292c28; background: #111310; }
+  .condition-panel > header { margin-bottom: 16px; }
+  .condition-panel h3 { margin: 0; color: var(--text-strong); font-size: 18px; line-height: 1.35; font-weight: 400; }
+  .comparison-view-heading { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; margin: 0 0 9px; }
+  .comparison-view-heading > span { padding-top: 2px; color: var(--text); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+  .comparison-view-heading h4 { margin: 0; color: var(--text); font-size: 12px; line-height: 1.4; font-weight: 400; }
+  .comparison-signal-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin: 18px 0 10px; padding-top: 16px; border-top: 1px solid #292c28; }
+  .comparison-signal-header h4 { margin: 0; color: var(--text-strong); font-size: 14px; font-weight: 400; }
+  .comparison-window-control { display: flex; align-items: center; gap: 8px; color: var(--text); font-size: 11px; white-space: nowrap; }
+  .comparison-network-canvas, .comparison-current-canvas, .comparison-rate-canvas { display: block; width: 100%; border: 1px solid #292c28; background: #0f110f; }
+  .comparison-network-canvas { height: 420px; cursor: crosshair; }
+  .comparison-current-canvas { height: 150px; }
+  .comparison-rate-canvas { height: 328px; }
+  .comparison-rate-legacy[hidden] { display: none; }
+  .comparison-warning, .comparison-error { margin: 14px 0 0; font-size: 10px; line-height: 1.55; }
+  .comparison-warning { color: #c7ad7d; }
+  .comparison-error { padding: 10px 12px; border: 1px solid #784f4f; color: #d6a2a2; }
+
+  @media (max-width: 820px) {
+    .condition-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 620px) {
+    .network-comparison { padding: 12px; }
+    .comparison-header { display: block; }
+    .comparison-header h2 { font-size: 16px; }
+    .comparison-status { margin-top: 8px; text-align: left; }
+    .comparison-controls { grid-template-columns: 1fr 1fr; }
+    .comparison-controls output { grid-column: 1 / -1; grid-row: 1; text-align: left; }
+    .comparison-speed-control { justify-content: flex-end; }
+    .comparison-view-heading { grid-template-columns: 48px minmax(0, 1fr); }
+    .comparison-signal-header { display: block; }
+    .comparison-window-control { margin-top: 10px; justify-content: flex-end; }
+    .comparison-network-canvas { height: 430px; }
+    .comparison-current-canvas { height: 180px; }
+    .comparison-rate-canvas { height: 360px; }
+  }
+</style>

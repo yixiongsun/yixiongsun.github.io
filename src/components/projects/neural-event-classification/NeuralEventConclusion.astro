@@ -1,5 +1,5 @@
 ---
-import comparison from '../data/neural-event-scientific-comparison.json';
+import comparison from '../../../data/neural-event-scientific-comparison.json';
 
 const thresholdRule = comparison.comparisons.find((item) => item.model === 'threshold_candidate_rule')!;
 const svm = comparison.comparisons.find((item) => item.model === 'three_class_svm')!;
@@ -11,17 +11,17 @@ const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
   <header>
     <p>Conclusion</p>
     <div>
-      <h2 id="conclusion-title">Learned morphology separates events more reliably</h2>
+      <h2 id="conclusion-title">Multichannel morphology improves event classification</h2>
       <p>
-        The waveform model achieved {percent(waveformModel.accuracy)} accuracy and
-        {' '}{waveformModel.macro_f1.toFixed(3)} macro F1 in repeated subject-grouped internal
-        cross-validation. Using the same three-class label definition, the threshold-derived
-        candidate rule achieved {percent(thresholdRule.accuracy)} accuracy and
-        {' '}{thresholdRule.macro_f1.toFixed(3)} macro F1, while a direct three-class SVM reached
-        {' '}{percent(svm.accuracy)} accuracy and {svm.macro_f1.toFixed(3)} macro F1. Together,
-        these comparisons indicate that learning multichannel event morphology provides
-        information beyond fixed detection thresholds and a conventional classifier. The result
-        remains an internal finding rather than evidence from an independent cohort.
+        In repeated subject-grouped cross-validation, the waveform model achieved a macro F1 of
+        {' '}{waveformModel.macro_f1.toFixed(3)} and {percent(waveformModel.accuracy)} accuracy.
+        Under the same three-class labeling scheme, the threshold-based candidate rule reached
+        a macro F1 of {thresholdRule.macro_f1.toFixed(3)} and {percent(thresholdRule.accuracy)} accuracy,
+        while a direct three-class SVM achieved {svm.macro_f1.toFixed(3)} macro F1 and
+        {' '}{percent(svm.accuracy)} accuracy. These comparisons suggest that the multichannel
+        waveform contains discriminative structure that is not captured by fixed detection
+        thresholds or a conventional classifier alone. Because all results come from internal
+        cross-validation, performance still needs to be confirmed in an independent cohort.
       </p>
     </div>
   </header>
@@ -37,8 +37,8 @@ const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
 
 <style>
   .event-conclusion {
-    margin: 0 0 46px;
-    padding: 30px 0 0;
+    margin: 0 0 var(--project-section-gap);
+    padding: 28px 0 0;
     border-top: 1px solid var(--rule);
   }
   .event-conclusion header,
@@ -50,25 +50,25 @@ const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
   .event-conclusion header > p,
   .future-work > p {
     margin: 3px 0 0;
-    color: var(--faint);
-    font-size: 10px;
+    color: var(--muted);
+    font-size: var(--project-label-size);
     text-transform: uppercase;
     letter-spacing: .06em;
   }
   .event-conclusion h2 {
     margin: 0;
     color: var(--text-strong);
-    font-size: 22px;
+    font-size: var(--project-heading-size);
     line-height: 1.3;
     font-weight: 400;
     letter-spacing: -.01em;
   }
   .event-conclusion header div > p {
-    max-width: 590px;
+    max-width: 620px;
     margin: 14px 0 0;
     color: var(--text);
-    font-size: 12px;
-    line-height: 1.75;
+    font-size: var(--project-body-size);
+    line-height: var(--project-body-leading);
   }
   .future-work {
     margin-top: 28px;
@@ -77,12 +77,12 @@ const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
     border-bottom: 1px solid var(--rule);
   }
   .future-work ul { display: grid; gap: 10px; max-width: 590px; margin: 0; padding: 0; list-style: none; }
-  .future-work li { position: relative; padding-left: 16px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+  .future-work li { position: relative; padding-left: 16px; color: var(--text); font-size: var(--project-body-size); line-height: var(--project-body-leading); }
   .future-work li::before { content: '—'; position: absolute; left: 0; color: var(--faint); }
 
   @media (max-width: 620px) {
     .event-conclusion header,
     .future-work { grid-template-columns: 1fr; gap: 12px; }
-    .event-conclusion h2 { font-size: 19px; }
+    .event-conclusion h2 { font-size: var(--project-heading-size); }
   }
 </style>

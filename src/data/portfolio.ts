@@ -9,6 +9,8 @@ export interface Project {
   title: string;
   summary: string;
   description: string;
+  overview?: { heading?: string; text: string };
+  status?: { label: string; detail: string };
   tools: string[];
   url?: string;
   media?: Media;
@@ -83,6 +85,14 @@ export const projects: Project[] = [
     slug: 'evidneuro',
     year: '2026—',
     title: 'EvidNeuro',
+    status: {
+      label: 'Work in progress',
+      detail: 'Active research and engineering project.',
+    },
+    overview: {
+      heading: 'Evidence should keep its experimental context',
+      text: 'EvidNeuro reads scientific PDFs with awareness of document layout, then represents source evidence, claims, measurements, and research topics as linked objects. Neuroscience-specific identity and ontology information helps retrieval distinguish findings that use similar language but describe different experiments. The system is designed so a higher-level result can be traced back through its supporting claims and evidence to the relevant part of the source document. Uncertainty and incomplete interpretation remain visible instead of being silently replaced by generated prose.',
+    },
     summary: 'Evidence-grounded retrieval for neuroscience literature',
     description:
       'EvidNeuro is a scientific retrieval and evidence-inspection system designed to preserve experimental context, provenance, and uncertainty across the neuroscience literature.',
@@ -100,13 +110,26 @@ export const projects: Project[] = [
   {
     slug: 'neural-event-classification',
     year: '2026—',
-    title: 'Neural event classification',
-    summary: 'Sharp-wave ripple and interictal epileptiform discharge classification',
+    title: 'Hippocampal event classification',
+    summary: 'Distinguishing sharp-wave ripples, interictal epileptiform discharges, and noise from multichannel recordings',
     description:
-      'An end-to-end pipeline for detecting, curating, and classifying 7,701 neural events from 30 subjects as sharp-wave ripples, interictal epileptiform discharges (IEDs), or noise. The selected compact model combines multichannel waveforms, cross-channel attention, and coherence- and entropy-based features with calibrated rejection for uncertain events. Repeated subject-grouped internal cross-validation achieved 86.1% accuracy and 0.849 macro F1 across five folds and three seeds; no independent external cohort was evaluated.',
+      'This project develops a pipeline for detecting, curating, and classifying hippocampal events as sharp-wave ripples, interictal epileptiform discharges (IEDs), or noise. The classifier combines multichannel waveforms with signal-derived features and rejects low-confidence events using a calibrated threshold. Performance is evaluated with subject-grouped internal cross-validation; an independent external cohort has not yet been tested.',
     tools: ['Python', 'PyTorch', 'Signal processing', 'CNNs', 'Subject-held-out evaluation'],
     url: 'https://github.com/yixiongsun/ripple_ied_classification',
     media: { type: 'signal', alt: 'Animated neural signal preview' },
+  },
+  {
+    slug: 'spwr-network-simulation',
+    year: '2024—25',
+    title: 'Experience-dependent SPW-R network dynamics',
+    status: {
+      label: 'Page WIP',
+      detail: 'The project is complete; this page is a work in progress.',
+    },
+    summary: 'Modeling hippocampal circuit mechanisms behind disrupted sharp-wave ripples',
+    description:
+      'A conductance-based PFC–CA3–CA1 model used to investigate candidate circuit mechanisms behind disrupted sharp-wave ripple activity in an amyloid mouse model. Interactive replays introduce the circuit and compare baseline with experience-strengthened activity; these demonstrations are exploratory rather than biological results.',
+    tools: ['Brian2', 'Python', 'Computational neuroscience', 'Canvas', 'Event-based visualization'],
   },
   {
     slug: 'hippocampal-memory',

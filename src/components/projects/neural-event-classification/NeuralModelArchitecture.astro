@@ -2,10 +2,10 @@
   <header class="architecture-intro">
     <p>Selected model</p>
     <div>
-      <h2 id="architecture-title">A compact waveform model with calibrated rejection</h2>
+      <h2 id="architecture-title">Compact waveform classification with confidence-based rejection</h2>
       <p>
-        Two lightweight input paths join in a normalized embedding. The model learns a binary
-        ripple–IED score, then abstains when the score is not sufficiently confident.
+        Two lightweight waveform branches combine into a normalized embedding. 
+        The classifier scores each event along the ripple–IED axis and rejects low-confidence predictions as noise.
       </p>
     </div>
   </header>
@@ -109,7 +109,7 @@
 
     <figcaption>
       The selected <code>compact_wave_no_temporal</code> model retains waveform and global
-      features. It is a binary classifier with a separately calibrated rejection rule, not a
+      features. It is a binary classifier with a separately calibrated rejection rule instead of a
       direct three-class softmax.
     </figcaption>
   </figure>
@@ -120,8 +120,8 @@
     --ripple: #6caedb;
     --ied: #eaa252;
     --noise: #a99bc2;
-    margin: 0 0 46px;
-    padding: 30px 0 0;
+    margin: 0 0 var(--project-section-gap);
+    padding: 28px 0 0;
     border-top: 1px solid var(--rule);
   }
 
@@ -133,25 +133,25 @@
   }
   .architecture-intro > p {
     margin: 3px 0 0;
-    color: var(--faint);
-    font-size: 10px;
+    color: var(--muted);
+    font-size: var(--project-label-size);
     text-transform: uppercase;
     letter-spacing: .06em;
   }
   .architecture-intro h2 {
     margin: 0;
     color: var(--text-strong);
-    font-size: 22px;
+    font-size: var(--project-heading-size);
     line-height: 1.3;
     font-weight: 400;
     letter-spacing: -.01em;
   }
   .architecture-intro div > p {
-    max-width: 560px;
-    margin: 12px 0 0;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
+    max-width: 620px;
+    margin: 14px 0 0;
+    color: var(--text);
+    font-size: var(--project-body-size);
+    line-height: var(--project-body-leading);
   }
 
   figure { margin: 0; }
@@ -269,12 +269,12 @@
   .model-facts strong { color: var(--text-strong); font-size: 15px; font-weight: 400; font-variant-numeric: tabular-nums; }
   .model-facts span { color: var(--muted); font-size: 9px; line-height: 1.4; }
 
-  figcaption { margin: 14px 0 0 140px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+  figcaption { margin: 14px 0 0 140px; color: var(--muted); font-size: var(--project-support-size); line-height: 1.6; }
   figcaption code { color: var(--text); font: inherit; }
 
   @media (max-width: 620px) {
     .architecture-intro { grid-template-columns: 1fr; gap: 12px; }
-    .architecture-intro h2 { font-size: 19px; }
+    .architecture-intro h2 { font-size: var(--project-heading-size); }
     .architecture-map { grid-template-columns: 1fr; }
     .merge-stage,
     .decision-stage { grid-column: 1; }

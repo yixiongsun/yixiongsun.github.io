@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MediaPreview from '../../components/MediaPreview.astro';
+import ProjectOverview from '../../components/projects/ProjectOverview.astro';
+import { caseStudies } from '../../components/projects';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { projects, type Project } from '../../data/portfolio';
+import { withBase } from '../../utils/paths';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+interface Props { project: Project }
+const { project } = Astro.props;
+const CaseStudy = caseStudies[project.slug];
+---
+
+<BaseLayout title={`${project.title} — Yixiong Sun`} description={project.description}>
+  <div class="site-shell detail-shell">
+    <SiteHeader />
+    <main>
+      <a class="back-link" href={withBase('projects/')}>← All projects</a>
+      <article class="project-detail">
+        <header>
+          <span>{project.year}</span>
+          <h1>{project.title}</h1>
+          <p>{project.summary}</p>
+          {project.status && (
+            <aside class="project-status" aria-label="Project status">
+              <strong>{project.status.label}</strong>
+              <span>{project.status.detail}</span>
+            </aside>
+          )}
+        </header>
+        <ProjectOverview project={project} />
+        {CaseStudy ? (
+          <CaseStudy />
+        ) : (
+          project.media && <MediaPreview media={project.media} />
+        )}
+        <section class="detail-copy project-resources" aria-label="Project resources">
+          <h2>Tools</h2>
+          <p>{project.tools.join(' · ')}</p>
+          {project.url && (
+            <>
+              <h2>Source</h2>
+              <p><a class="text-link" href={project.url}>View project on GitHub ↗</a></p>
+            </>
+          )}
+        </section>
+      </article>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

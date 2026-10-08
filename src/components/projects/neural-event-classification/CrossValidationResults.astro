@@ -1,5 +1,5 @@
 ---
-import results from '../data/neural-event-results.json';
+import results from '../../../data/neural-event-results.json';
 
 const yMin = 0.78;
 const yMax = 0.90;
@@ -20,10 +20,10 @@ const classLabels: Record<string, string> = { ripple: 'Ripple', ied: 'IED', nois
   <header class="results-intro">
     <p>Internal validation</p>
     <div>
-      <h2 id="cv-results-title">The compact model matches the full baseline</h2>
+      <h2 id="cv-results-title">The compact model retains baseline performance</h2>
       <p>
-        Fifteen paired runs show nearly identical average macro F1, while the class breakdown
-        makes the remaining weakness on noise events visible.
+        Across fifteen paired runs, the compact model achieves nearly the same macro F1 as the full baseline. 
+        Class-level performance shows that most of the remaining errors come from noise events.
       </p>
     </div>
   </header>
@@ -125,8 +125,8 @@ const classLabels: Record<string, string> = { ripple: 'Ripple', ied: 'IED', nois
     --ripple: #6caedb;
     --ied: #eaa252;
     --noise: #a99bc2;
-    margin: 0 0 46px;
-    padding: 30px 0 0;
+    margin: 0 0 var(--project-section-gap);
+    padding: 28px 0 0;
     border-top: 1px solid var(--rule);
   }
   .results-intro {
@@ -137,25 +137,25 @@ const classLabels: Record<string, string> = { ripple: 'Ripple', ied: 'IED', nois
   }
   .results-intro > p {
     margin: 3px 0 0;
-    color: var(--faint);
-    font-size: 10px;
+    color: var(--muted);
+    font-size: var(--project-label-size);
     text-transform: uppercase;
     letter-spacing: .06em;
   }
   .results-intro h2 {
     margin: 0;
     color: var(--text-strong);
-    font-size: 22px;
+    font-size: var(--project-heading-size);
     line-height: 1.3;
     font-weight: 400;
     letter-spacing: -.01em;
   }
   .results-intro div > p {
-    max-width: 560px;
-    margin: 12px 0 0;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
+    max-width: 620px;
+    margin: 14px 0 0;
+    color: var(--text);
+    font-size: var(--project-body-size);
+    line-height: var(--project-body-leading);
   }
 
   .headline-results { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 18px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
@@ -177,7 +177,7 @@ const classLabels: Record<string, string> = { ripple: 'Ripple', ied: 'IED', nois
   .paired-panel h3,
   .class-panel h3 { margin: 0; color: var(--text); font-size: 12px; font-weight: 500; }
   .paired-panel header p,
-  .class-panel header p { margin: 0; color: var(--faint); font-size: 9px; }
+  .class-panel header p { margin: 0; color: var(--text); font-size: var(--project-support-size); }
 
   .paired-panel svg { display: block; width: 100%; height: auto; margin-top: 9px; overflow: visible; }
   .gridline line { stroke: #32332f; stroke-width: 1; }
@@ -209,11 +209,11 @@ const classLabels: Record<string, string> = { ripple: 'Ripple', ied: 'IED', nois
   .noise { color: var(--noise); }
   .class-takeaway { margin: 31px 0 0; padding-top: 14px; border-top: 1px solid var(--subtle-rule); color: var(--muted); font-size: 9px; line-height: 1.55; }
 
-  figcaption { margin: 14px 0 0 140px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+  figcaption { margin: 14px 0 0 140px; color: var(--muted); font-size: var(--project-support-size); line-height: 1.6; }
 
   @media (max-width: 620px) {
     .results-intro { grid-template-columns: 1fr; gap: 12px; }
-    .results-intro h2 { font-size: 19px; }
+    .results-intro h2 { font-size: var(--project-heading-size); }
     .headline-results { grid-template-columns: 1fr; }
     .headline-results p + p { padding-left: 0; border-top: 1px solid var(--subtle-rule); border-left: 0; }
     .result-panels { grid-template-columns: 1fr; }

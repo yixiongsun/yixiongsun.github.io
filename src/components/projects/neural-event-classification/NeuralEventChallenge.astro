@@ -1,0 +1,55 @@
+<section class="event-challenge" aria-labelledby="challenge-title">
+  <header>
+    <p>The challenge</p>
+    <div>
+      <h2 id="challenge-title">Why ripple and IED separation is difficult</h2>
+      <p>
+        Hippocampal ripples and interictal epileptiform discharges are brief, spontaneous events that can overlap in waveform shape, amplitude, and frequency content. Conventional detectors usually identify 
+        candidate events using thresholds on ripple- or IED-band activity, but these measures capture only part of the distinction between the two. Large ripple complexes, sharp transients, and atypical 
+        events can produce similar threshold responses despite having different underlying structure. Separating them reliably therefore depends on the full temporal and multichannel morphology of each event, 
+        and on whether those features generalize across subjects. The problem is not only to detect high-frequency events, but to distinguish between two partially overlapping physiological phenomena and reject 
+        events that do not clearly match either class.
+      </p>
+    </div>
+  </header>
+</section>
+
+<style>
+  .event-challenge {
+    margin: 0 0 var(--project-section-gap);
+    padding: 28px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .event-challenge header {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 28px;
+  }
+  .event-challenge header > p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: var(--project-label-size);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .event-challenge h2 {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: var(--project-heading-size);
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: -.01em;
+  }
+  .event-challenge div > p {
+    max-width: 620px;
+    margin: 14px 0 0;
+    color: var(--text);
+    font-size: var(--project-body-size);
+    line-height: var(--project-body-leading);
+  }
+
+  @media (max-width: 620px) {
+    .event-challenge header { grid-template-columns: 1fr; gap: 12px; }
+    .event-challenge h2 { font-size: var(--project-heading-size); }
+  }
+</style>

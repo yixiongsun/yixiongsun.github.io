@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "runs": [
+    {
+      "id": "default_sv0",
+      "label": "Baseline",
+      "conditionCategory": "baseline",
+      "seed": 0,
+      "manifestUrl": "default_sv0/manifest.json",
+      "spwrEventCount": 26
+    },
+    {
+      "id": "exp_25%_150_sv0",
+      "label": "Experience strengthened",
+      "conditionCategory": "experience-strengthened",
+      "seed": 0,
+      "manifestUrl": "exp_25%25_150_sv0/manifest.json",
+      "spwrEventCount": 33
+    }
+  ]
+}

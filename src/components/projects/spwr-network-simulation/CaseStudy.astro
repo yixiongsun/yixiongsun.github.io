@@ -1,0 +1,133 @@
+---
+import NetworkSimulation from './NetworkSimulation.astro';
+import NetworkComparison from './NetworkComparison.astro';
+import NeuronModels from './NeuronModels.astro';
+import ModelArchitecture from './ModelArchitecture.astro';
+---
+
+<div class="spwr-case-study">
+  <section class="project-context" aria-labelledby="project-context-title">
+    <p class="section-label">The challenge</p>
+    <div>
+      <h2 id="project-context-title">What causes disrupted SPW-R activity in an amyloid mouse model?</h2>
+      <p>
+        In TgCRND8 mice, I found that SPW-R activity was reduced and that CA1 populations did not
+        reorganize normally after experience. Pyramidal neurons were less strongly recruited during
+        SPW-Rs, while the underlying coactivity network was already more tightly connected before
+        experience. Together, these results pointed to an abnormally rigid hippocampal network, but
+        they did not reveal the circuit change responsible. I therefore used computational modeling
+        to test two mechanisms associated with Aβ: excess synaptic glutamate and impaired interneuron
+        function.
+      </p>
+    </div>
+  </section>
+
+  <section class="project-context" aria-labelledby="model-title">
+    <p class="section-label">The model</p>
+    <div>
+      <h2 id="model-title">Testing candidate mechanisms in a controlled circuit</h2>
+      <p>
+        For this work, I collaborated with Jiannis Taxidis, who developed the original
+        cortical–CA3–CA1 model with colleagues and supervised the computational experiments. I
+        adapted the model to ask whether changes in glutamatergic or GABAergic transmission could
+        account for the patterns of hippocampal activity I recorded in TgCRND8 mice.
+      </p>
+      <p>
+        I focused the analysis on CA1 so that simulated firing and coactivity could be compared with
+        my recordings.
+      </p>
+      <aside class="model-panel" aria-label="Computational experiment overview">
+        <div class="model-flow">
+          <p class="panel-label">Experiment flow</p>
+          <ol>
+            <li>
+              <span>01</span>
+              <div><strong>Establish the baseline</strong><p>Confirm that the circuit generates SPW-Rs and coordinated CA1 firing.</p></div>
+            </li>
+            <li>
+              <span>02</span>
+              <div><strong>Model experience</strong><p>Strengthen connections within a CA3 ensemble and from that ensemble to CA1.</p></div>
+            </li>
+            <li>
+              <span>03</span>
+              <div><strong>Introduce dysfunction</strong><p>Increase excitatory transmission or reduce inhibitory output in the CA3–CA1 circuit.</p></div>
+            </li>
+            <li>
+              <span>04</span>
+              <div><strong>Compare with recordings</strong><p>Ask which manipulation reproduces the CA1 firing and ensemble changes observed in TgCRND8 mice.</p></div>
+            </li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <NeuronModels />
+
+  <ModelArchitecture />
+
+  <NetworkSimulation />
+
+  <section class="project-context" aria-labelledby="reading-title">
+    <p class="section-label">Views</p>
+    <div>
+      <h2 id="reading-title">From single cells to population activity</h2>
+      <p>
+        Pyramidal neurons are excitatory principal cells that carry activity within and between
+        regions; interneurons are inhibitory cells that constrain and synchronize that activity. The
+        neuron view shows individual model cells. Its separated layout groups the two cell classes
+        into lanes, while the interspersed layout returns them to model population order, wrapped into
+        rows for display rather than anatomy. The population-raster view groups spikes and smoothed
+        firing rates by region and cell class. The selected-neuron view isolates one cell's spike
+        history and the one-hop connections displayed around it.
+      </p>
+      <p>
+        The CA1 somatic-current trace sums modeled synaptic currents across a CA1 sampling site. It is
+        an LFP-like model proxy for pyramidal-layer activity—not a measured LFP and not a neuron's
+        membrane voltage. Displayed connections are a clearly labeled synthetic UI fixture for
+        demonstrating the interface; real connectivity must be exported from the exact simulation
+        seed.
+      </p>
+    </div>
+  </section>
+
+  <NetworkComparison />
+
+  <section class="project-context project-context--last" aria-labelledby="next-title">
+    <p class="section-label">Comparison</p>
+    <div>
+      <h2 id="next-title">A paired demonstration, not a biological result</h2>
+      <p>
+        The baseline and experience-strengthened panels replay two seed-0 simulations on the same
+        absolute time axis. In the strengthened run, excitatory efficacy is increased within a
+        selected CA3 pyramidal ensemble and from that ensemble to CA1 pyramidal cells, approximating
+        experience-dependent plasticity without an explicit learning rule. The side-by-side view
+        reveals how this manipulation changes activity in these two runs. It does not estimate
+        variability, establish statistical significance, or by itself support a biological or disease
+        conclusion.
+      </p>
+    </div>
+  </section>
+</div>
+
+<style>
+  .spwr-case-study { padding-bottom: 12px; }
+  .project-context { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 28px; padding: 28px 0 var(--project-section-gap); border-top: 1px solid var(--rule); }
+  .project-context--last { border-bottom: 1px solid var(--rule); }
+  .section-label { margin: 3px 0 0; color: var(--muted); font-size: var(--project-label-size); text-transform: uppercase; letter-spacing: .06em; }
+  .project-context h2 { margin: 0; color: var(--text-strong); font-size: var(--project-heading-size); line-height: 1.3; font-weight: 400; letter-spacing: -.01em; }
+  .project-context div > p { max-width: 620px; margin: 14px 0 0; color: var(--text); font-size: var(--project-body-size); line-height: var(--project-body-leading); }
+  .model-panel { margin-top: 24px; border: 1px solid var(--rule); background: #111310; }
+  .model-flow { padding: 18px; }
+  .panel-label { margin: 0; color: var(--faint); font-size: 9px; text-transform: uppercase; letter-spacing: .07em; }
+  .model-flow ol { margin: 14px 0 0; padding: 0; list-style: none; }
+  .model-flow li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 11px; padding: 11px 0; border-top: 1px solid var(--subtle-rule); }
+  .model-flow li > span { padding-top: 2px; color: var(--faint); font-size: 9px; font-variant-numeric: tabular-nums; }
+  .model-flow strong { display: block; color: var(--text-strong); font-size: var(--project-body-size); font-weight: 500; }
+  .model-flow li p { margin: 4px 0 0; color: var(--text); font-size: var(--project-support-size); line-height: 1.6; }
+
+  @media (max-width: 620px) {
+    .project-context { grid-template-columns: 1fr; gap: 12px; }
+    .project-context h2 { font-size: var(--project-heading-size); }
+  }
+</style>

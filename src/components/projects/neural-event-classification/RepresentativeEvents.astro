@@ -1,5 +1,5 @@
 ---
-import { withBase } from '../utils/paths';
+import { withBase } from '../../../utils/paths';
 ---
 
 <section class="representative-events" aria-labelledby="representative-events-title">
@@ -26,17 +26,16 @@ import { withBase } from '../utils/paths';
       />
     </picture>
     <figcaption>
-      The 300 ms context reveals each event's surrounding morphology; the model uses the centered
-      100 ms crop. Examples come from three different subjects. The ripple was chosen from a
-      central-class shortlist for a clear, centered oscillatory burst; the IED is near its class center,
-      and the ambiguous/noise example lies near the midpoint between the class centers. The
-      spectrogram explains the signal, but the selected compact model does not use a spectrogram branch.
+      The 300 ms traces show the morphology surrounding each event, while the model classifies the centered 100 ms segment. 
+      Examples are drawn from three different subjects and were selected to represent a clear ripple, a typical IED, and an 
+      ambiguous event between the two classes. Spectrograms are shown to illustrate their frequency structure, although the 
+      final compact model operates directly on the waveform and does not include a spectrogram branch.
     </figcaption>
   </figure>
 </section>
 
 <style>
-  .representative-events { margin: 0 0 46px; padding: 30px 0 0; border-top: 1px solid var(--rule); }
+  .representative-events { margin: 0 0 var(--project-section-gap); padding: 28px 0 0; border-top: 1px solid var(--rule); }
   .representative-events > header {
     display: grid;
     grid-template-columns: 112px minmax(0, 1fr);
@@ -45,25 +44,25 @@ import { withBase } from '../utils/paths';
   }
   .representative-events > header > p {
     margin: 3px 0 0;
-    color: var(--faint);
-    font-size: 10px;
+    color: var(--muted);
+    font-size: var(--project-label-size);
     text-transform: uppercase;
     letter-spacing: .06em;
   }
   .representative-events h2 {
     margin: 0;
     color: var(--text-strong);
-    font-size: 22px;
+    font-size: var(--project-heading-size);
     line-height: 1.3;
     font-weight: 400;
     letter-spacing: -.01em;
   }
   .representative-events header div > p {
-    max-width: 560px;
-    margin: 12px 0 0;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.6;
+    max-width: 620px;
+    margin: 14px 0 0;
+    color: var(--text);
+    font-size: var(--project-body-size);
+    line-height: var(--project-body-leading);
   }
   .representative-events figure { margin: 0; }
   .representative-events picture,
@@ -72,12 +71,12 @@ import { withBase } from '../utils/paths';
   .representative-events figcaption {
     margin: 14px 0 0 140px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: var(--project-support-size);
     line-height: 1.6;
   }
   @media (max-width: 620px) {
     .representative-events > header { grid-template-columns: 1fr; gap: 12px; }
-    .representative-events h2 { font-size: 19px; }
+    .representative-events h2 { font-size: var(--project-heading-size); }
     .representative-events figcaption { margin-left: 0; }
   }
 </style>

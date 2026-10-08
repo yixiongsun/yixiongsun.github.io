@@ -20,17 +20,17 @@ const neuralEventPreview = {
 ---
 
 <BaseLayout
-  title="Yixiong Sun — Neuroscience, machine learning, and software"
-  description="Yixiong Sun is a systems neuroscience researcher and software engineer working on machine learning and signal processing for neural time-series data."
+  title="Yixiong Sun — Systems neuroscience and computational research"
+  description="Yixiong Sun studies memory, learning, and hippocampal network dynamics in Alzheimer’s disease, combining experimental neuroscience, machine learning, and computational modeling."
 >
   <div class="site-shell">
     <SiteHeader />
 
     <main>
       <section class="intro" id="about">
-        <p>Working at the intersection of neuroscience and AI, I develop computational approaches to reveal how the brain learns, forms memories, and constructs the representations that shape thought and behavior.</p>
-        <p class="intro-detail">As a systems neuroscience PhD candidate, I study how memories are encoded and reorganized within hippocampal networks—and how these processes are disrupted in models of Alzheimer’s disease. I combine <em>in vivo</em> electrophysiology with machine learning, signal processing, and computational modeling to find meaningful structure in complex neural activity.</p>
-        <p class="intro-detail">Beyond memory, I am interested in how the brain learns, plans, builds internal representations, and gives rise to conscious experience. My strength lies in connecting biological questions, experimental data, and computational methods to investigate how the brain works in both health and disease.</p>
+        <p>I am a systems neuroscientist and computational researcher investigating how neural systems learn from experience, form memories, and build internal representations that guide behavior.</p>
+        <p class="intro-detail">My PhD research focuses on how memories are encoded and reorganized within hippocampal networks, and how these processes break down in Alzheimer’s disease. I design and execute technically demanding chronic in vivo electrophysiology experiments in freely moving mice, building and implanting custom electrode arrays for recording and stimulation alongside behavioral testing. I integrate these experiments with advanced signal processing, machine learning, population-level analyses, and mechanistic circuit models to uncover how coordinated neural activity supports memory, how pathology reshapes network dynamics, and which mechanisms may restore circuit function.</p>
+        <p class="intro-detail">More broadly, I am interested in how memories and internal representations evolve to support learning, prediction, and planning. I am especially drawn to the principles that make intelligent systems flexible: how experience reshapes representations, how existing knowledge incorporates new information, and how networks remain adaptive rather than becoming locked into fixed patterns. I approach these questions across biological circuits and computational models, using neuroscience and AI as complementary frameworks for understanding memory, learning, and adaptive behavior.</p>
         <div class="meta-links" aria-label="Profile links">
           <span>Toronto, Canada</span>
           <a href="mailto:yixiong.sun@mail.utoronto.ca">Email</a>
@@ -40,7 +40,7 @@ const neuralEventPreview = {
       </section>
 
       <section class="index-section" id="experience">
-        <h2>Experience</h2>
+        <h2>Selected experience</h2>
         <div class="index-list">
           {highlightedExperience.map((item) => (
             <div class="index-row index-row-static">
@@ -60,7 +60,7 @@ const neuralEventPreview = {
       </section>
 
       <section class="index-section" id="projects">
-        <h2>Projects</h2>
+        <h2>Selected projects</h2>
         <div class="index-list">
           {highlightedProjects.map((project) => (
             <a
@@ -71,7 +71,7 @@ const neuralEventPreview = {
                   'neural-event-preview': project.slug === 'neural-event-classification',
                 },
               ]}
-              href={withBase(`work/${project.slug}/`)}
+              href={withBase(`projects/${project.slug}/`)}
             >
               <span class="year">{project.year}</span>
               <span class="row-copy">
@@ -87,20 +87,20 @@ const neuralEventPreview = {
               )}
             </a>
           ))}
-          <a class="section-link" href={withBase('work/')}>
+          <a class="section-link" href={withBase('projects/')}>
             <span>View all projects</span><span aria-hidden="true">→</span>
           </a>
         </div>
       </section>
 
       <section class="index-section">
-        <h2>Research</h2>
+        <h2>Research outputs</h2>
         <div class="index-list">
           <a class="index-row" href={withBase('research/')}>
             <span class="year">Archive</span>
             <span class="row-copy">
-              <strong>Publications, posters, and presentations</strong>
-              <small>Browse the complete research record by year and format</small>
+              <strong>Publications, posters, and talks</strong>
+              <small>Explore research on hippocampal networks, memory, and Alzheimer’s disease</small>
             </span>
             <span class="arrow" aria-hidden="true">→</span>
           </a>
