@@ -47,6 +47,7 @@ const populations = [
       <span><i class="filled"></i>Pyramidal</span>
       <span><i class="ring"></i>Interneuron</span>
       <span><i class="bright"></i>Recent spike</span>
+      <span data-cofiring-key hidden><i class="cofiring"></i>CA1 cofiring sample (50)</span>
     </div>
     <section class="connectivity-overlay" data-connectivity-block hidden aria-labelledby="connectivity-title">
       <div class="connectivity-overlay__heading">
@@ -159,14 +160,15 @@ const populations = [
   <div class="playback-controls" aria-label="Simulation playback controls">
     <button type="button" class="play-button" data-play disabled>Play</button>
     <button type="button" class="restart-button" data-restart disabled>Restart</button>
-    <button type="button" class="view-button" data-view-toggle disabled>View: neurons</button>
-    <button
-      type="button"
-      class="layout-button"
-      data-layout-toggle
-      aria-pressed="true"
-      disabled
-    >Layout: interspersed</button>
+    <label class="layout-control">
+      <span>Layout</span>
+      <select data-layout-select disabled>
+        <option value="interspersed" selected>Interspersed</option>
+        <option value="neuron">Neuron activity</option>
+        <option value="separated">Separated</option>
+        <option value="cofiring">Cofiring</option>
+      </select>
+    </label>
     <output data-time aria-label="Current simulation time">0.000 s / 30.000 s</output>
     <label class="speed-control">
       <span>Speed</span>
@@ -178,6 +180,11 @@ const populations = [
         <option value="4">4×</option>
       </select>
     </label>
+  </div>
+
+  <div class="cofiring-controls" data-cofiring-controls hidden>
+    <output data-cofiring-status aria-live="polite">Loading cofiring scores…</output>
+    <p>Peak positive z-score within ±25 ms, calculated across the recording outside detected SPW-Rs. Lines glow when both neurons fire within 50 ms and fade over 0.3 s.</p>
   </div>
 
   <label class="timeline-label" for="network-timeline">Simulation time</label>
@@ -212,6 +219,7 @@ const populations = [
 </section>
 
 <script>
+  import { COFIRING_SAMPLE_COLOR, COFIRING_THRESHOLD, sampledCofiringNeuronIds, parseCofiringEdges, selectCofiringEdges, buildCofiringPulseTicks, cofiringPulseIntensity, type CofiringEdge } from '../../../lib/cofiring-highlight';
   import {
     lowerBound,
     parseSignalDataset,
@@ -268,8 +276,14 @@ const populations = [
     const canvas = root.querySelector<HTMLCanvasElement>('[data-network-canvas]')!;
     const playButton = root.querySelector<HTMLButtonElement>('[data-play]')!;
     const restartButton = root.querySelector<HTMLButtonElement>('[data-restart]')!;
-    const viewButton = root.querySelector<HTMLButtonElement>('[data-view-toggle]')!;
-    const layoutButton = root.querySelector<HTMLButtonElement>('[data-layout-toggle]')!;
+    const layoutSelect = root.querySelector<HTMLSelectElement>('[data-layout-select]')!;
+    const cofiringKey = root.querySelector<HTMLElement>('[data-cofiring-key]')!;
+    let cofiringLayout = false;
+    const cofiringControls = root.querySelector<HTMLElement>('[data-cofiring-controls]')!;
+    const cofiringStatus = root.querySelector<HTMLOutputElement>('[data-cofiring-status]')!;
+    let cofiringEdges: CofiringEdge[] = [];
+    let displayedCofiringEdges: CofiringEdge[] = [];
+    let cofiringPairPulses = new Map<CofiringEdge, Uint32Array>();
     const viewLabel = root.querySelector<HTMLElement>('[data-view-label]')!;
     const layoutTitle = root.querySelector<HTMLElement>('[data-layout-title]')!;
     const layoutDescription = root.querySelector<HTMLElement>('[data-layout-description]')!;
@@ -365,6 +379,7 @@ const populations = [
     let interspersedXPositions = new Float32Array();
     let interspersedYPositions = new Float32Array();
     let populationByNeuron = new Uint8Array();
+    let cofiringSampleIds = new Set<number>();
     let visiblePopulations: boolean[] = [];
     let backgroundCanvas = document.createElement('canvas');
     let cssWidth = 1000;
@@ -392,6 +407,52 @@ const populations = [
     let selectedVoltageDataset: SignalDataset | undefined;
     let selectionRequest = 0;
     let inspectorCssWidth = 1000;
+
+    function isCofiringSample(neuronId: number) {
+      return cofiringLayout && cofiringSampleIds.has(neuronId);
+    }
+
+    function isMutedCa1(neuronId: number) {
+      return cofiringLayout && manifest.populations[populationByNeuron[neuronId]]?.region === 'CA1' && !isCofiringSample(neuronId);
+    }
+
+    function neuronSize(neuronId: number) {
+      return isCofiringSample(neuronId) ? 1.5 : isMutedCa1(neuronId) ? 0.5 : 1;
+    }
+
+    function neuronColor(neuronId: number) {
+      if (isCofiringSample(neuronId)) return COFIRING_SAMPLE_COLOR;
+      if (isMutedCa1(neuronId)) return '#555555';
+      return REGION_COLORS[manifest.populations[populationByNeuron[neuronId]].region];
+    }
+
+    function drawCofiringConnections(target: CanvasRenderingContext2D, positions?: Map<number, { x: number; y: number }>) {
+      if (!cofiringLayout) return;
+      target.save();
+      for (const edge of displayedCofiringEdges) {
+        if (!visiblePopulations[populationByNeuron[edge.sourceId]] || !visiblePopulations[populationByNeuron[edge.targetId]]) continue;
+        const source = positions ? positions.get(edge.sourceId) : { x: neuronX(edge.sourceId), y: neuronY(edge.sourceId) };
+        const destination = positions ? positions.get(edge.targetId) : { x: neuronX(edge.targetId), y: neuronY(edge.targetId) };
+        if (!source || !destination) continue;
+        const intensity = cofiringPulseIntensity(edge, 'paired', lastSpikeTicks,
+          cofiringPairPulses.get(edge)!, manifest.tickMs, currentMs);
+        target.strokeStyle = hexToRgba(COFIRING_SAMPLE_COLOR, 0.12 + intensity * 0.88);
+        target.lineWidth = 0.8 + intensity * 1.4;
+        target.shadowColor = COFIRING_SAMPLE_COLOR;
+        target.shadowBlur = intensity * 7;
+        target.beginPath();
+        target.moveTo(source.x, source.y);
+        target.lineTo(destination.x, destination.y);
+        target.stroke();
+      }
+      target.restore();
+    }
+
+    function updateCofiringThreshold() {
+      displayedCofiringEdges = selectCofiringEdges(cofiringEdges, COFIRING_THRESHOLD);
+      cofiringPairPulses = buildCofiringPulseTicks(displayedCofiringEdges, spikes, manifest.tickMs);
+      cofiringStatus.value = `${displayedCofiringEdges.length} connections · score > ${COFIRING_THRESHOLD}`;
+    }
 
     function showError(message: string) {
       root.setAttribute('aria-busy', 'false');
@@ -593,7 +654,8 @@ const populations = [
           bg.fillStyle = hexToRgba(color, 0.28);
           for (let local = 0; local < population.count; local += 1) {
             const id = population.idStart + local;
-            const radius = cssWidth < 520 ? 1.05 : 1.4;
+            bg.fillStyle = isCofiringSample(id) ? COFIRING_SAMPLE_COLOR : hexToRgba(neuronColor(id), isMutedCa1(id) ? 0.8 : 0.28);
+            const radius = (cssWidth < 520 ? 1.05 : 1.4) * neuronSize(id);
             traceNeuronShape(bg, neuronX(id), neuronY(id), radius, population.cellType);
             bg.fill();
           }
@@ -603,7 +665,8 @@ const populations = [
           for (let local = 0; local < population.count; local += 1) {
             const id = population.idStart + local;
             bg.beginPath();
-            bg.arc(neuronX(id), neuronY(id), cssWidth < 520 ? 1.15 : 1.4, 0, Math.PI * 2);
+            bg.strokeStyle = hexToRgba(neuronColor(id), isMutedCa1(id) ? 0.8 : 0.48);
+            bg.arc(neuronX(id), neuronY(id), (cssWidth < 520 ? 1.15 : 1.4) * neuronSize(id), 0, Math.PI * 2);
             bg.stroke();
           }
         }
@@ -913,7 +976,9 @@ const populations = [
       target.strokeRect(left + 0.5, top + 0.5, plotWidth - 1, plotHeight - 1);
 
       const identity = identifyNeuron(manifest.populations, selectedNeuronId);
-      const color = identity ? REGION_COLORS[identity.population.region] : '#c7c9c2';
+      const color = isCofiringSample(selectedNeuronId)
+        ? COFIRING_SAMPLE_COLOR
+        : identity ? REGION_COLORS[identity.population.region] : '#c7c9c2';
       target.strokeStyle = color;
       target.lineWidth = expanded ? 1.4 : 1;
       target.beginPath();
@@ -1088,6 +1153,7 @@ const populations = [
         }
       }
 
+      drawCofiringConnections(context, displayPositions);
       for (const [neuronId, point] of displayPositions) {
         const identity = identifyNeuron(manifest.populations, neuronId);
         if (!identity || !visiblePopulations[populationByNeuron[neuronId]]) continue;
@@ -1096,10 +1162,12 @@ const populations = [
         const intensity = active ? Math.exp(-ageMs / DECAY_MS) : 0;
         const connected = displayedConnections.some((edge) => edge.sourceId === neuronId || edge.targetId === neuronId);
         const radius = neuronId === selectedNeuronId ? 8 : connected ? 4 : 2.2;
-        context.fillStyle = hexToRgba(REGION_COLORS[identity.population.region], connected ? 0.8 : 0.26 + intensity * 0.6);
-        traceNeuronShape(context, point.x, point.y, radius + intensity * 2, identity.population.cellType);
+        context.fillStyle = isCofiringSample(neuronId)
+          ? COFIRING_SAMPLE_COLOR
+          : hexToRgba(neuronColor(neuronId), connected ? 0.8 : 0.26 + intensity * 0.6);
+        traceNeuronShape(context, point.x, point.y, (radius + intensity * 2) * neuronSize(neuronId), identity.population.cellType);
         if (identity.population.cellType === 'interneuron') {
-          context.strokeStyle = hexToRgba(REGION_COLORS[identity.population.region], connected ? 0.9 : 0.4);
+          context.strokeStyle = hexToRgba(neuronColor(neuronId), connected ? 0.9 : 0.4);
           context.lineWidth = 1;
           context.stroke();
         } else context.fill();
@@ -1242,8 +1310,7 @@ const populations = [
       root.classList.add('is-neuron-focused');
       connectivityBlock.style.opacity = String(focusMix);
       connectivityBlock.style.transform = `translateY(${(1 - focusMix) * 12}px)`;
-      layoutButton.disabled = true;
-      viewButton.disabled = true;
+      layoutSelect.disabled = true;
       layoutTitle.textContent = `Selected ${identity.population.label} neuron`;
       layoutDescription.textContent = 'Nearby neurons remain in row context while one-hop presynaptic and postsynaptic partners are drawn directly in the network.';
       layoutDescription.hidden = false;
@@ -1268,8 +1335,7 @@ const populations = [
         inspectorContent.hidden = true;
         connectivityBlock.hidden = true;
         root.classList.remove('is-neuron-focused');
-        layoutButton.disabled = false;
-        viewButton.disabled = !rates;
+        layoutSelect.disabled = false;
         displayedConnections = [];
         loadedConnectivity = [];
         updateLayoutCopy(layoutTarget === 1);
@@ -1425,8 +1491,9 @@ const populations = [
         const localFraction = (neuronId - population.idStart + 0.5) / population.count;
         const groupTop = groupsTop + populationIndex * (groupHeight + groupGap);
         const y = groupTop + localFraction * rasterHeight;
-        context.fillStyle = hexToRgba(REGION_COLORS[population.region], 0.62);
-        context.fillRect(x, y, cssWidth < 520 ? 1 : 1.25, 1);
+        const sampleSize = neuronSize(neuronId);
+        context.fillStyle = isCofiringSample(neuronId) ? COFIRING_SAMPLE_COLOR : hexToRgba(neuronColor(neuronId), 0.62);
+        context.fillRect(x, y - (sampleSize - 1) / 2, (cssWidth < 520 ? 1 : 1.25) * sampleSize, sampleSize);
       }
 
       context.strokeStyle = 'rgba(235, 237, 230, .72)';
@@ -1456,6 +1523,7 @@ const populations = [
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.drawImage(backgroundCanvas, 0, 0);
         context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        drawCofiringConnections(context);
         const currentTick = currentMs / manifest.tickMs;
         for (let neuronId = 0; neuronId < manifest.neuronCount; neuronId += 1) {
           const populationIndex = populationByNeuron[neuronId];
@@ -1465,13 +1533,13 @@ const populations = [
           const population = manifest.populations[populationIndex];
           const intensity = Math.exp(-ageMs / DECAY_MS);
           const baseRadius = cssWidth < 520 ? 1.05 : 1.4;
-          const radius = baseRadius + intensity * (cssWidth < 520 ? 2.55 : 3.5);
-          const color = REGION_COLORS[population.region];
+          const radius = (baseRadius + intensity * (cssWidth < 520 ? 2.55 : 3.5)) * neuronSize(neuronId);
+          const color = neuronColor(neuronId);
           context.fillStyle = hexToRgba(color, intensity * 0.95);
           traceNeuronShape(context, neuronX(neuronId), neuronY(neuronId), radius, population.cellType);
           context.fill();
           if (population.cellType === 'interneuron') {
-            context.strokeStyle = hexToRgba('#ffffff', intensity * 0.8);
+            context.strokeStyle = hexToRgba(isMutedCa1(neuronId) ? '#555555' : '#ffffff', intensity * 0.8);
             context.lineWidth = 0.7;
             context.stroke();
           }
@@ -1544,9 +1612,7 @@ const populations = [
     }
 
     function updateLayoutCopy(interspersed: boolean) {
-      layoutButton.textContent = interspersed ? 'Layout: interspersed' : 'Layout: separated';
-      layoutButton.setAttribute('aria-pressed', String(interspersed));
-      layoutTitle.textContent = interspersed ? 'Interspersed neuron view' : 'Separated neuron lanes';
+      layoutTitle.textContent = cofiringLayout ? 'CA1 cofiring sample' : interspersed ? 'Interspersed neuron view' : 'Separated neuron lanes';
       layoutDescription.textContent = '';
       layoutDescription.hidden = true;
     }
@@ -1557,9 +1623,8 @@ const populations = [
       networkView = nextView;
       const activity = networkView === 'activity';
       root.classList.toggle('is-activity-view', activity);
-      viewButton.textContent = activity ? 'View: population activity' : 'View: neurons';
-      viewButton.setAttribute('aria-pressed', String(activity));
-      layoutButton.disabled = activity;
+      cofiringKey.hidden = !cofiringLayout;
+      cofiringControls.hidden = !cofiringLayout;
       canvasKey.hidden = activity;
       if (activity) {
         viewLabel.textContent = 'View';
@@ -1671,8 +1736,11 @@ const populations = [
       setPlaying(false);
       seek(currentMs + (event.key === 'ArrowRight' ? 100 : -100));
     });
-    viewButton.addEventListener('click', () => setNetworkView(networkView === 'neurons' ? 'activity' : 'neurons'));
-    layoutButton.addEventListener('click', () => animateLayout(layoutTarget === 1 ? 0 : 1));
+    layoutSelect.addEventListener('change', () => {
+      cofiringLayout = layoutSelect.value === 'cofiring';
+      setNetworkView(layoutSelect.value === 'neuron' ? 'activity' : 'neurons');
+      if (networkView === 'neurons') animateLayout(layoutSelect.value === 'separated' ? 0 : 1);
+    });
     function selectNeuronAt(clientX: number, clientY: number) {
       if (networkView === 'activity') return;
       const rect = canvas.getBoundingClientRect();
@@ -1757,11 +1825,21 @@ const populations = [
         const manifestResponse = await fetch(manifestUrl);
         if (!manifestResponse.ok) throw new Error(`Simulation manifest could not be loaded (${manifestResponse.status}).`);
         manifest = validateManifest(await manifestResponse.json());
+        cofiringSampleIds = sampledCofiringNeuronIds(manifest.populations);
         manifestBaseUrl = manifestResponse.url;
         const spikeUrl = new URL(manifest.spikeFile, manifestResponse.url);
         const spikeResponse = await fetch(spikeUrl);
         if (!spikeResponse.ok) throw new Error(`Spike data could not be loaded (${spikeResponse.status}).`);
         spikes = parseSpikeDataset(await spikeResponse.arrayBuffer(), manifest);
+
+        try {
+          const response = await fetch(new URL('cofiring.json', manifestResponse.url));
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          cofiringEdges = parseCofiringEdges(await response.json(), manifest.runId, manifest.populations);
+          updateCofiringThreshold();
+        } catch (error) {
+          cofiringStatus.value = `Cofiring connections unavailable (${error instanceof Error ? error.message : 'load failed'}).`;
+        }
 
         const optionalFailures: string[] = [];
         if (manifest.schemaVersion === 2) {
@@ -1808,7 +1886,7 @@ const populations = [
         spikeCounts = countSpikesByNeuron(spikes, manifest.neuronCount);
         visiblePopulations = manifest.populations.map(() => true);
         timeline.max = String(manifest.durationMs);
-        [playButton, restartButton, layoutButton, timeline, speedSelect].forEach((control) => { control.disabled = false; });
+        [playButton, restartButton, layoutSelect, timeline, speedSelect].forEach((control) => { control.disabled = false; });
         populationControls.disabled = false;
         if (currents && currentContext && overviewContext) {
           signalPanel.hidden = false;
@@ -1817,7 +1895,7 @@ const populations = [
           optionalFailures.push('signal canvas rendering is unavailable');
           currents = undefined;
         }
-        if (rates) viewButton.disabled = false;
+        layoutSelect.querySelector<HTMLOptionElement>('[value=neuron]')!.disabled = !rates;
         updateEventDetails();
         if (optionalFailures.length > 0) showOptionalWarning(`Optional data unavailable: ${optionalFailures.join('; ')}. Spike replay remains available.`);
         const eventSummary = events.length > 0 ? ` · ${events.length} detected SPW-Rs` : '';
@@ -1866,6 +1944,13 @@ const populations = [
   .canvas-key .filled { width: 7px; height: 7px; border: 0; border-radius: 0; clip-path: polygon(50% 4%, 96% 90%, 4% 90%); }
   .canvas-key .ring { background: transparent; }
   .canvas-key .bright { width: 7px; height: 7px; border: 0; background: #eef0eb; box-shadow: 0 0 5px rgba(238, 240, 235, .7); }
+  .canvas-key .cofiring { width: 7.5px; height: 7.5px; border-color: #ff4d4d; background: #ff4d4d; }
+  .canvas-key span[hidden] { display: none; }
+  .layout-control { display: flex; align-items: center; gap: 8px; color: var(--text); font-size: 11px; }
+  .cofiring-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin-top: 14px; padding: 10px 12px; border: 1px solid #464944; }
+  .cofiring-controls[hidden] { display: none; }
+  .cofiring-controls label { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--text); font-size: 11px; }
+  .cofiring-controls p { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
   .connectivity-overlay { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; padding: 10px 12px; border-top: 1px solid #353833; background: rgba(15, 17, 15, .96); backdrop-filter: blur(5px); }
   .connectivity-overlay[hidden] { display: none; }
   .connectivity-overlay__heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 8px; }
@@ -1915,7 +2000,7 @@ const populations = [
   .connectivity-controls label { display: grid; gap: 5px; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .05em; }
   .connectivity-controls select { width: 100%; min-width: 0; text-transform: none; letter-spacing: 0; }
   .connectivity-note { overflow: hidden; margin: 3px 0 0; color: var(--muted); font-size: 9px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
-  .playback-controls { display: grid; grid-template-columns: auto auto auto auto 1fr auto; gap: 9px; align-items: center; margin-top: 14px; }
+  .playback-controls { display: grid; grid-template-columns: auto auto auto 1fr auto; gap: 9px; align-items: center; margin-top: 14px; }
   button, select { min-height: 36px; border: 1px solid #464944; border-radius: 0; background: #1a1c19; color: var(--text); font: inherit; font-size: 11px; }
   button { min-width: 68px; padding: 0 14px; cursor: pointer; }
   .layout-button[aria-pressed="true"], .view-button[aria-pressed="true"] { border-color: #777a74; background: #242622; color: var(--text-strong); }
@@ -1944,7 +2029,7 @@ const populations = [
     .load-status { margin-top: 9px; text-align: left; }
     .view-heading { grid-template-columns: 48px minmax(0, 1fr); }
     .canvas-shell { aspect-ratio: 4 / 5; min-height: 430px; }
-    .canvas-key { top: 7px; right: 7px; bottom: auto; gap: 7px; }
+    .canvas-key { top: 7px; right: 7px; bottom: auto; gap: 7px; flex-wrap: wrap; max-width: calc(100% - 14px); }
     .connectivity-overlay { padding: 9px; }
     .connectivity-overlay__heading { align-items: flex-start; }
     .connectivity-overlay__heading div { display: grid; gap: 3px; }

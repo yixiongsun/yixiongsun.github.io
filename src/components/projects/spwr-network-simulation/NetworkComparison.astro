@@ -30,6 +30,7 @@ const populations = [
         <span>View</span>
         <h4 data-network-heading>Interspersed neuron view</h4>
       </div>
+      <p class="comparison-cofiring-summary" data-comparison-cofiring-summary hidden></p>
       <canvas class="comparison-network-canvas" width="500" height="420" data-comparison-network role="img" tabindex="0" aria-label="Baseline selectable network spike activity"></canvas>
       <div class="comparison-signal-header">
         <h4>CA1 somatic-current proxy</h4>
@@ -45,6 +46,7 @@ const populations = [
         <span>View</span>
         <h4 data-network-heading>Interspersed neuron view</h4>
       </div>
+      <p class="comparison-cofiring-summary" data-comparison-cofiring-summary hidden></p>
       <canvas class="comparison-network-canvas" width="500" height="420" data-comparison-network role="img" tabindex="0" aria-label="Experience-strengthened selectable network spike activity"></canvas>
       <div class="comparison-signal-header">
         <h4>CA1 somatic-current proxy</h4>
@@ -58,8 +60,14 @@ const populations = [
   <div class="comparison-controls" aria-label="Shared comparison controls">
     <button type="button" data-comparison-play disabled>Play</button>
     <button type="button" data-comparison-restart disabled>Restart</button>
-    <button type="button" data-comparison-view disabled>View: neurons</button>
-    <button type="button" data-comparison-layout disabled aria-pressed="true">Layout: interspersed</button>
+    <label class="comparison-layout-control"><span>Layout</span>
+      <select data-comparison-layout-select disabled>
+        <option value="interspersed" selected>Interspersed</option>
+        <option value="neuron">Neuron activity</option>
+        <option value="separated">Separated</option>
+        <option value="cofiring">Cofiring</option>
+      </select>
+    </label>
     <output data-comparison-time>0.000 s / 30.000 s</output>
     <label class="comparison-speed-control">
       <span>Speed</span>
@@ -93,6 +101,7 @@ const populations = [
 </section>
 
 <script>
+  import { COFIRING_SAMPLE_COLOR, COFIRING_THRESHOLD, sampledCofiringNeuronIds, parseCofiringEdges, selectCofiringEdges, buildCofiringPulseTicks, cofiringPulseIntensity, type CofiringEdge } from '../../../lib/cofiring-highlight';
   import {
     lowerBound,
     parseSignalDataset,
@@ -133,6 +142,10 @@ const populations = [
     rateContext: CanvasRenderingContext2D;
     labelOutput: HTMLElement;
     networkHeading: HTMLElement;
+    cofiringSummary: HTMLElement;
+    cofiringSampleIds: Set<number>;
+    cofiringEdges: CofiringEdge[];
+    cofiringPairPulses: Map<CofiringEdge, Uint32Array>;
     catalog?: RunCatalog['runs'][number];
     manifest?: SimulationManifestV2;
     spikes?: SpikeDataset;
@@ -160,8 +173,8 @@ const populations = [
     const errorOutput = root.querySelector<HTMLElement>('[data-comparison-error]')!;
     const playButton = root.querySelector<HTMLButtonElement>('[data-comparison-play]')!;
     const restartButton = root.querySelector<HTMLButtonElement>('[data-comparison-restart]')!;
-    const viewButton = root.querySelector<HTMLButtonElement>('[data-comparison-view]')!;
-    const layoutButton = root.querySelector<HTMLButtonElement>('[data-comparison-layout]')!;
+    const layoutSelect = root.querySelector<HTMLSelectElement>('[data-comparison-layout-select]')!;
+    let cofiringLayout = false;
     const windowSelects = [...root.querySelectorAll<HTMLSelectElement>('[data-comparison-window]')];
     const speedSelect = root.querySelector<HTMLSelectElement>('[data-comparison-speed]')!;
     const timeOutput = root.querySelector<HTMLOutputElement>('[data-comparison-time]')!;
@@ -189,6 +202,10 @@ const populations = [
         rateContext,
         labelOutput: panel.querySelector<HTMLElement>('[data-run-label]')!,
         networkHeading: panel.querySelector<HTMLElement>('[data-network-heading]')!,
+        cofiringSummary: panel.querySelector<HTMLElement>('[data-comparison-cofiring-summary]')!,
+        cofiringSampleIds: new Set(),
+        cofiringEdges: [],
+        cofiringPairPulses: new Map(),
         events: [],
         eventIndex: -1,
         actualMs: 0,
@@ -228,6 +245,45 @@ const populations = [
     function hexToRgba(hex: string, alpha: number) {
       const value = Number.parseInt(hex.slice(1), 16);
       return `rgba(${value >> 16}, ${(value >> 8) & 255}, ${value & 255}, ${alpha})`;
+    }
+
+    function isCofiringSample(run: RunView, neuronId: number) {
+      return cofiringLayout && run.cofiringSampleIds.has(neuronId);
+    }
+
+    function isMutedCa1(run: RunView, neuronId: number) {
+      return cofiringLayout && run.manifest!.populations[run.populationByNeuron[neuronId]].region === 'CA1' && !isCofiringSample(run, neuronId);
+    }
+
+    function neuronSize(run: RunView, neuronId: number) {
+      return isCofiringSample(run, neuronId) ? 1.5 : isMutedCa1(run, neuronId) ? 0.5 : 1;
+    }
+
+    function neuronColor(run: RunView, neuronId: number) {
+      return isCofiringSample(run, neuronId) ? COFIRING_SAMPLE_COLOR : isMutedCa1(run, neuronId)
+        ? '#555555' : REGION_COLORS[run.manifest!.populations[run.populationByNeuron[neuronId]].region];
+    }
+
+    function drawCofiringConnections(run: RunView, positions?: Map<number, { x: number; y: number }>) {
+      if (!cofiringLayout || !run.manifest) return;
+      const target = run.networkContext;
+      target.save();
+      for (const edge of run.cofiringEdges) {
+        if (!visiblePopulations[run.populationByNeuron[edge.sourceId]] || !visiblePopulations[run.populationByNeuron[edge.targetId]]) continue;
+        const source = positions ? positions.get(edge.sourceId) : { x: neuronX(run, edge.sourceId), y: neuronY(run, edge.sourceId) };
+        const destination = positions ? positions.get(edge.targetId) : { x: neuronX(run, edge.targetId), y: neuronY(run, edge.targetId) };
+        if (!source || !destination) continue;
+        const intensity = cofiringPulseIntensity(edge, 'paired', run.lastSpikeTicks, run.cofiringPairPulses.get(edge)!, run.manifest.tickMs, run.actualMs);
+        target.strokeStyle = hexToRgba(COFIRING_SAMPLE_COLOR, 0.12 + intensity * 0.88);
+        target.lineWidth = 0.8 + intensity * 1.4;
+        target.shadowColor = COFIRING_SAMPLE_COLOR;
+        target.shadowBlur = intensity * 7;
+        target.beginPath();
+        target.moveTo(source.x, source.y);
+        target.lineTo(destination.x, destination.y);
+        target.stroke();
+      }
+      target.restore();
     }
 
     function formatAxisValue(value: number) {
@@ -372,7 +428,9 @@ const populations = [
         background.lineWidth = 0.7;
         for (let localId = 0; localId < population.count; localId += 1) {
           const neuronId = population.idStart + localId;
-          traceNeuron(background, neuronX(run, neuronId), neuronY(run, neuronId), run.cssWidth < 420 ? 0.9 : 1.15, population.cellType);
+          background.fillStyle = isCofiringSample(run, neuronId) ? COFIRING_SAMPLE_COLOR : hexToRgba(neuronColor(run, neuronId), isMutedCa1(run, neuronId) ? 0.8 : population.cellType === 'pyramidal' ? 0.27 : 0.18);
+          background.strokeStyle = hexToRgba(neuronColor(run, neuronId), isMutedCa1(run, neuronId) ? 0.8 : 0.5);
+          traceNeuron(background, neuronX(run, neuronId), neuronY(run, neuronId), (run.cssWidth < 420 ? 0.9 : 1.15) * neuronSize(run, neuronId), population.cellType);
           if (population.cellType === 'pyramidal') background.fill();
           else background.stroke();
         }
@@ -394,6 +452,7 @@ const populations = [
       target.drawImage(run.background, 0, 0);
       target.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       const currentTick = run.actualMs / run.manifest.tickMs;
+      drawCofiringConnections(run);
       for (let neuronId = 0; neuronId < run.manifest.neuronCount; neuronId += 1) {
         const populationIndex = run.populationByNeuron[neuronId];
         if (!visiblePopulations[populationIndex]) continue;
@@ -402,8 +461,8 @@ const populations = [
         const population = run.manifest.populations[populationIndex];
         const intensity = Math.exp(-ageMs / DECAY_MS);
         const baseRadius = run.cssWidth < 420 ? 0.9 : 1.15;
-        const radius = baseRadius + intensity * (run.cssWidth < 420 ? 2.7 : 2.45);
-        target.fillStyle = hexToRgba(REGION_COLORS[population.region], intensity * 0.95);
+        const radius = (baseRadius + intensity * (run.cssWidth < 420 ? 2.7 : 2.45)) * neuronSize(run, neuronId);
+        target.fillStyle = hexToRgba(neuronColor(run, neuronId), intensity * 0.95);
         traceNeuron(target, neuronX(run, neuronId), neuronY(run, neuronId), radius, population.cellType);
         target.fill();
       }
@@ -430,18 +489,24 @@ const populations = [
       target.textAlign = 'left';
       target.fillText(`${population.label} · neuron ${selectedNeuronId.toLocaleString()} · synchronized focus`, 10, 18);
       const currentTick = run.actualMs / run.manifest.tickMs;
+      const displayPositions = new Map<number, { x: number; y: number }>();
       for (let localId = 0; localId < population.count; localId += 1) {
         const neuronId = population.idStart + localId;
+        if (!visiblePopulations[run.populationByNeuron[neuronId]]) continue;
         const focusedX = centerX + (neuronX(run, neuronId) - baseX) * zoomX;
         const focusedY = centerY + (neuronY(run, neuronId) - baseY) * zoomY;
         if (focusedX < 10 || focusedX > run.cssWidth - 10 || focusedY < 38 || focusedY > run.cssHeight - 12) continue;
         const x = neuronX(run, neuronId) + (focusedX - neuronX(run, neuronId)) * focusMix;
         const y = neuronY(run, neuronId) + (focusedY - neuronY(run, neuronId)) * focusMix;
+        displayPositions.set(neuronId, { x, y });
+      }
+      drawCofiringConnections(run, displayPositions);
+      for (const [neuronId, { x, y }] of displayPositions) {
         const ageMs = (currentTick - run.lastSpikeTicks[neuronId]) * run.manifest.tickMs;
         const intensity = ageMs >= 0 && ageMs <= ACTIVE_WINDOW_MS ? Math.exp(-ageMs / DECAY_MS) : 0;
         const selected = neuronId === selectedNeuronId;
-        target.fillStyle = hexToRgba(REGION_COLORS[population.region], selected ? 1 : 0.3 + intensity * 0.65);
-        traceNeuron(target, x, y, selected ? 6 : 1.8 + intensity * 2, population.cellType);
+        target.fillStyle = isCofiringSample(run, neuronId) ? COFIRING_SAMPLE_COLOR : hexToRgba(neuronColor(run, neuronId), selected ? 1 : 0.3 + intensity * 0.65);
+        traceNeuron(target, x, y, (selected ? 6 : 1.8 + intensity * 2) * neuronSize(run, neuronId), population.cellType);
         if (population.cellType === 'interneuron') {
           target.strokeStyle = target.fillStyle;
           target.stroke();
@@ -741,13 +806,10 @@ const populations = [
       if (selectedNeuronId >= 0) return;
       networkView = nextView;
       const activity = networkView === 'activity';
-      viewButton.textContent = activity ? 'View: population activity' : 'View: neurons';
-      viewButton.setAttribute('aria-pressed', String(activity));
-      layoutButton.disabled = activity;
       runs.forEach((run) => {
         run.networkHeading.textContent = activity
           ? 'Population rasters and firing rates'
-          : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+          : cofiringLayout ? 'CA1 cofiring sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
         run.networkCanvas.setAttribute('aria-label', activity
           ? `${run.catalog?.label ?? run.id} grouped population spike rasters and smoothed firing rates`
           : `${run.catalog?.label ?? run.id} selectable network spike activity`);
@@ -758,10 +820,8 @@ const populations = [
     function animateLayout(nextTarget: number) {
       cancelAnimationFrame(layoutAnimationRequest);
       layoutTarget = nextTarget;
-      layoutButton.textContent = layoutTarget === 1 ? 'Layout: interspersed' : 'Layout: separated';
-      layoutButton.setAttribute('aria-pressed', String(layoutTarget === 1));
       runs.forEach((run) => {
-        run.networkHeading.textContent = layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+        run.networkHeading.textContent = cofiringLayout ? 'CA1 cofiring sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
       });
       const startMix = layoutMix;
       const startedAt = performance.now();
@@ -795,8 +855,7 @@ const populations = [
       const population = runs[0].manifest?.populations.find((entry) => neuronId >= entry.idStart && neuronId < entry.idStart + entry.count);
       if (!population) return;
       selectedNeuronId = neuronId;
-      viewButton.disabled = true;
-      layoutButton.disabled = true;
+      layoutSelect.disabled = true;
       runs.forEach((run) => {
         run.networkHeading.textContent = `${population.label} neuron ${neuronId.toLocaleString()}`;
         run.networkCanvas.setAttribute('aria-label', `${run.catalog?.label ?? run.id} focused ${population.label} neuron ${neuronId}; click outside the selected neuron or press Escape to return`);
@@ -807,10 +866,9 @@ const populations = [
     function clearNeuronSelection() {
       animateFocus(0, () => {
         selectedNeuronId = -1;
-        viewButton.disabled = false;
-        layoutButton.disabled = networkView === 'activity';
+        layoutSelect.disabled = false;
         runs.forEach((run) => {
-          run.networkHeading.textContent = layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+          run.networkHeading.textContent = cofiringLayout ? 'CA1 cofiring sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
           run.networkCanvas.setAttribute('aria-label', `${run.catalog?.label ?? run.id} selectable network spike activity`);
         });
         render();
@@ -856,8 +914,12 @@ const populations = [
       anchorRealMs = performance.now();
       anchorSharedMs = sharedTimeMs;
     });
-    viewButton.addEventListener('click', () => setNetworkView(networkView === 'neurons' ? 'activity' : 'neurons'));
-    layoutButton.addEventListener('click', () => animateLayout(layoutTarget === 1 ? 0 : 1));
+    layoutSelect.addEventListener('change', () => {
+      cofiringLayout = layoutSelect.value === 'cofiring';
+      runs.forEach((run) => { run.cofiringSummary.hidden = !cofiringLayout; });
+      setNetworkView(layoutSelect.value === 'neuron' ? 'activity' : 'neurons');
+      if (networkView === 'neurons') animateLayout(layoutSelect.value === 'separated' ? 0 : 1);
+    });
     runs.forEach((run) => {
       run.networkCanvas.addEventListener('click', (event) => selectNeuronAt(run, event.clientX, event.clientY));
       run.networkCanvas.addEventListener('keydown', (event) => {
@@ -914,6 +976,16 @@ const populations = [
       run.rates = parseSignalDataset(await rateResponse.arrayBuffer(), rateDescriptor);
       run.events = validateEventsDocument(await eventResponse.json(), manifest.events.count).events;
       run.lastSpikeTicks = new Int32Array(manifest.neuronCount);
+      run.cofiringSampleIds = sampledCofiringNeuronIds(manifest.populations);
+      try {
+        const response = await fetch(new URL('cofiring.json', manifestResponse.url));
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        run.cofiringEdges = selectCofiringEdges(parseCofiringEdges(await response.json(), manifest.runId, manifest.populations), COFIRING_THRESHOLD);
+        run.cofiringPairPulses = buildCofiringPulseTicks(run.cofiringEdges, run.spikes, manifest.tickMs);
+        run.cofiringSummary.textContent = `${run.cofiringEdges.length} connections · z-score > ${COFIRING_THRESHOLD} · both fire within 50 ms`;
+      } catch (error) {
+        run.cofiringSummary.textContent = `Cofiring connections unavailable (${error instanceof Error ? error.message : 'load failed'}).`;
+      }
       run.labelOutput.textContent = entry.label;
     }
 
@@ -929,7 +1001,7 @@ const populations = [
         visiblePopulations = runs[0].manifest!.populations.map(() => true);
         sharedCurrentDomains = computeUnionDomains(runs.map((run) => run.currents!));
         sharedRateDomains = computeUnionDomains(runs.map((run) => run.rates!), true);
-        [playButton, restartButton, viewButton, layoutButton, ...windowSelects, speedSelect, timeline].forEach((control) => { control.disabled = false; });
+        [playButton, restartButton, layoutSelect, ...windowSelects, speedSelect, timeline].forEach((control) => { control.disabled = false; });
         populationControls.disabled = false;
         status.hidden = true;
         root.setAttribute('aria-busy', 'false');
@@ -955,7 +1027,7 @@ const populations = [
   .comparison-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 17px; }
   .comparison-header h2 { margin: 0; color: var(--text-strong); font-size: 18px; line-height: 1.35; font-weight: 400; }
   .comparison-status { max-width: 360px; margin: 0; color: var(--text); font-size: 11px; line-height: 1.45; text-align: right; }
-  .comparison-controls { display: grid; grid-template-columns: auto auto auto auto minmax(190px, 1fr) auto; gap: 9px; align-items: center; margin-top: 14px; }
+  .comparison-controls { display: grid; grid-template-columns: auto auto auto minmax(150px, 1fr) auto; gap: 9px; align-items: center; margin-top: 14px; }
   button, select { min-height: 36px; border: 1px solid #464944; border-radius: 0; background: #1a1c19; color: var(--text); font: inherit; font-size: 11px; }
   button { min-width: 68px; padding: 0 14px; cursor: pointer; }
   [data-comparison-view][aria-pressed="true"], [data-comparison-layout][aria-pressed="true"] { border-color: #777a74; background: #242622; color: var(--text-strong); }
@@ -964,6 +1036,8 @@ const populations = [
   button:hover:not(:disabled), select:hover:not(:disabled) { border-color: #777a74; color: var(--text-strong); }
   button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px solid var(--text); outline-offset: 3px; }
   .comparison-speed-control { display: flex; align-items: center; gap: 8px; font-size: 11px; text-transform: none; letter-spacing: 0; }
+  .comparison-layout-control { display: flex; align-items: center; gap: 8px; color: var(--text); font-size: 11px; }
+  .comparison-cofiring-summary { margin: 0 0 10px; color: var(--text); font-size: 10px; line-height: 1.5; }
   .comparison-controls output { align-self: center; color: var(--text); font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; }
   .comparison-timeline-label { display: block; margin: 14px 0 7px; color: var(--text); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
   .comparison-timeline { width: 100%; height: 20px; margin: 0; accent-color: #c7c9c2; }
