@@ -1,0 +1,88 @@
+---
+interface Props { mode: 'excitation' | 'inhibition' | 'neutral'; compact?: boolean; }
+const { mode, compact = false } = Astro.props;
+const prefix = `disease-${mode}`;
+const excitatoryMarker = `url(#${prefix}-arrow)`;
+const inhibitoryMarker = `url(#${prefix}-bar)`;
+const title = mode === 'excitation'
+  ? 'Increased excitation at excitatory synapses in the CA3–CA1 circuit'
+  : mode === 'inhibition'
+    ? 'Reduced inhibition at inhibitory synapses in the CA3–CA1 circuit'
+    : 'CA3–CA1 circuit architecture';
+---
+
+<figure class:list={['disease-connectivity', mode, { compact }]}>
+  <svg viewBox="0 0 620 210" role="img" aria-labelledby={`${prefix}-title ${prefix}-desc`}>
+    <title id={`${prefix}-title`}>{title}</title>
+    <desc id={`${prefix}-desc`}>Filled P cells are pyramidal neurons; outlined I cells are interneurons. Arrowheads show excitation and bars show inhibition. CA3 has recurrent pyramidal excitation; CA1 has recurrent interneuron inhibition. CA3 pyramidal neurons also excite CA1 pyramidal neurons and interneurons. {mode === 'excitation' ? 'All excitatory connections shown are highlighted in orange with thicker lines.' : mode === 'inhibition' ? 'All inhibitory connections shown are highlighted in magenta with thinner dashed lines.' : ''}</desc>
+    <defs>
+      <marker id={`${prefix}-arrow`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+        <path class="arrowhead" style={mode === 'excitation' ? 'fill: #ff9f43' : undefined} d="M 0 0 L 10 5 L 0 10 Z" />
+      </marker>
+      <marker id={`${prefix}-bar`} viewBox="0 0 4 14" refX="2" refY="7" markerWidth="4" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto">
+        <rect class="inhibitory-head" style={mode === 'inhibition' ? 'fill: #e86acb' : undefined} x=".75" y="1" width="2.5" height="12" />
+      </marker>
+    </defs>
+    <text class="region-name" x="130" y="21">CA3</text>
+    <text class="region-name" x="490" y="21">CA1</text>
+
+    <!-- CA3: P–P recurrence, P–I excitation, and I–P inhibition. -->
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 73 132 L 114 83" marker-end={excitatoryMarker} />
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 187 132 L 146 83" marker-end={excitatoryMarker} />
+    <path class="connection inhibitory" style={mode === 'inhibition' ? 'stroke: #e86acb' : undefined} d="M 110 64 Q 40 71 51 121" marker-end={inhibitoryMarker} />
+    <path class="connection inhibitory" style={mode === 'inhibition' ? 'stroke: #e86acb' : undefined} d="M 150 64 Q 220 71 209 121" marker-end={inhibitoryMarker} />
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 80 140 L 176 140" marker-end={excitatoryMarker} />
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 180 156 L 84 156" marker-end={excitatoryMarker} />
+
+    <!-- Schaffer input reaches both CA1 cell types. -->
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 218 137 Q 323 46 469 64" marker-end={excitatoryMarker} />
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 220 148 L 399 148" marker-end={excitatoryMarker} />
+    <text class="pathway-name" x="313" y="183">Schaffer collaterals</text>
+
+    <!-- CA1: P–I excitation, I–P inhibition, and I–I recurrence. -->
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 476 81 L 436 129" marker-end={excitatoryMarker} />
+    <path class="connection excitatory" style={mode === 'excitation' ? 'stroke: #ff9f43' : undefined} d="M 504 81 L 544 129" marker-end={excitatoryMarker} />
+    <path class="connection inhibitory" style={mode === 'inhibition' ? 'stroke: #e86acb' : undefined} d="M 411 128 Q 398 77 463 64" marker-end={inhibitoryMarker} />
+    <path class="connection inhibitory" style={mode === 'inhibition' ? 'stroke: #e86acb' : undefined} d="M 569 128 Q 582 77 517 64" marker-end={inhibitoryMarker} />
+    <path class="connection inhibitory" style={mode === 'inhibition' ? 'stroke: #e86acb' : undefined} d="M 440 140 L 534 140" marker-end={inhibitoryMarker} />
+    <path class="connection inhibitory" style={mode === 'inhibition' ? 'stroke: #e86acb' : undefined} d="M 540 156 L 446 156" marker-end={inhibitoryMarker} />
+
+    <circle class="interneuron" cx="130" cy="64" r="19" />
+    <circle class="pyramidal" cx="60" cy="148" r="19" />
+    <circle class="pyramidal" cx="200" cy="148" r="19" />
+    <circle class="pyramidal" cx="490" cy="64" r="19" />
+    <circle class="interneuron" cx="420" cy="148" r="19" />
+    <circle class="interneuron" cx="560" cy="148" r="19" />
+    <text class="cell-letter interneuron-letter" x="130" y="69">I</text>
+    <text class="cell-letter" x="60" y="153">P</text>
+    <text class="cell-letter" x="200" y="153">P</text>
+    <text class="cell-letter" x="490" y="69">P</text>
+    <text class="cell-letter interneuron-letter" x="420" y="153">I</text>
+    <text class="cell-letter interneuron-letter" x="560" y="153">I</text>
+  </svg>
+  {!compact && <figcaption>
+    <span class="change-key" style={`color: ${mode === 'excitation' ? '#ff9f43' : '#e86acb'}`}>{mode === 'excitation' ? '↑ Increased excitation' : '↓ Reduced inhibition'}</span>
+    <span>P · pyramidal cell</span><span>I · PV interneuron</span>
+  </figcaption>}
+</figure>
+
+<style>
+  .disease-connectivity { max-width: 620px; margin: 22px 0 0; }
+  .compact { grid-column: 2 / 3; width: 420px; max-width: 100%; margin: 0; }
+  svg { display: block; width: 100%; height: auto; }
+  .connection { fill: none; stroke: var(--text); stroke-width: 1.5; }
+  .inhibitory { stroke-dasharray: 4 3; }
+  .arrowhead, .inhibitory-head, .pyramidal { fill: var(--text); }
+  .interneuron { fill: var(--background); stroke: var(--text-strong); stroke-width: 1.5; }
+  .excitation .excitatory { stroke: #ff9f43; stroke-width: 2.6; }
+  .excitation .arrowhead { fill: #ff9f43; }
+  .inhibition .inhibitory { stroke: #e86acb; stroke-width: 1; stroke-dasharray: 3 5; }
+  .inhibition .inhibitory-head { fill: #e86acb; }
+  text { fill: var(--muted); font-family: Arial, Helvetica, sans-serif; font-size: 13px; text-anchor: middle; }
+  .region-name { fill: var(--text-strong); font-size: 18px; }
+  .cell-letter { fill: var(--background); font-size: 14px; }
+  .interneuron-letter { fill: var(--text-strong); }
+  figcaption { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-size: var(--project-support-size); line-height: 1.6; }
+  .excitation .change-key { color: #ff9f43; }
+  .inhibition .change-key { color: #e86acb; }
+</style>

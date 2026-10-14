@@ -1,0 +1,5066 @@
+{
+  "schemaVersion": 1,
+  "runId": "def_ca3a31ca1_min_125_max_135_sv0",
+  "populationId": "ca1-py",
+  "sourceFile": "cofiring_25ms_100ms_window_2_3.pkl",
+  "sourceSha256": "d937f085db72d7a108d34ab57a53003730d9fa158beade9548d0fc46226b7ff8",
+  "scoreDefinition": "positive-peak-central-three-z-bins",
+  "lagWindowMs": [
+    -25,
+    25
+  ],
+  "sampleLocalIds": [
+    112,
+    114,
+    125,
+    129,
+    139,
+    141,
+    142,
+    143,
+    148,
+    161,
+    314,
+    316,
+    322,
+    327,
+    332,
+    335,
+    343,
+    345,
+    353,
+    359,
+    520,
+    523,
+    528,
+    530,
+    534,
+    536,
+    538,
+    541,
+    550,
+    561,
+    720,
+    727,
+    731,
+    735,
+    736,
+    740,
+    741,
+    751,
+    754,
+    755,
+    912,
+    914,
+    920,
+    924,
+    927,
+    931,
+    935,
+    946,
+    949,
+    958
+  ],
+  "edges": [
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 322,
+      "score": 2.1291297371506532
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 314,
+      "score": 3.9377564700462764
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 343,
+      "score": 1.8165398934907866
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 332,
+      "score": 7.81793828405972
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 316,
+      "score": 1.8312671807359582
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 327,
+      "score": 3.8990671501922916
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 335,
+      "score": 0.1797664553135926
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 359,
+      "score": 4.807269419292251
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 322,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 314,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 343,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 332,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 316,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 327,
+      "score": 4.146777083495109
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 335,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 359,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 322,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 314,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 343,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 332,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 316,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 327,
+      "score": 1.4389921170465916
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 335,
+      "score": 2.0029810718587417
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 359,
+      "score": 0.2567381457651913
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 322,
+      "score": 0.42880610908430306
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 314,
+      "score": 3.7810635031471573
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 343,
+      "score": 1.0395764177035327
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 332,
+      "score": 8.284346950249756
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 316,
+      "score": 2.2745537006841356
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 327,
+      "score": 4.452954843558308
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 335,
+      "score": 1.8325455511193562
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 359,
+      "score": 6.47596615706326
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 353,
+      "score": 1.6654083300081166
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 322,
+      "score": 2.1457907661002027
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 314,
+      "score": 5.705127775289827
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 343,
+      "score": 0.7540327760963454
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 332,
+      "score": 9.817182843563078
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 316,
+      "score": 3.293932407816657
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 327,
+      "score": 4.843807482670926
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 335,
+      "score": 2.5934501476733742
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 359,
+      "score": 9.034797798052573
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 322,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 314,
+      "score": 1.9952437256031454
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 343,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 332,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 316,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 327,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 335,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 359,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 322,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 314,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 343,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 332,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 316,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 327,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 335,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 359,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 322,
+      "score": 3.6858889642674
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 314,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 343,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 332,
+      "score": 0.7386431295636435
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 316,
+      "score": 2.9999999999999836
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 327,
+      "score": 0.5071446611098039
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 335,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 359,
+      "score": 0.15146771746685664
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 353,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 322,
+      "score": 3.2365980532998813
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 314,
+      "score": 0.7781256657759034
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 343,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 332,
+      "score": 1.413940320717333
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 316,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 327,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 335,
+      "score": 1.7588683669881442
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 359,
+      "score": 2.594508066811066
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 353,
+      "score": 2.967140301473377
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 322,
+      "score": 1.7317217811152588
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 314,
+      "score": 1.823038023229821
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 345,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 343,
+      "score": 1.279593265298911
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 332,
+      "score": 6.442415318176645
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 316,
+      "score": 2.6518551083438875
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 327,
+      "score": 3.9034706912391175
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 335,
+      "score": 2.5560642146720616
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 359,
+      "score": 6.304379290127139
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 550,
+      "score": 0.7621340014480188
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 534,
+      "score": 1.1265990954930194
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 536,
+      "score": 0.456740154146793
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 561,
+      "score": 1.3189738416567656
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 541,
+      "score": 2.469390938342717
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 523,
+      "score": 2.1952641563580775
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 541,
+      "score": 2.9999999999999813
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 550,
+      "score": 0.5666094881672025
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 534,
+      "score": 0.8897662882860743
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 536,
+      "score": 2.3733790027984174
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 561,
+      "score": 2.369058532301297
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 541,
+      "score": 0.17186147478787234
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 523,
+      "score": 2.19549604739906
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 550,
+      "score": 1.46540708029734
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 534,
+      "score": 1.087669051970059
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 536,
+      "score": 0.7034036844212629
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 561,
+      "score": 2.0465106323812456
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 530,
+      "score": 0.5862200962018003
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 541,
+      "score": 2.8373717159532497
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 523,
+      "score": 3.4999909720326445
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 550,
+      "score": 1.5281314073180685
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 523,
+      "score": 1.6275802376804818
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 536,
+      "score": 0.45944097795657257
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 561,
+      "score": 1.05454704689098
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 541,
+      "score": 0.47846768949372764
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 523,
+      "score": 2.9881602529081275
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 520,
+      "score": 0.749028035359913
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 550,
+      "score": 0.9196094237884725
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 534,
+      "score": 1.3537108956770303
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 536,
+      "score": 1.0837136411085928
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 561,
+      "score": 0.6597980891615001
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 530,
+      "score": 0.599601619310837
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 528,
+      "score": 0.2371987334894437
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 541,
+      "score": 1.7345489145092918
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 523,
+      "score": 2.2409200470424366
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 755,
+      "score": 3.1203044570997367
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 731,
+      "score": 2.340667113008495
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 754,
+      "score": 0.9551290958725577
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 735,
+      "score": 1.5024410105651564
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 720,
+      "score": 3.3437959566787274
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 740,
+      "score": 1.5736203113481197
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 751,
+      "score": 1.1525874475274636
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 736,
+      "score": 0.027369027575198747
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 740,
+      "score": 2.9195563916132006
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 751,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 755,
+      "score": 1.219945092553622
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 731,
+      "score": 3.34591122883132
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 740,
+      "score": 3.1469606049287533
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 751,
+      "score": 2.8184932419574342
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 755,
+      "score": 3.306582895433677
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 731,
+      "score": 4.371725757796891
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 754,
+      "score": 1.5422991802480563
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 720,
+      "score": 3.1452071477053645
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 740,
+      "score": 1.3010105501502673
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 751,
+      "score": 1.5669456577244223
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 736,
+      "score": 1.0714382477392819
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 755,
+      "score": 3.5238420506830965
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 731,
+      "score": 2.0403323823647748
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 754,
+      "score": 1.1769152620464298
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 720,
+      "score": 2.6938693919717713
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 740,
+      "score": 2.9478437314522763
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 751,
+      "score": 4.002404025999679
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 736,
+      "score": 0.7827864936929723
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 755,
+      "score": 2.478648718378244
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 720,
+      "score": 1.8327834550797346
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 740,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 751,
+      "score": 0.4817647892326715
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 740,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 751,
+      "score": 2.5989206871571513
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 755,
+      "score": 1.2552573252537287
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 731,
+      "score": 2.5756275468528176
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 720,
+      "score": 1.8223381323296317
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 740,
+      "score": 0.9383602191731141
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 751,
+      "score": 1.5796727922666445
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 755,
+      "score": 2.9759535366768275
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 731,
+      "score": 1.5270366845246521
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 754,
+      "score": 2.5208885259913014
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 720,
+      "score": 2.0825525831958207
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 740,
+      "score": 1.379529463156228
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 751,
+      "score": 2.1903214431160754
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 755,
+      "score": 2.1076030513332724
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 731,
+      "score": 2.6882601453667605
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 754,
+      "score": 2.3096700540306117
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 720,
+      "score": 1.1805176342424093
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 741,
+      "score": 0.8875626467538434
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 740,
+      "score": 1.7705869223558088
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 751,
+      "score": 1.3803598812187783
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 736,
+      "score": 1.5250215664913378
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 912,
+      "score": 2.3624976666210404
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 927,
+      "score": 2.1373253406623536
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 920,
+      "score": 2.268034105363718
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 924,
+      "score": 1.492477743036311
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 946,
+      "score": 3.9375379071579517
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 935,
+      "score": 0.7294189865355626
+    },
+    {
+      "sourceLocalId": 148,
+      "targetLocalId": 958,
+      "score": 1.1262575190142794
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 912,
+      "score": 1.8687785302685684
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 920,
+      "score": 2.9834527143915035
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 946,
+      "score": 3.391056905129832
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 114,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 912,
+      "score": 3.875361597512493
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 920,
+      "score": 4.124686792554395
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 946,
+      "score": 1.9483802901984046
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 139,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 914,
+      "score": 1.0000532144936887
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 912,
+      "score": 3.189488363963714
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 927,
+      "score": 1.411233270133224
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 920,
+      "score": 2.6342075516164885
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 924,
+      "score": 2.599671054974305
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 931,
+      "score": 0.1290389242196809
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 946,
+      "score": 3.3306055134981634
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 935,
+      "score": 1.5095325516828535
+    },
+    {
+      "sourceLocalId": 142,
+      "targetLocalId": 958,
+      "score": 3.6749715373324823
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 914,
+      "score": 1.4275963491144466
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 912,
+      "score": 5.640053721107901
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 927,
+      "score": 4.075493463071182
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 920,
+      "score": 2.9261646311091787
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 924,
+      "score": 2.2669496096002377
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 931,
+      "score": 0.3021227778169065
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 946,
+      "score": 6.61763938685643
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 935,
+      "score": 1.998627486183059
+    },
+    {
+      "sourceLocalId": 161,
+      "targetLocalId": 958,
+      "score": 1.8804542616009017
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 912,
+      "score": 1.464929890063403
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 112,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 912,
+      "score": 1.8549555830406799
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 125,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 912,
+      "score": 2.938329946405104
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 927,
+      "score": 1.8846691369713942
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 920,
+      "score": 1.185854122563145
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 924,
+      "score": 1.2216219661733196
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 931,
+      "score": 3.1229294215596637
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 946,
+      "score": 2.0829951975170427
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 141,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 912,
+      "score": 0.6435042997539866
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 927,
+      "score": 1.6642580121001433
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 920,
+      "score": 1.049662349414345
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 924,
+      "score": 1.2713785937749116
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 946,
+      "score": 0.7786397209424776
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 143,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 914,
+      "score": 1.248057838368259
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 912,
+      "score": 4.198995993911621
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 927,
+      "score": 1.5684152934750333
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 920,
+      "score": 1.3156759571686332
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 924,
+      "score": 2.456964633837915
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 931,
+      "score": 0.9077058780736696
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 946,
+      "score": 5.491194104628646
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 935,
+      "score": 3.7170254439442045
+    },
+    {
+      "sourceLocalId": 129,
+      "targetLocalId": 958,
+      "score": 4.036459910934173
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 520,
+      "score": 3.1045608179483772
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 550,
+      "score": 0.9442393721605016
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 536,
+      "score": 3.3405883286113878
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 561,
+      "score": 1.6097495692857415
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 541,
+      "score": 1.673885169351879
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 523,
+      "score": 2.4226198182129037
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 550,
+      "score": 1.5566569991597374
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 534,
+      "score": 0.695885145319697
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 536,
+      "score": 1.2168659034157325
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 561,
+      "score": 1.0389647976940148
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 528,
+      "score": 1.4495834591652292
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 541,
+      "score": 1.6161997573412452
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 523,
+      "score": 0.23510625946350186
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 536,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 561,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 541,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 523,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 520,
+      "score": 1.243797015908113
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 550,
+      "score": 1.2241088720744213
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 534,
+      "score": 3.471080587400271
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 536,
+      "score": 2.9113826748093286
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 561,
+      "score": 3.359964242366165
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 530,
+      "score": 2.1101822965633117
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 541,
+      "score": 2.3630867284331516
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 523,
+      "score": 1.4044090201573236
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 550,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 536,
+      "score": 1.0861996343597144
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 561,
+      "score": 2.1970396936579766
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 541,
+      "score": 3.8749573869393505
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 523,
+      "score": 1.9028852131841247
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 520,
+      "score": 1.434393279098499
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 550,
+      "score": 2.09505465823909
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 534,
+      "score": 1.294444281596517
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 536,
+      "score": 2.3127323558732353
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 561,
+      "score": 1.755265487841556
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 541,
+      "score": 0.9283382677772248
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 523,
+      "score": 2.221190230288063
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 538,
+      "score": 2.967140301473382
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 520,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 550,
+      "score": 0.8294667521009063
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 534,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 536,
+      "score": 2.807576950447488
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 561,
+      "score": 2.5747949435495916
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 530,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 541,
+      "score": 2.012283032233241
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 523,
+      "score": 1.9647540747859689
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 538,
+      "score": null
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 520,
+      "score": 0.08284535326181847
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 550,
+      "score": 1.3632389569836687
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 534,
+      "score": 3.7309355567369713
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 536,
+      "score": 3.447756921938055
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 561,
+      "score": 3.282055644298096
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 530,
+      "score": 2.158580464041889
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 528,
+      "score": null
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 541,
+      "score": 1.9637334500107102
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 523,
+      "score": 3.3063115008970945
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 740,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 751,
+      "score": 1.9249729553868498
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 755,
+      "score": 2.331759965846678
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 731,
+      "score": 2.2059703938427777
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 754,
+      "score": 0.8202430145823119
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 720,
+      "score": 1.6679513253796416
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 741,
+      "score": 2.909440426831291
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 740,
+      "score": 1.9598470149695029
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 751,
+      "score": 2.324668468006436
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 736,
+      "score": 1.7831539115571882
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 755,
+      "score": 3.054783111647443
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 754,
+      "score": 0.306195225854185
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 720,
+      "score": 1.6996149617063312
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 741,
+      "score": 1.4468713475491612
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 740,
+      "score": 2.2912257868905046
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 751,
+      "score": 1.8876592428916312
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 736,
+      "score": 0.2780381358106417
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 731,
+      "score": 2.7878181118145635
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 754,
+      "score": 2.2494382320072583
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 720,
+      "score": 0.6675235478949748
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 740,
+      "score": 3.016788043766106
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 751,
+      "score": 1.6748679247620377
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 755,
+      "score": 0.5220629288095873
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 731,
+      "score": 0.8491043603100276
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 720,
+      "score": 0.13617651297270528
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 740,
+      "score": 0.732344228540834
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 751,
+      "score": 0.8731369729065138
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 736,
+      "score": 2.706355165895746
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 755,
+      "score": 1.5053259934587186
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 731,
+      "score": 1.0063362761776322
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 754,
+      "score": 2.5733925575320478
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 720,
+      "score": 3.390288181920636
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 741,
+      "score": 0.3435812961557869
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 740,
+      "score": 2.2573311159849916
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 751,
+      "score": 1.129222541974166
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 736,
+      "score": 1.7551482373678593
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 755,
+      "score": 3.5534518959264374
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 754,
+      "score": 0.7217452477620239
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 720,
+      "score": 0.5294838520113966
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 740,
+      "score": 2.4862718623780315
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 751,
+      "score": 1.2549248187492734
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 755,
+      "score": 3.119954957821772
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 731,
+      "score": 3.1883212877654996
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 754,
+      "score": 2.827237265914246
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 735,
+      "score": 2.2446432886913237
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 720,
+      "score": 1.271627103348408
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 741,
+      "score": 1.803927808064045
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 740,
+      "score": 2.0764306926314418
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 751,
+      "score": 2.4097808889127257
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 736,
+      "score": 3.017088643046154
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 755,
+      "score": 1.8655137580510666
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 731,
+      "score": 2.891329047398024
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 754,
+      "score": 0.4852641757025945
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 735,
+      "score": 3.0686587732536683
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 720,
+      "score": 3.7776488230949536
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 741,
+      "score": 3.1807508245270357
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 740,
+      "score": 1.5123288276597755
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 751,
+      "score": 1.2394869982900707
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 736,
+      "score": 3.8065223114230005
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 755,
+      "score": 1.706222044290589
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 731,
+      "score": 3.0240506722905067
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 754,
+      "score": 2.353622130117818
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 720,
+      "score": 1.183304034782905
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 741,
+      "score": 3.342204772541235
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 740,
+      "score": 2.7444786704711284
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 751,
+      "score": 0.8046664893422918
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 736,
+      "score": 2.4716867672033613
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 912,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 924,
+      "score": 2.9834527143915044
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 946,
+      "score": 4.285999600444038
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 353,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 914,
+      "score": 0.4605164603729633
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 912,
+      "score": 0.9540947954375083
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 927,
+      "score": 0.7082358393230656
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 920,
+      "score": 1.4930844526180482
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 924,
+      "score": 1.5827255856138964
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 946,
+      "score": 1.3216626457414542
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 322,
+      "targetLocalId": 958,
+      "score": 1.8911348901516696
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 914,
+      "score": 0.9275215935458718
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 912,
+      "score": 2.5250906113783196
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 927,
+      "score": 3.3330964000836985
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 920,
+      "score": 2.060869146143873
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 924,
+      "score": 0.9481502518140112
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 931,
+      "score": 0.8031780599986487
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 946,
+      "score": 4.573153367243987
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 314,
+      "targetLocalId": 958,
+      "score": 0.34707615616189735
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 912,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 345,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 914,
+      "score": 2.873892701417233
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 949,
+      "score": 3.0864730339780695
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 912,
+      "score": 0.20890657957764364
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 924,
+      "score": 1.0818739271920472
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 946,
+      "score": 1.4158586351333389
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 343,
+      "targetLocalId": 958,
+      "score": 1.9536514342895264
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 914,
+      "score": 3.005134934501532
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 912,
+      "score": 2.4607694480128384
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 927,
+      "score": 0.5918859918745265
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 920,
+      "score": 1.6391796421234879
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 924,
+      "score": 3.0374031160822486
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 946,
+      "score": 3.16266852323893
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 935,
+      "score": 1.1918933522450914
+    },
+    {
+      "sourceLocalId": 332,
+      "targetLocalId": 958,
+      "score": 1.6904020123084782
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 912,
+      "score": 1.7121261697603902
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 920,
+      "score": 1.5693562699903274
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 924,
+      "score": 1.325296558482567
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 946,
+      "score": 3.9948265394389053
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 316,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 914,
+      "score": 0.8571688736624854
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 912,
+      "score": 3.108884427147321
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 927,
+      "score": 0.5798153474774502
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 920,
+      "score": 1.0989442858369058
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 924,
+      "score": 0.9985780700036285
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 946,
+      "score": 2.345545017476897
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 935,
+      "score": 1.5275252316519368
+    },
+    {
+      "sourceLocalId": 327,
+      "targetLocalId": 958,
+      "score": 3.476787519153737
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 914,
+      "score": 2.0394246956766846
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 949,
+      "score": 2.87389270141724
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 912,
+      "score": 2.135929277080163
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 927,
+      "score": 0.373223190704603
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 920,
+      "score": 2.780085484117937
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 924,
+      "score": 2.921782082536002
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 946,
+      "score": 1.38793726912051
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 335,
+      "targetLocalId": 958,
+      "score": 1.3211525663595798
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 914,
+      "score": 1.2655891121780145
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 912,
+      "score": 5.801440601030088
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 927,
+      "score": 1.3352473338677477
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 920,
+      "score": 1.7072890977061523
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 924,
+      "score": 3.0697965580097812
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 946,
+      "score": 5.598821999714895
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 935,
+      "score": 1.1783815383383065
+    },
+    {
+      "sourceLocalId": 359,
+      "targetLocalId": 958,
+      "score": 1.0760504995081803
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 740,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 751,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 755,
+      "score": 1.15622885374972
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 740,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 751,
+      "score": 2.6656988014968275
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 755,
+      "score": 0.6410831098182088
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 720,
+      "score": 1.3075500140663676
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 740,
+      "score": 1.5803036080394057
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 751,
+      "score": 0.058166469753257115
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 755,
+      "score": 2.6552450667654655
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 731,
+      "score": 5.46595408253992
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 754,
+      "score": 2.1690086288143506
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 720,
+      "score": 3.238746595943452
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 740,
+      "score": 1.2619801883307031
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 751,
+      "score": 3.1556652607457534
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 736,
+      "score": 1.8880978541648685
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 755,
+      "score": 1.781795928069189
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 731,
+      "score": 1.0721266531338893
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 754,
+      "score": 3.004795972936584
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 720,
+      "score": 0.5155963170488931
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 741,
+      "score": 2.6245443920121296
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 740,
+      "score": 1.6130712113388592
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 751,
+      "score": 2.4497768728572544
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 736,
+      "score": 2.5244726052189366
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 755,
+      "score": 2.339191983976181
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 731,
+      "score": 1.2051668812002896
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 754,
+      "score": 0.3828875907179021
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 720,
+      "score": 2.1782223919706682
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 741,
+      "score": 2.888976272325176
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 740,
+      "score": 1.2012306164944344
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 751,
+      "score": 2.256360850643873
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 736,
+      "score": 0.5089454958842509
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 740,
+      "score": 2.9195563916132086
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 751,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 736,
+      "score": 2.7080128015453373
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 755,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 731,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 754,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 720,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 740,
+      "score": 3.0864730339780606
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 751,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 736,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 755,
+      "score": 0.6833659438258384
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 731,
+      "score": 1.9155205886741125
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 754,
+      "score": 1.2843004253998147
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 720,
+      "score": 1.562348393514906
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 741,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 740,
+      "score": 0.757598778188409
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 751,
+      "score": 3.616775157987582
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 736,
+      "score": 2.8300192594766904
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 755,
+      "score": 4.891813388006103
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 731,
+      "score": 2.2468907935456746
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 754,
+      "score": 0.6742520304607802
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 735,
+      "score": null
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 720,
+      "score": 1.3962559678385558
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 741,
+      "score": 2.365217125417291
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 727,
+      "score": null
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 740,
+      "score": 3.1837837506662265
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 751,
+      "score": 0.8069641255877411
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 736,
+      "score": 2.316130726622071
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 912,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 538,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 912,
+      "score": 0.6130621498352152
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 920,
+      "score": 1.004913822343504
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 520,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 914,
+      "score": 0.8984792897626869
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 912,
+      "score": 2.6038990422615447
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 920,
+      "score": 0.7694611912793162
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 946,
+      "score": 1.9868783427824643
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 550,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 914,
+      "score": 1.8727115681243163
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 912,
+      "score": 2.073198542990032
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 927,
+      "score": 1.4059663283850434
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 920,
+      "score": 1.0309919970713857
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 924,
+      "score": 3.1424682968998425
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 946,
+      "score": 4.025035614982516
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 534,
+      "targetLocalId": 958,
+      "score": 2.8444523358476355
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 914,
+      "score": 0.5268821579358548
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 912,
+      "score": 3.634112211021311
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 927,
+      "score": 0.8803119581559095
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 920,
+      "score": 2.9697766195402884
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 924,
+      "score": 1.1114207784247383
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 931,
+      "score": 3.2779621157788545
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 946,
+      "score": 1.7596859138605023
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 536,
+      "targetLocalId": 958,
+      "score": 0.5583405859142561
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 914,
+      "score": 0.22617457827521267
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 912,
+      "score": 4.9738519883975565
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 927,
+      "score": 0.489555669957216
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 920,
+      "score": 0.6776308243957937
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 924,
+      "score": 2.428282393730782
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 946,
+      "score": 3.824657358378758
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 935,
+      "score": 3.141586417304373
+    },
+    {
+      "sourceLocalId": 561,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 912,
+      "score": 0.7920859684691808
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 920,
+      "score": 1.8906331474331495
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 946,
+      "score": 1.3330515693359815
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 530,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 912,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 528,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 914,
+      "score": 1.8764570772145381
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 912,
+      "score": 0.6315348110587075
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 927,
+      "score": 0.8155157293812536
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 920,
+      "score": 1.7300903646004337
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 924,
+      "score": 1.5886866592964937
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 946,
+      "score": 1.3275928419174883
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 541,
+      "targetLocalId": 958,
+      "score": 1.5259813480785145
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 914,
+      "score": 4.257227356850796
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 912,
+      "score": 4.858427905668714
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 927,
+      "score": 0.39244195769478923
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 920,
+      "score": 2.9455922799129777
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 924,
+      "score": 3.3041254848672525
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 931,
+      "score": 2.300991803518082
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 946,
+      "score": 1.9518922204998883
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 935,
+      "score": 2.6217697563482334
+    },
+    {
+      "sourceLocalId": 523,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 914,
+      "score": 2.6577838260415847
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 912,
+      "score": 7.866249104595442
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 927,
+      "score": 1.7192148061252381
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 920,
+      "score": 5.374306487882538
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 924,
+      "score": 2.495459667883337
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 931,
+      "score": 0.4836840029882005
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 946,
+      "score": 7.660391446102914
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 935,
+      "score": 1.2037600686843966
+    },
+    {
+      "sourceLocalId": 755,
+      "targetLocalId": 958,
+      "score": 1.6453065037123225
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 914,
+      "score": 1.4335778771038792
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 912,
+      "score": 1.919280910525638
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 920,
+      "score": 3.739572230666889
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 924,
+      "score": 0.5252386452494735
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 946,
+      "score": 1.7064891784951153
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 731,
+      "targetLocalId": 958,
+      "score": 2.4246867849443885
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 914,
+      "score": 0.9815990310363925
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 912,
+      "score": 1.0908666044381188
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 927,
+      "score": 0.9879359038443192
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 920,
+      "score": 1.6087557447032867
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 924,
+      "score": 0.25083849498745764
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 931,
+      "score": 2.9351975428213506
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 946,
+      "score": 2.169670580313838
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 754,
+      "targetLocalId": 958,
+      "score": 1.6756815150382964
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 912,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 735,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 914,
+      "score": 1.9036117269153998
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 912,
+      "score": 3.9719471247700566
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 927,
+      "score": 3.146360544714215
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 920,
+      "score": 3.9742270790671124
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 924,
+      "score": 2.3192930429369385
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 931,
+      "score": 2.0385800925812285
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 946,
+      "score": 4.512461250572607
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 935,
+      "score": 1.4485099652774605
+    },
+    {
+      "sourceLocalId": 720,
+      "targetLocalId": 958,
+      "score": 0.5094830916624643
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 914,
+      "score": 1.890633147433149
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 912,
+      "score": 2.678574355567937
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 927,
+      "score": 2.844517337013915
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 920,
+      "score": 2.384528869751617
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 946,
+      "score": 2.2635323573157047
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 741,
+      "targetLocalId": 958,
+      "score": 4.579161581149489
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 914,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 912,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 927,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 920,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 931,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 946,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 727,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 914,
+      "score": 2.29297247320294
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 912,
+      "score": 1.8701554157405018
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 927,
+      "score": 0.8780999468956521
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 920,
+      "score": 3.3783669462043187
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 924,
+      "score": 1.7270552868244666
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 931,
+      "score": 3.0909321110205266
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 946,
+      "score": 4.461849882183595
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 935,
+      "score": 2.112931819609161
+    },
+    {
+      "sourceLocalId": 740,
+      "targetLocalId": 958,
+      "score": null
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 914,
+      "score": 2.0150031500874697
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 912,
+      "score": 6.2946954770287284
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 927,
+      "score": 1.3196696750932095
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 920,
+      "score": 4.1106362281008755
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 924,
+      "score": 2.240662962034352
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 931,
+      "score": 0.5920833847294605
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 946,
+      "score": 9.897935619874579
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 935,
+      "score": 2.9834527143915
+    },
+    {
+      "sourceLocalId": 751,
+      "targetLocalId": 958,
+      "score": 1.027792046726866
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 914,
+      "score": 1.144608733493757
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 949,
+      "score": null
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 912,
+      "score": 2.217484422807133
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 927,
+      "score": 0.9475309294840405
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 920,
+      "score": 2.1302879916002637
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 924,
+      "score": null
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 931,
+      "score": 3.2600470819827394
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 946,
+      "score": 3.8359984674191256
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 935,
+      "score": null
+    },
+    {
+      "sourceLocalId": 736,
+      "targetLocalId": 958,
+      "score": null
+    }
+  ]
+}

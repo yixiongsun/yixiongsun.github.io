@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import MediaPreview from '../components/MediaPreview.astro';
+import DiseaseConnectivity from '../components/projects/spwr-network-simulation/DiseaseConnectivity.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { experience, projects } from '../data/portfolio';
@@ -10,7 +11,7 @@ const highlightedExperience = experience.filter((item) =>
   ['Takehara Lab, University of Toronto', 'iVenuto.com Corporation'].includes(item.organization),
 );
 const highlightedProjects = projects.filter((project) =>
-  ['evidneuro', 'neural-event-classification'].includes(project.slug),
+  ['evidneuro', 'neural-event-classification', 'mechanistic-modeling-of-hippocampal-network-dysfunction'].includes(project.slug),
 );
 const neuralEventPreview = {
   type: 'image' as const,
@@ -84,6 +85,9 @@ const neuralEventPreview = {
                   media={project.slug === 'neural-event-classification' ? neuralEventPreview : project.media}
                   compact
                 />
+              )}
+              {project.slug === 'mechanistic-modeling-of-hippocampal-network-dysfunction' && (
+                <DiseaseConnectivity mode="neutral" compact />
               )}
             </a>
           ))}

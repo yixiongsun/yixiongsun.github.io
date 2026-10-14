@@ -12,6 +12,7 @@ const populations = [
 ---
 
 <section
+  id="network-view"
   class="network-simulation"
   data-network-simulation
   data-manifest-url={withBase('data/pfc-hpc/default_sv0/manifest.json')}
@@ -47,7 +48,7 @@ const populations = [
       <span><i class="filled"></i>Pyramidal</span>
       <span><i class="ring"></i>Interneuron</span>
       <span><i class="bright"></i>Recent spike</span>
-      <span data-cofiring-key hidden><i class="cofiring"></i>CA1 cofiring sample (50)</span>
+      <span data-cofiring-key hidden><i class="cofiring"></i>CA1 coactivity sample (50)</span>
     </div>
     <section class="connectivity-overlay" data-connectivity-block hidden aria-labelledby="connectivity-title">
       <div class="connectivity-overlay__heading">
@@ -66,7 +67,7 @@ const populations = [
   <section class="signal-panel" data-signal-panel hidden aria-labelledby="current-panel-title">
     <header class="signal-header">
       <div>
-        <h3 id="current-panel-title">CA1 somatic-current proxy</h3>
+        <h3 id="current-panel-title">CA1 somatic current</h3>
       </div>
       <label class="window-control">
         <span>Window</span>
@@ -166,7 +167,7 @@ const populations = [
         <option value="interspersed" selected>Interspersed</option>
         <option value="neuron">Neuron activity</option>
         <option value="separated">Separated</option>
-        <option value="cofiring">Cofiring</option>
+        <option value="cofiring">Coactivity</option>
       </select>
     </label>
     <output data-time aria-label="Current simulation time">0.000 s / 30.000 s</output>
@@ -183,8 +184,7 @@ const populations = [
   </div>
 
   <div class="cofiring-controls" data-cofiring-controls hidden>
-    <output data-cofiring-status aria-live="polite">Loading cofiring scores…</output>
-    <p>Peak positive z-score within ±25 ms, calculated across the recording outside detected SPW-Rs. Lines glow when both neurons fire within 50 ms and fade over 0.3 s.</p>
+    <output data-cofiring-status aria-live="polite"></output>
   </div>
 
   <label class="timeline-label" for="network-timeline">Simulation time</label>
@@ -451,7 +451,6 @@ const populations = [
     function updateCofiringThreshold() {
       displayedCofiringEdges = selectCofiringEdges(cofiringEdges, COFIRING_THRESHOLD);
       cofiringPairPulses = buildCofiringPulseTicks(displayedCofiringEdges, spikes, manifest.tickMs);
-      cofiringStatus.value = `${displayedCofiringEdges.length} connections · score > ${COFIRING_THRESHOLD}`;
     }
 
     function showError(message: string) {
@@ -888,7 +887,7 @@ const populations = [
         const bandTop = top + channel * (bandHeight + gap);
         const metadata = rateDescriptor.channels[channel];
         const population = manifest.populations.find((entry) => entry.id === metadata.id);
-        const color = population ? REGION_COLORS[population.region] : '#c7c9c2';
+        const color = metadata.id === 'ca1-py' ? COFIRING_SAMPLE_COLOR : population ? REGION_COLORS[population.region] : '#c7c9c2';
         const domain = rateDomains[channel];
         rateContext.fillStyle = channel % 2 === 0 ? '#111310' : '#10120f';
         rateContext.fillRect(left, bandTop, plotWidth, bandHeight);
@@ -1429,7 +1428,7 @@ const populations = [
         const population = manifest.populations[populationIndex];
         const groupTop = groupsTop + populationIndex * (groupHeight + groupGap);
         const rateTop = groupTop + rasterHeight;
-        const color = REGION_COLORS[population.region];
+        const color = population.id === 'ca1-py' ? COFIRING_SAMPLE_COLOR : REGION_COLORS[population.region];
         const emphasized = population.region === 'CA1';
         const visiblePopulation = visiblePopulations[populationIndex];
         const channel = rateDescriptor.channels.findIndex((metadata) => metadata.id === population.id);
@@ -1612,7 +1611,7 @@ const populations = [
     }
 
     function updateLayoutCopy(interspersed: boolean) {
-      layoutTitle.textContent = cofiringLayout ? 'CA1 cofiring sample' : interspersed ? 'Interspersed neuron view' : 'Separated neuron lanes';
+      layoutTitle.textContent = cofiringLayout ? 'CA1 coactivity sample' : interspersed ? 'Interspersed neuron view' : 'Separated neuron lanes';
       layoutDescription.textContent = '';
       layoutDescription.hidden = true;
     }
@@ -1624,7 +1623,7 @@ const populations = [
       const activity = networkView === 'activity';
       root.classList.toggle('is-activity-view', activity);
       cofiringKey.hidden = !cofiringLayout;
-      cofiringControls.hidden = !cofiringLayout;
+      cofiringControls.hidden = !cofiringLayout || !cofiringStatus.value;
       canvasKey.hidden = activity;
       if (activity) {
         viewLabel.textContent = 'View';
@@ -1641,7 +1640,7 @@ const populations = [
       render();
     }
 
-    function animateLayout(nextTarget: number) {
+    function animateLayout(nextTarget: number, animate = true) {
       cancelAnimationFrame(layoutAnimationRequest);
       layoutTarget = nextTarget;
       updateLayoutCopy(layoutTarget === 1);
@@ -1650,6 +1649,13 @@ const populations = [
       const duration = 560;
       const startedAt = performance.now();
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+
+      if (!animate || layoutMix === layoutTarget) {
+        layoutMix = layoutTarget;
+        drawBackground(pixelRatio, layoutLabelWidth, layoutTopPadding, layoutGap, layoutBandHeight);
+        render();
+        return;
+      }
 
       const step = (now: number) => {
         const progress = Math.min(1, (now - startedAt) / duration);
@@ -1737,9 +1743,10 @@ const populations = [
       seek(currentMs + (event.key === 'ArrowRight' ? 100 : -100));
     });
     layoutSelect.addEventListener('change', () => {
+      const returningFromActivity = networkView === 'activity';
       cofiringLayout = layoutSelect.value === 'cofiring';
       setNetworkView(layoutSelect.value === 'neuron' ? 'activity' : 'neurons');
-      if (networkView === 'neurons') animateLayout(layoutSelect.value === 'separated' ? 0 : 1);
+      if (networkView === 'neurons') animateLayout(layoutSelect.value === 'separated' ? 0 : 1, !returningFromActivity);
     });
     function selectNeuronAt(clientX: number, clientY: number) {
       if (networkView === 'activity') return;
@@ -1838,7 +1845,7 @@ const populations = [
           cofiringEdges = parseCofiringEdges(await response.json(), manifest.runId, manifest.populations);
           updateCofiringThreshold();
         } catch (error) {
-          cofiringStatus.value = `Cofiring connections unavailable (${error instanceof Error ? error.message : 'load failed'}).`;
+          cofiringStatus.value = `Coactivity connections unavailable (${error instanceof Error ? error.message : 'load failed'}).`;
         }
 
         const optionalFailures: string[] = [];
@@ -1915,13 +1922,11 @@ const populations = [
 </script>
 
 <style>
+  #network-view { scroll-margin-top: 24px; }
   .network-simulation {
     width: min(var(--project-figure-width), calc(100vw - 36px));
     margin: 0 0 var(--project-section-gap) 50%;
-    padding: 20px;
     transform: translateX(-50%);
-    border: 1px solid var(--rule);
-    background: #131512;
   }
   .simulation-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 16px; }
   .eyebrow { margin: 0 0 7px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
@@ -1949,8 +1954,6 @@ const populations = [
   .layout-control { display: flex; align-items: center; gap: 8px; color: var(--text); font-size: 11px; }
   .cofiring-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; margin-top: 14px; padding: 10px 12px; border: 1px solid #464944; }
   .cofiring-controls[hidden] { display: none; }
-  .cofiring-controls label { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: var(--text); font-size: 11px; }
-  .cofiring-controls p { flex-basis: 100%; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
   .connectivity-overlay { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; padding: 10px 12px; border-top: 1px solid #353833; background: rgba(15, 17, 15, .96); backdrop-filter: blur(5px); }
   .connectivity-overlay[hidden] { display: none; }
   .connectivity-overlay__heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 8px; }
@@ -2023,7 +2026,6 @@ const populations = [
   .simulation-error { margin: 14px 0 0; padding: 10px 12px; border: 1px solid #784f4f; color: #d6a2a2; font-size: 11px; }
 
   @media (max-width: 620px) {
-    .network-simulation { padding: 13px; }
     .simulation-header { display: block; }
     .simulation-header h2 { font-size: 16px; }
     .load-status { margin-top: 9px; text-align: left; }

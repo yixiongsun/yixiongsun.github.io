@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "runs": [
+    {
+      "id": "def_ca3a31ca1_min_125_max_135_sv0",
+      "label": "Baseline",
+      "conditionCategory": "increased-glutamate-baseline",
+      "seed": 0,
+      "manifestUrl": "def_ca3a31ca1_min_125_max_135_sv0/manifest.json",
+      "spwrEventCount": 27
+    },
+    {
+      "id": "exp25%_150_ca3a31ca1_min_125_max_135_sv0",
+      "label": "Experience strengthened",
+      "conditionCategory": "increased-glutamate-experience",
+      "seed": 0,
+      "manifestUrl": "exp25%25_150_ca3a31ca1_min_125_max_135_sv0/manifest.json",
+      "spwrEventCount": 34
+    },
+    {
+      "id": "def_ca3a31_20_perc_10_sv0",
+      "label": "Baseline",
+      "conditionCategory": "reduced-inhibition-baseline",
+      "seed": 0,
+      "manifestUrl": "def_ca3a31_20_perc_10_sv0/manifest.json",
+      "spwrEventCount": 28
+    },
+    {
+      "id": "exp25%_150_ca3a31_20_perc_10_sv0",
+      "label": "Experience strengthened",
+      "conditionCategory": "reduced-inhibition-experience",
+      "seed": 0,
+      "manifestUrl": "exp25%25_150_ca3a31_20_perc_10_sv0/manifest.json",
+      "spwrEventCount": 29
+    }
+  ]
+}

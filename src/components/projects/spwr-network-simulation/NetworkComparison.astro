@@ -1,6 +1,23 @@
 ---
 import { withBase } from '../../../utils/paths';
 
+interface Props {
+  baselineId?: string;
+  experienceId?: string;
+  catalogPath?: string;
+  comparisonId?: string;
+  label?: string;
+}
+
+const {
+  baselineId = 'default_sv0',
+  experienceId = 'exp_25%_150_sv0',
+  catalogPath = 'data/pfc-hpc/runs.json',
+  comparisonId = 'comparison',
+  label = 'Simulation run comparison',
+} = Astro.props;
+const timelineId = `${comparisonId}-timeline`;
+
 const populations = [
   { id: 'pfc-py', label: 'PFC pyramidal', color: '#8f948d' },
   { id: 'pfc-in', label: 'PFC interneurons', color: '#8f948d' },
@@ -14,42 +31,39 @@ const populations = [
 <section
   class="network-comparison"
   data-network-comparison
-  data-catalog-url={withBase('data/pfc-hpc/runs.json')}
-  aria-labelledby="network-comparison-title"
+  data-catalog-url={withBase(catalogPath)}
+  aria-label={label}
   aria-busy="true"
 >
-  <header class="comparison-header">
-    <h2 id="network-comparison-title">Baseline and experience-strengthened runs</h2>
-    <p class="comparison-status" data-comparison-status>Loading both simulation runs…</p>
-  </header>
+  <p class="comparison-status" data-comparison-status>Loading both simulation runs…</p>
 
   <div class="condition-grid">
-    <article class="condition-panel" data-run-panel="default_sv0">
+    <article class="condition-panel" data-run-panel={baselineId}>
       <header><h3 data-run-label>Baseline</h3></header>
       <div class="comparison-view-heading">
         <span>View</span>
-        <h4 data-network-heading>Interspersed neuron view</h4>
+        <h4 data-network-heading>CA1 coactivity sample</h4>
       </div>
       <p class="comparison-cofiring-summary" data-comparison-cofiring-summary hidden></p>
       <canvas class="comparison-network-canvas" width="500" height="420" data-comparison-network role="img" tabindex="0" aria-label="Baseline selectable network spike activity"></canvas>
       <div class="comparison-signal-header">
-        <h4>CA1 somatic-current proxy</h4>
+        <h4>CA1 somatic current</h4>
         <label class="comparison-window-control"><span>Window</span><select data-comparison-window disabled><option value="500">0.5 s</option><option value="1000">1 s</option><option value="2000" selected>2 s</option><option value="5000">5 s</option></select></label>
       </div>
       <canvas class="comparison-current-canvas" width="500" height="150" data-comparison-currents role="img" aria-label="Baseline summed CA1 somatic model current, an LFP-like proxy rather than a measured LFP or membrane voltage"></canvas>
       <section class="comparison-rate-legacy" hidden><canvas class="comparison-rate-canvas" width="500" height="328" data-comparison-rates></canvas></section>
     </article>
 
-    <article class="condition-panel" data-run-panel="exp_25%_150_sv0">
+    <article class="condition-panel" data-run-panel={experienceId}>
       <header><h3 data-run-label>Experience-strengthened</h3></header>
       <div class="comparison-view-heading">
         <span>View</span>
-        <h4 data-network-heading>Interspersed neuron view</h4>
+        <h4 data-network-heading>CA1 coactivity sample</h4>
       </div>
       <p class="comparison-cofiring-summary" data-comparison-cofiring-summary hidden></p>
       <canvas class="comparison-network-canvas" width="500" height="420" data-comparison-network role="img" tabindex="0" aria-label="Experience-strengthened selectable network spike activity"></canvas>
       <div class="comparison-signal-header">
-        <h4>CA1 somatic-current proxy</h4>
+        <h4>CA1 somatic current</h4>
         <label class="comparison-window-control"><span>Window</span><select data-comparison-window disabled><option value="500">0.5 s</option><option value="1000">1 s</option><option value="2000" selected>2 s</option><option value="5000">5 s</option></select></label>
       </div>
       <canvas class="comparison-current-canvas" width="500" height="150" data-comparison-currents role="img" aria-label="Experience-strengthened summed CA1 somatic model current, an LFP-like proxy rather than a measured LFP or membrane voltage"></canvas>
@@ -62,10 +76,10 @@ const populations = [
     <button type="button" data-comparison-restart disabled>Restart</button>
     <label class="comparison-layout-control"><span>Layout</span>
       <select data-comparison-layout-select disabled>
-        <option value="interspersed" selected>Interspersed</option>
+        <option value="interspersed">Interspersed</option>
         <option value="neuron">Neuron activity</option>
         <option value="separated">Separated</option>
-        <option value="cofiring">Cofiring</option>
+        <option value="cofiring" selected>Coactivity</option>
       </select>
     </label>
     <output data-comparison-time>0.000 s / 30.000 s</output>
@@ -81,8 +95,8 @@ const populations = [
     </label>
   </div>
 
-  <label class="comparison-timeline-label" for="comparison-timeline">Simulation time</label>
-  <input id="comparison-timeline" class="comparison-timeline" data-comparison-timeline type="range" min="0" max="30000" step="1" value="0" disabled />
+  <label class="comparison-timeline-label" for={timelineId}>Simulation time</label>
+  <input id={timelineId} class="comparison-timeline" data-comparison-timeline type="range" min="0" max="30000" step="1" value="0" disabled />
 
   <fieldset class="comparison-populations" data-comparison-populations disabled>
     <legend>Visible populations</legend>
@@ -125,14 +139,13 @@ const populations = [
     computeUnionDomains,
   } from '../../../lib/comparison-viewer';
 
-  const RUN_IDS = ['default_sv0', 'exp_25%_150_sv0'] as const;
   const REGION_COLORS: Record<string, string> = { PFC: '#8f948d', CA3: '#b9bdb7', CA1: '#e5e7e2' };
   const REGIONS = ['PFC', 'CA3', 'CA1'] as const;
   const ACTIVE_WINDOW_MS = 500;
   const DECAY_MS = 120;
 
   interface RunView {
-    id: typeof RUN_IDS[number];
+    id: string;
     panel: HTMLElement;
     networkCanvas: HTMLCanvasElement;
     currentCanvas: HTMLCanvasElement;
@@ -174,7 +187,7 @@ const populations = [
     const playButton = root.querySelector<HTMLButtonElement>('[data-comparison-play]')!;
     const restartButton = root.querySelector<HTMLButtonElement>('[data-comparison-restart]')!;
     const layoutSelect = root.querySelector<HTMLSelectElement>('[data-comparison-layout-select]')!;
-    let cofiringLayout = false;
+    let cofiringLayout = layoutSelect.value === 'cofiring';
     const windowSelects = [...root.querySelectorAll<HTMLSelectElement>('[data-comparison-window]')];
     const speedSelect = root.querySelector<HTMLSelectElement>('[data-comparison-speed]')!;
     const timeOutput = root.querySelector<HTMLOutputElement>('[data-comparison-time]')!;
@@ -182,8 +195,8 @@ const populations = [
     const populationControls = root.querySelector<HTMLFieldSetElement>('[data-comparison-populations]')!;
     const populationToggles = [...root.querySelectorAll<HTMLInputElement>('[data-comparison-population]')];
 
-    const runs = RUN_IDS.map((id): RunView => {
-      const panel = root.querySelector<HTMLElement>(`[data-run-panel="${id}"]`)!;
+    const runs = [...root.querySelectorAll<HTMLElement>('[data-run-panel]')].map((panel): RunView => {
+      const id = panel.dataset.runPanel!;
       const networkCanvas = panel.querySelector<HTMLCanvasElement>('[data-comparison-network]')!;
       const currentCanvas = panel.querySelector<HTMLCanvasElement>('[data-comparison-currents]')!;
       const rateCanvas = panel.querySelector<HTMLCanvasElement>('[data-comparison-rates]')!;
@@ -542,6 +555,7 @@ const populations = [
       target.fillStyle = '#0f110f';
       target.fillRect(0, 0, run.cssWidth, run.cssHeight);
       target.textBaseline = 'top';
+      target.textAlign = 'left';
 
       run.manifest.populations.forEach((population, populationIndex) => {
         const groupTop = groupsTop + populationIndex * (groupHeight + groupGap);
@@ -549,7 +563,7 @@ const populations = [
         const channel = run.rateDescriptor!.channels.findIndex((metadata) => metadata.id === population.id);
         const maximum = Math.max(1, channel >= 0 ? sharedRateDomains[channel]?.max ?? 1 : 1);
         const domain = { min: 0, max: maximum };
-        const color = REGION_COLORS[population.region];
+        const color = population.id === 'ca1-py' ? COFIRING_SAMPLE_COLOR : REGION_COLORS[population.region];
         const emphasized = population.region === 'CA1';
         const populationVisible = visiblePopulations[populationIndex];
         target.fillStyle = emphasized ? '#141714' : populationIndex % 2 === 0 ? '#111310' : '#10120f';
@@ -648,7 +662,7 @@ const populations = [
         ? ['#cfd3cd', '#b9bdb7', '#e5e7e2']
         : descriptor.channels.map((channel) => {
             const population = run.manifest!.populations.find((entry) => entry.id === channel.id);
-            return population ? REGION_COLORS[population.region] : '#c7c9c2';
+            return channel.id === 'ca1-py' ? COFIRING_SAMPLE_COLOR : population ? REGION_COLORS[population.region] : '#c7c9c2';
           });
 
       target.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -804,12 +818,13 @@ const populations = [
 
     function setNetworkView(nextView: 'neurons' | 'activity') {
       if (selectedNeuronId >= 0) return;
+      cancelAnimationFrame(layoutAnimationRequest);
       networkView = nextView;
       const activity = networkView === 'activity';
       runs.forEach((run) => {
         run.networkHeading.textContent = activity
           ? 'Population rasters and firing rates'
-          : cofiringLayout ? 'CA1 cofiring sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+          : cofiringLayout ? 'CA1 coactivity sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
         run.networkCanvas.setAttribute('aria-label', activity
           ? `${run.catalog?.label ?? run.id} grouped population spike rasters and smoothed firing rates`
           : `${run.catalog?.label ?? run.id} selectable network spike activity`);
@@ -817,12 +832,18 @@ const populations = [
       render();
     }
 
-    function animateLayout(nextTarget: number) {
+    function animateLayout(nextTarget: number, animate = true) {
       cancelAnimationFrame(layoutAnimationRequest);
       layoutTarget = nextTarget;
       runs.forEach((run) => {
-        run.networkHeading.textContent = cofiringLayout ? 'CA1 cofiring sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+        run.networkHeading.textContent = cofiringLayout ? 'CA1 coactivity sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
       });
+      if (!animate || layoutMix === layoutTarget) {
+        layoutMix = layoutTarget;
+        runs.forEach(drawNetworkBackground);
+        render();
+        return;
+      }
       const startMix = layoutMix;
       const startedAt = performance.now();
       const step = (now: number) => {
@@ -868,7 +889,7 @@ const populations = [
         selectedNeuronId = -1;
         layoutSelect.disabled = false;
         runs.forEach((run) => {
-          run.networkHeading.textContent = cofiringLayout ? 'CA1 cofiring sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
+          run.networkHeading.textContent = cofiringLayout ? 'CA1 coactivity sample' : layoutTarget === 1 ? 'Interspersed neuron view' : 'Separated neuron lanes';
           run.networkCanvas.setAttribute('aria-label', `${run.catalog?.label ?? run.id} selectable network spike activity`);
         });
         render();
@@ -915,10 +936,11 @@ const populations = [
       anchorSharedMs = sharedTimeMs;
     });
     layoutSelect.addEventListener('change', () => {
+      const returningFromActivity = networkView === 'activity';
       cofiringLayout = layoutSelect.value === 'cofiring';
-      runs.forEach((run) => { run.cofiringSummary.hidden = !cofiringLayout; });
+      runs.forEach((run) => { run.cofiringSummary.hidden = !cofiringLayout || !run.cofiringSummary.textContent; });
       setNetworkView(layoutSelect.value === 'neuron' ? 'activity' : 'neurons');
-      if (networkView === 'neurons') animateLayout(layoutSelect.value === 'separated' ? 0 : 1);
+      if (networkView === 'neurons') animateLayout(layoutSelect.value === 'separated' ? 0 : 1, !returningFromActivity);
     });
     runs.forEach((run) => {
       run.networkCanvas.addEventListener('click', (event) => selectNeuronAt(run, event.clientX, event.clientY));
@@ -982,9 +1004,9 @@ const populations = [
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         run.cofiringEdges = selectCofiringEdges(parseCofiringEdges(await response.json(), manifest.runId, manifest.populations), COFIRING_THRESHOLD);
         run.cofiringPairPulses = buildCofiringPulseTicks(run.cofiringEdges, run.spikes, manifest.tickMs);
-        run.cofiringSummary.textContent = `${run.cofiringEdges.length} connections · z-score > ${COFIRING_THRESHOLD} · both fire within 50 ms`;
       } catch (error) {
-        run.cofiringSummary.textContent = `Cofiring connections unavailable (${error instanceof Error ? error.message : 'load failed'}).`;
+        run.cofiringSummary.textContent = `Coactivity connections unavailable (${error instanceof Error ? error.message : 'load failed'}).`;
+        run.cofiringSummary.hidden = !cofiringLayout;
       }
       run.labelOutput.textContent = entry.label;
     }
@@ -1023,9 +1045,7 @@ const populations = [
 </script>
 
 <style>
-  .network-comparison { width: min(var(--project-figure-width), calc(100vw - 36px)); margin: 0 0 var(--project-section-gap) 50%; padding: 20px; transform: translateX(-50%); border: 1px solid var(--rule); background: #131512; }
-  .comparison-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-bottom: 17px; }
-  .comparison-header h2 { margin: 0; color: var(--text-strong); font-size: 18px; line-height: 1.35; font-weight: 400; }
+  .network-comparison { width: min(var(--project-figure-width), calc(100vw - 36px)); margin: 0 0 var(--project-section-gap) 50%; transform: translateX(-50%); }
   .comparison-status { max-width: 360px; margin: 0; color: var(--text); font-size: 11px; line-height: 1.45; text-align: right; }
   .comparison-controls { display: grid; grid-template-columns: auto auto auto minmax(150px, 1fr) auto; gap: 9px; align-items: center; margin-top: 14px; }
   button, select { min-height: 36px; border: 1px solid #464944; border-radius: 0; background: #1a1c19; color: var(--text); font: inherit; font-size: 11px; }
@@ -1047,7 +1067,7 @@ const populations = [
   .comparison-populations label { display: flex; align-items: center; gap: 6px; color: var(--text); font-size: 11px; }
   .comparison-populations input { margin: 0; accent-color: var(--population-color); }
   .condition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
-  .condition-panel { min-width: 0; padding: 13px; border: 1px solid #292c28; background: #111310; }
+  .condition-panel { min-width: 0; }
   .condition-panel > header { margin-bottom: 16px; }
   .condition-panel h3 { margin: 0; color: var(--text-strong); font-size: 18px; line-height: 1.35; font-weight: 400; }
   .comparison-view-heading { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; margin: 0 0 9px; }
@@ -1070,9 +1090,6 @@ const populations = [
   }
 
   @media (max-width: 620px) {
-    .network-comparison { padding: 12px; }
-    .comparison-header { display: block; }
-    .comparison-header h2 { font-size: 16px; }
     .comparison-status { margin-top: 8px; text-align: left; }
     .comparison-controls { grid-template-columns: 1fr 1fr; }
     .comparison-controls output { grid-column: 1 / -1; grid-row: 1; text-align: left; }

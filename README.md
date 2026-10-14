@@ -101,6 +101,22 @@ header. See `docs/spwr-network-visualization-implementation-plan.md` for the dat
 connectivity is accepted only from live constructed Brian2 synapses whose run ID and seed match the
 published run; it is never regenerated from the seed after the simulation.
 
+The two disease comparisons use seed 0 from the main analysis in `Figure5-Copy1.ipynb`:
+`ca3_ca1_rand/def_ca3a31ca1_min_125_max_135_sv0` and its `exp25%_150_` counterpart,
+plus `inhib/def_ca3a31_20_perc_10_sv0` and its `exp25%_150_` counterpart.
+Regenerate their spikes, currents, rates, SPW-R events, voltage groups, and cofiring scores with:
+
+```sh
+python scripts/export_disease_catalog.py \
+  --source-root /path/to/PFC-HPC \
+  --output-root public/data/pfc-hpc \
+  --detector-module /path/to/ripple_detection.py
+```
+
+This writes `disease-runs.json` alongside the original `runs.json` and uses the same
+network and cofiring exporters. Each comparison has independent controls and a shared
+absolute timeline for its two runs.
+
 For interface development without a regenerated simulation, create a clearly labeled synthetic bundle:
 
 ```sh

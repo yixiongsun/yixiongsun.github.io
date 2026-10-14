@@ -8,4 +8,7 @@ export default defineConfig({
   output: 'static',
   site: process.env.SITE_URL ?? 'https://yixiongsun.github.io',
   base,
+  redirects: {
+    '/projects/spwr-network-simulation/': '/projects/mechanistic-modeling-of-hippocampal-network-dysfunction/',
+  },
 });

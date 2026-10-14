@@ -1,8 +1,8 @@
 ---
 import NetworkSimulation from './NetworkSimulation.astro';
 import NetworkComparison from './NetworkComparison.astro';
-import NeuronModels from './NeuronModels.astro';
 import ModelArchitecture from './ModelArchitecture.astro';
+import DiseaseConnectivity from './DiseaseConnectivity.astro';
 ---
 
 <div class="spwr-case-study">
@@ -25,16 +25,22 @@ import ModelArchitecture from './ModelArchitecture.astro';
   <section class="project-context" aria-labelledby="model-title">
     <p class="section-label">The model</p>
     <div>
-      <h2 id="model-title">Testing candidate mechanisms in a controlled circuit</h2>
+      <h2 id="model-title">Testing circuit mechanisms with a hippocampal network model</h2>
       <p>
         For this work, I collaborated with Jiannis Taxidis, who developed the original
-        cortical–CA3–CA1 model with colleagues and supervised the computational experiments. I
-        adapted the model to ask whether changes in glutamatergic or GABAergic transmission could
-        account for the patterns of hippocampal activity I recorded in TgCRND8 mice.
+        cortical–CA3–CA1 model with colleagues and supervised the computational experiments.
+        I adapted the model to test whether altered glutamatergic or GABAergic transmission
+        could reproduce the hippocampal activity patterns I observed in TgCRND8 mice.
       </p>
       <p>
-        I focused the analysis on CA1 so that simulated firing and coactivity could be compared with
-        my recordings.
+        The model was well suited to this question because it reproduces sharp-wave ripples
+        (SPW-Rs) and associated spiking dynamics using empirically constrained parameters.
+        It also generates these dynamics during NREM sleep, allowing direct comparison with
+        the physiological state represented in my recordings.
+      </p>
+      <p>
+        I focused the analysis on CA1, where simulated firing and coactivity patterns
+        could be compared directly with the experimental data.
       </p>
       <aside class="model-panel" aria-label="Computational experiment overview">
         <div class="model-flow">
@@ -62,49 +68,160 @@ import ModelArchitecture from './ModelArchitecture.astro';
     </div>
   </section>
 
-  <NeuronModels />
-
   <ModelArchitecture />
+
+
+
+  <section class="project-context" aria-labelledby="reading-title">
+    <p class="section-label">Interactive Visualization</p>
+    <div>
+      <h2 id="reading-title">Exploring the baseline network</h2>
+      <p>
+        The interactive view shows the baseline model at several levels, from individual neurons to
+        population activity. Pyramidal neurons provide the network’s excitatory drive, while
+        interneurons regulate and synchronize that activity. You can view individual cells by
+        type, examine population spiking and firing rates across CA3 and CA1, or select a single
+        neuron to inspect its activity and nearby connections.
+      </p>
+      <p>
+        A separate coactivity view highlights a subset of CA1 neurons sampled for analysis.
+        These cells are shown in red, with temporary lines appearing between pairs that
+        fire within 50 ms of one another. This provides a simple visual representation of
+        how coordinated firing emerges across the sampled population.
+      </p>
+      <p>
+        The CA1 current trace provides an LFP-like view of population activity by summing
+        modeled synaptic currents at a CA1 sampling site. It is intended as a model analogue
+        of pyramidal-layer activity rather than a simulated membrane voltage or measured LFP.
+        Connections shown in the interactive view are illustrative; exact network connectivity
+        depends on the simulation run.
+      </p>
+    </div>
+  </section>
 
   <NetworkSimulation />
 
   <section class="project-context" aria-labelledby="reading-title">
-    <p class="section-label">Views</p>
+    <p class="section-label">Modeling Experience</p>
     <div>
-      <h2 id="reading-title">From single cells to population activity</h2>
+      <h2 id="reading-title">Incorporating experience into the network</h2>
       <p>
-        Pyramidal neurons are excitatory principal cells that carry activity within and between
-        regions; interneurons are inhibitory cells that constrain and synchronize that activity. The
-        neuron view shows individual model cells. Its separated layout groups the two cell classes
-        into lanes, while the interspersed layout returns them to model population order, wrapped into
-        rows for display rather than anatomy. The population-raster view groups spikes and smoothed
-        firing rates by region and cell class. The selected-neuron view isolates one cell's spike
-        history and the one-hop connections displayed around it.
+        To model the effects of experience, a subset of CA3 pyramidal neurons is strengthened
+        within the recurrent CA3 network and in its projections to CA1. This introduces a
+        simple form of experience-dependent plasticity, allowing the model to test how prior
+        activity reshapes subsequent sharp-wave ripple dynamics and neuronal coactivity.
       </p>
       <p>
-        The CA1 somatic-current trace sums modeled synaptic currents across a CA1 sampling site. It is
-        an LFP-like model proxy for pyramidal-layer activity—not a measured LFP and not a neuron's
-        membrane voltage. Displayed connections are a clearly labeled synthetic UI fixture for
-        demonstrating the interface; real connectivity must be exported from the exact simulation
-        seed.
+        The interactive view compares the baseline and experience-modified networks side by side.
+        After strengthening the CA3 ensemble, more CA1 neurons are recruited during SPW-Rs and firing
+        increases within ripple events. The coactivity view also shows a larger number of neurons
+        firing together, reflecting stronger coordinated activity across the sampled population.
       </p>
     </div>
   </section>
 
   <NetworkComparison />
 
-  <section class="project-context project-context--last" aria-labelledby="next-title">
-    <p class="section-label">Comparison</p>
+  <section class="project-context" aria-labelledby="glutamate-comparison-title">
+    <p class="section-label">Hypothesis 1</p>
     <div>
-      <h2 id="next-title">A paired demonstration, not a biological result</h2>
+      <h2 id="glutamate-comparison-title">Increased glutamatergic transmission from excess synaptic glutamate</h2>
       <p>
-        The baseline and experience-strengthened panels replay two seed-0 simulations on the same
-        absolute time axis. In the strengthened run, excitatory efficacy is increased within a
-        selected CA3 pyramidal ensemble and from that ensemble to CA1 pyramidal cells, approximating
-        experience-dependent plasticity without an explicit learning rule. The side-by-side view
-        reveals how this manipulation changes activity in these two runs. It does not estimate
-        variability, establish statistical significance, or by itself support a biological or disease
-        conclusion.
+        One candidate mechanism for hippocampal dysfunction in Alzheimer’s disease is excessive synaptic glutamate.
+        Amyloid-β can disrupt glutamate homeostasis and reduce clearance from the synaptic space, increasing excitatory
+        drive and shifting the balance of hippocampal circuits.
+      </p>
+      <p>
+        To test whether this mechanism could reproduce the activity patterns observed in TgCRND8 mice, I increased
+        excitatory synaptic strength across the CA3–CA1 network. The model was then run under baseline and
+        experience-strengthened conditions using the same plasticity manipulation described above.
+      </p>
+      <p>
+        With elevated excitation, neurons were already more strongly coactive at baseline, and the usual increase in
+        coactivity after experience was largely absent. Instead of reorganizing after experience, the network remained
+        dominated by strongly coupled activity patterns, resembling the reduced experience-dependent refinement observed
+        experimentally.
+      </p>
+      <DiseaseConnectivity mode="excitation" />
+    </div>
+  </section>
+
+  <NetworkComparison
+    baselineId="def_ca3a31ca1_min_125_max_135_sv0"
+    experienceId="exp25%_150_ca3a31ca1_min_125_max_135_sv0"
+    catalogPath="data/pfc-hpc/disease-runs.json"
+    comparisonId="glutamate-comparison"
+    label="Increased glutamatergic transmission: baseline versus experience"
+  />
+
+  <section class="project-context" aria-labelledby="inhibition-comparison-title">
+    <p class="section-label">Hypothesis 2</p>
+    <div>
+      <h2 id="inhibition-comparison-title">Impaired interneuron function does not reproduce the coactivity deficit</h2>
+      <p>
+        A second candidate mechanism was reduced inhibitory control within the hippocampal network. Because interneurons
+        regulate pyramidal-cell firing and help organize SPW-R activity, impaired inhibition could in principle alter how
+        neuronal ensembles are recruited during ripples.
+      </p>
+      <p>
+        To test this, I reduced inhibitory synaptic strength in the model and again compared baseline with the
+        experience-strengthened condition. Although this manipulation changed network activity, it did not reproduce
+        the loss of experience-dependent coactivity observed in TgCRND8 mice.
+      </p>
+      <p>
+        Coactivity still increased after experience, indicating that reduced inhibition alone was not sufficient to
+        account for the experimental phenotype. In contrast to the elevated-glutamate manipulation,
+        the network retained its ability to reorganize following experience.
+      </p>
+      <DiseaseConnectivity mode="inhibition" />
+    </div>
+  </section>
+
+  <NetworkComparison
+    baselineId="def_ca3a31_20_perc_10_sv0"
+    experienceId="exp25%_150_ca3a31_20_perc_10_sv0"
+    catalogPath="data/pfc-hpc/disease-runs.json"
+    comparisonId="inhibition-comparison"
+    label="Reduced inhibitory output: baseline versus experience"
+  />
+
+  <section class="project-context" aria-labelledby="next-title">
+    <p class="section-label">Conclusion</p>
+    <div>
+      <h2 id="next-title">Excess excitatory drive reproduces the impaired network response to experience</h2>
+      <p>
+        The modeling results support excess excitatory drive as a plausible mechanism for the loss of experience-dependent
+        network refinement observed in TgCRND8 mice. Increasing glutamatergic transmission produced elevated baseline coactivity
+        and reduced the additional reorganization normally induced by experience, whereas weakening inhibition did not reproduce this pattern.
+      </p>
+      <p>
+        This interpretation is also supported by histological evidence showing reduced surface expression of the astrocytic glutamate
+        reuptake transporter, consistent with impaired glutamate clearance. Together, these findings point toward disrupted glutamate homeostasis
+        as a candidate mechanism linking amyloid pathology to altered hippocampal network dynamics.
+      </p>
+      <p>
+        The simulations do not establish a unique biological mechanism, but they provide a circuit-level hypothesis that can now be tested experimentally.
+      </p>
+    </div>
+  </section>
+
+  <section class="project-context project-context--last" aria-labelledby="next-steps-title">
+    <p class="section-label">Next steps</p>
+    <div>
+      <h2 id="next-steps-title">Toward experience-driven memory formation</h2>
+      <p>
+        A major next step is to test the model predictions experimentally, particularly whether restoring glutamate clearance or reducing
+        excess excitatory drive can recover normal experience-dependent changes in hippocampal coactivity and SPW-R activity.
+      </p>
+      <p>
+        In parallel, I am extending the model toward experience-driven learning rather than imposing synaptic strengthening directly.
+        A virtual animal will explore a spatial environment using RatInABox while synaptic connections evolve through spike-timing-dependent
+        plasticity (STDP). This will make it possible to examine whether repeated exploration produces stable patterns of coactivity that
+        emerge from the animal’s experience.
+      </p>
+      <p>
+        The longer-term goal is to connect behavior, synaptic plasticity, ensemble formation, and ripple-associated reactivation
+        within the same simulation, providing a more direct model of how spatial memories are formed and later expressed during offline activity.
       </p>
     </div>
   </section>

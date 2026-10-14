@@ -10,6 +10,7 @@ export interface Project {
   summary: string;
   description: string;
   overview?: { heading?: string; text: string };
+  overviewAction?: { label: string; href: string };
   status?: { label: string; detail: string };
   tools: string[];
   url?: string;
@@ -119,17 +120,14 @@ export const projects: Project[] = [
     media: { type: 'signal', alt: 'Animated neural signal preview' },
   },
   {
-    slug: 'spwr-network-simulation',
+    slug: 'mechanistic-modeling-of-hippocampal-network-dysfunction',
     year: '2024—25',
-    title: 'Experience-dependent SPW-R network dynamics',
-    status: {
-      label: 'Page WIP',
-      detail: 'The project is complete; this page is a work in progress.',
-    },
+    title: 'Mechanistic Modeling of Hippocampal Network Dysfunction',
+    overviewAction: { label: 'Jump to interactive visualization', href: '#network-view' },
     summary: 'Modeling hippocampal circuit mechanisms behind disrupted sharp-wave ripples',
     description:
-      'A conductance-based PFC–CA3–CA1 model used to investigate candidate circuit mechanisms behind disrupted sharp-wave ripple activity in an amyloid mouse model. Interactive replays introduce the circuit and compare baseline with experience-strengthened activity; these demonstrations are exploratory rather than biological results.',
-    tools: ['Brian2', 'Python', 'Computational neuroscience', 'Canvas', 'Event-based visualization'],
+      'This project uses a conductance-based cortical–CA3–CA1 network model to test circuit mechanisms that could explain the disrupted sharp-wave ripple activity observed in TgCRND8 mice. I adapted the model to compare how changes in glutamatergic and GABAergic transmission affect CA1 firing and coactivity during NREM-like network activity. Interactive simulations provide a visual aid for exploring the model architecture, network activity, and the effects of experience-dependent strengthening.',
+    tools: ['Python', 'Spiking neural networks', 'Computational neuroscience', 'Brian2'],
   },
   {
     slug: 'hippocampal-memory',
@@ -142,7 +140,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'bayespairing',
-    year: '2021',
+    year: '2020-21',
     title: 'BayesPairing2 RNA structure prediction',
     summary: 'Research software and motif discovery',
     description:
@@ -151,7 +149,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'rna-molecular-dynamics',
-    year: '—',
+    year: '2021',
     title: 'RNA molecular dynamics simulation',
     summary: 'Molecular simulation and visualization',
     description:

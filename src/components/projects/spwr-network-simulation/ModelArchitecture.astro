@@ -1,24 +1,31 @@
+---
+import NeuronModels from './NeuronModels.astro';
+---
+
 <section class="model-architecture" aria-labelledby="architecture-title">
   <p class="section-label">Architecture</p>
   <div>
-    <h2 id="architecture-title">How activity travels through the circuit</h2>
+    <h2 id="architecture-title">How the model generates SPW-Rs</h2>
     <p class="architecture-copy">
-      The prefrontal cortex (PFC) provides input to both CA3 and CA1. In this simplified model,
-      the mossy fiber-like input reaches CA3 directly, bypassing the dentate gyrus (DG), while
-      the temporoammonic pathway carries input to CA1. CA3 also projects to CA1 through
-      Schaffer collaterals. Cortical input influences when ripples occur across slow oscillation states.
+      The prefrontal cortex (PFC) drives both CA3 and CA1. In the simplified network,
+      cortical input reaches CA3 directly through a mossy fiber-like pathway that bypasses
+      the dentate gyrus, while a temporoammonic pathway provides input to CA1. CA3 then
+      drives CA1 through the Schaffer collaterals. Together, these cortical inputs help
+      determine when ripple events emerge across slow-oscillation states.
     </p>
     <p class="architecture-copy">
-      Within CA3, recurrent excitation between pyramidal neurons generates large population events
-      that propagate to CA1. Within CA1, recurrent inhibitory circuitry helps synchronize this activity
-      to produce SPW-Rs. The small circuits below illustrate these two dominant motifs.
+      Within CA3, recurrent excitation among pyramidal neurons generates large population
+      events that propagate to CA1. In CA1, recurrent inhibition between interneurons helps
+      organize the incoming excitation into synchronized sharp-wave ripple activity. The diagrams
+      highlight the model's distinct connectivity: pyramidal–pyramidal connections in CA3 are absent
+      in CA1, while interneuron–interneuron connections in CA1 are absent in CA3.
     </p>
-    <figure class="architecture-panel">
+    <div class="architecture-panel" role="group" aria-label="Network connectivity and neuron models">
       <svg class="region-diagram" viewBox="0 0 560 300" role="img" aria-labelledby="region-diagram-title region-diagram-desc">
         <title id="region-diagram-title">PFC input to CA3 and CA1, with a CA3 projection to CA1</title>
         <desc id="region-diagram-desc">PFC projects directly to CA3 through a mossy fiber-like model pathway that bypasses DG, and to CA1 through the temporoammonic pathway. Schaffer collaterals carry activity from CA3 to CA1.</desc>
         <defs>
-          <marker id="architecture-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <marker id="architecture-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
             <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead" />
           </marker>
         </defs>
@@ -39,42 +46,23 @@
       </svg>
       <div class="local-circuits">
         <div class="local-circuit">
-          <h3>CA3 · recurrent excitation</h3>
+          <h3>CA3 · Recurrent excitation</h3>
           <svg viewBox="0 0 260 140" role="img" aria-labelledby="ca3-circuit-title">
-            <title id="ca3-circuit-title">Three pyramidal neurons linked by recurrent excitatory connections</title>
+            <title id="ca3-circuit-title">Two pyramidal neurons with reciprocal excitatory connections and a PV interneuron</title>
             <defs>
-              <marker id="ca3-excitatory-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <marker id="ca3-excitatory-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead" />
               </marker>
-            </defs>
-            <path class="connection" d="M 112 39 L 70 88" marker-start="url(#ca3-excitatory-arrow)" marker-end="url(#ca3-excitatory-arrow)" />
-            <path class="connection" d="M 81 111 L 179 111" marker-start="url(#ca3-excitatory-arrow)" marker-end="url(#ca3-excitatory-arrow)" />
-            <path class="connection" d="M 190 88 L 148 39" marker-start="url(#ca3-excitatory-arrow)" marker-end="url(#ca3-excitatory-arrow)" />
-            <circle class="pyramidal" cx="130" cy="27" r="19" />
-            <circle class="pyramidal" cx="60" cy="111" r="19" />
-            <circle class="pyramidal" cx="200" cy="111" r="19" />
-            <text class="cell-letter" x="130" y="32">P</text>
-            <text class="cell-letter" x="60" y="116">P</text>
-            <text class="cell-letter" x="200" y="116">P</text>
-          </svg>
-          <p>Pyramidal cells excite one another, amplifying and sustaining population activity.</p>
-        </div>
-        <div class="local-circuit">
-          <h3>CA1 · recurrent inhibition</h3>
-          <svg viewBox="0 0 260 140" role="img" aria-labelledby="ca1-circuit-title">
-            <title id="ca1-circuit-title">Two pyramidal neurons recruit a PV interneuron that feeds inhibition back to the pyramidal cells</title>
-            <defs>
-              <marker id="ca1-excitatory-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead" />
-              </marker>
-              <marker id="ca1-inhibitory-bar" viewBox="0 0 10 12" refX="5" refY="6" markerWidth="6" markerHeight="7" orient="auto">
-                <path d="M 5 1 L 5 11" class="inhibitory-bar" />
+              <marker id="ca3-inhibitory-bar" viewBox="0 0 4 14" refX="2" refY="7" markerWidth="4" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto">
+                <rect x="0.75" y="1" width="2.5" height="12" class="inhibitory-head" />
               </marker>
             </defs>
-            <path class="connection" d="M 71 93 L 111 45" marker-end="url(#ca1-excitatory-arrow)" />
-            <path class="connection" d="M 189 93 L 149 45" marker-end="url(#ca1-excitatory-arrow)" />
-            <path class="connection inhibitory" d="M 111 22 Q 37 15 52 86" marker-end="url(#ca1-inhibitory-bar)" />
-            <path class="connection inhibitory" d="M 149 22 Q 223 15 208 86" marker-end="url(#ca1-inhibitory-bar)" />
+            <path class="connection supporting" d="M 73 95 L 114 46" marker-end="url(#ca3-excitatory-arrow)" />
+            <path class="connection supporting" d="M 187 95 L 146 46" marker-end="url(#ca3-excitatory-arrow)" />
+            <path class="connection inhibitory supporting" d="M 110 27 Q 40 34 51 84" marker-end="url(#ca3-inhibitory-bar)" />
+            <path class="connection inhibitory supporting" d="M 150 27 Q 220 34 209 84" marker-end="url(#ca3-inhibitory-bar)" />
+            <path class="connection emphasized" d="M 80 103 L 176 103" marker-end="url(#ca3-excitatory-arrow)" />
+            <path class="connection emphasized" d="M 180 119 L 84 119" marker-end="url(#ca3-excitatory-arrow)" />
             <circle class="interneuron" cx="130" cy="27" r="19" />
             <circle class="pyramidal" cx="60" cy="111" r="19" />
             <circle class="pyramidal" cx="200" cy="111" r="19" />
@@ -82,17 +70,45 @@
             <text class="cell-letter" x="60" y="116">P</text>
             <text class="cell-letter" x="200" y="116">P</text>
           </svg>
-          <p>Pyramidal cells recruit PV interneurons, which feed inhibition back to coordinate firing.</p>
+          <p>Both cell types are present. Highlighted P–P connections amplify population activity and are absent in the model's CA1 network.</p>
+        </div>
+        <div class="local-circuit">
+          <h3>CA1 · Recurrent inhibition</h3>
+          <svg viewBox="0 0 260 140" role="img" aria-labelledby="ca1-circuit-title">
+            <title id="ca1-circuit-title">Two PV interneurons with reciprocal inhibitory connections and a pyramidal neuron</title>
+            <defs>
+              <marker id="ca1-excitatory-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" class="arrowhead" />
+              </marker>
+              <marker id="ca1-inhibitory-bar" viewBox="0 0 4 14" refX="2" refY="7" markerWidth="4" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto">
+                <rect x="0.75" y="1" width="2.5" height="12" class="inhibitory-head" />
+              </marker>
+            </defs>
+            <path class="connection supporting" d="M 116 44 L 76 92" marker-end="url(#ca1-excitatory-arrow)" />
+            <path class="connection supporting" d="M 144 44 L 184 92" marker-end="url(#ca1-excitatory-arrow)" />
+            <path class="connection inhibitory supporting" d="M 51 91 Q 38 40 103 27" marker-end="url(#ca1-inhibitory-bar)" />
+            <path class="connection inhibitory supporting" d="M 209 91 Q 222 40 157 27" marker-end="url(#ca1-inhibitory-bar)" />
+            <path class="connection inhibitory emphasized" d="M 80 103 L 174 103" marker-end="url(#ca1-inhibitory-bar)" />
+            <path class="connection inhibitory emphasized" d="M 180 119 L 86 119" marker-end="url(#ca1-inhibitory-bar)" />
+            <circle class="pyramidal" cx="130" cy="27" r="19" />
+            <circle class="interneuron" cx="60" cy="111" r="19" />
+            <circle class="interneuron" cx="200" cy="111" r="19" />
+            <text class="cell-letter" x="130" y="32">P</text>
+            <text class="cell-letter interneuron-letter" x="60" y="116">I</text>
+            <text class="cell-letter interneuron-letter" x="200" y="116">I</text>
+          </svg>
+          <p>Both cell types are present. Highlighted I–I connections help coordinate ripple activity and are absent in the model's CA3 network.</p>
         </div>
       </div>
-      <figcaption>
-        <span><i class="key-pyramidal"></i>P · pyramidal cell</span>
-        <span><i class="key-interneuron"></i>I · PV interneuron</span>
-        <span>→ Excitation</span>
-        <span>⊣ Inhibition</span>
+      <NeuronModels />
+      <div class="circuit-legend">
+        <span><svg class="legend-icon" viewBox="0 0 20 16" aria-hidden="true"><circle class="pyramidal" cx="10" cy="8" r="4" /></svg>P · pyramidal cell</span>
+        <span><svg class="legend-icon" viewBox="0 0 20 16" aria-hidden="true"><circle class="interneuron" cx="10" cy="8" r="4" /></svg>I · PV interneuron</span>
+        <span><svg class="legend-icon" viewBox="0 0 20 16" aria-hidden="true"><path class="connection" d="M 2 8 H 12" /><path class="arrowhead" d="M 11 3.5 L 20 8 L 11 12.5 Z" /></svg>Excitation</span>
+        <span><svg class="legend-icon" viewBox="0 0 20 16" aria-hidden="true"><path class="connection" d="M 2 8 H 16" /><rect class="inhibitory-head" x="14.75" y="2" width="2.5" height="12" /></svg>Inhibition</span>
         <span class="schematic-note">Simplified circuit motifs; not all connections are shown.</span>
-      </figcaption>
-    </figure>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -107,8 +123,10 @@
   .region, .interneuron { fill: var(--background); stroke: var(--text-strong); stroke-width: 1.5; }
   .pyramidal, .arrowhead { fill: var(--text); }
   .connection { fill: none; stroke: var(--text); stroke-width: 1.5; }
+  .supporting { opacity: .55; }
+  .emphasized { stroke-width: 2.2; }
   .inhibitory { stroke-dasharray: 4 3; }
-  .inhibitory-bar { fill: none; stroke: var(--text); stroke-width: 1.5; }
+  .inhibitory-head { fill: var(--text); stroke: none; stroke-dasharray: none; }
   text { fill: var(--muted); font-family: Arial, Helvetica, sans-serif; font-size: 16px; text-anchor: middle; }
   .region-name { fill: var(--text-strong); font-size: 18px; }
   .diagram-note { font-size: 13px; }
@@ -120,11 +138,9 @@
   .cell-letter { fill: var(--background); font-size: 14px; }
   .interneuron-letter { fill: var(--text-strong); }
   .local-circuit p { margin: 0; color: var(--text); font-size: var(--project-support-size); line-height: 1.6; }
-  figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 14px 18px; border-top: 1px solid var(--rule); color: var(--muted); font-size: var(--project-support-size); line-height: 1.6; }
-  figcaption span { display: inline-flex; align-items: center; gap: 6px; }
-  figcaption i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; }
-  .key-pyramidal { background: var(--text); }
-  .key-interneuron { border: 1px solid var(--text-strong); }
+  .circuit-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 14px 18px; border-top: 1px solid var(--rule); color: var(--muted); font-size: var(--project-support-size); line-height: 1.6; }
+  .circuit-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend-icon { flex: 0 0 20px; width: 20px; height: 16px; }
   .schematic-note { flex-basis: 100%; color: var(--faint); }
   @media (max-width: 620px) {
     .model-architecture { grid-template-columns: 1fr; gap: 12px; }

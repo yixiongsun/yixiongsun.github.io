@@ -6,5 +6,5 @@ import SpwrNetworkCaseStudy from './spwr-network-simulation/CaseStudy.astro';
 export const caseStudies: Record<string, typeof EvidNeuroCaseStudy> = {
   evidneuro: EvidNeuroCaseStudy,
   'neural-event-classification': NeuralEventCaseStudy,
-  'spwr-network-simulation': SpwrNetworkCaseStudy,
+  'mechanistic-modeling-of-hippocampal-network-dysfunction': SpwrNetworkCaseStudy,
 };

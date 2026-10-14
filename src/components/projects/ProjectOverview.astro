@@ -11,6 +11,11 @@ const overview = project.overview;
   <div class="section-body">
     {overview?.heading && <h3>{overview.heading}</h3>}
     <p>{overview?.text ?? project.description}</p>
+    {project.overviewAction && (
+      <a class="overview-action" href={project.overviewAction.href}>
+        {project.overviewAction.label}
+      </a>
+    )}
   </div>
 </section>
 
@@ -32,6 +37,9 @@ const overview = project.overview;
     letter-spacing: .06em;
   }
   .section-body { min-width: 0; }
+  .overview-action { display: inline-flex; align-items: center; gap: 12px; min-height: 40px; margin-top: 18px; padding: 9px 14px; border: 1px solid #464944; background: #1a1c19; color: var(--text-strong); font-size: var(--project-support-size); line-height: 1.5; }
+  .overview-action:hover { border-color: #777a74; background: #242622; }
+  .overview-action:focus-visible { outline: 1px solid var(--text); outline-offset: 3px; }
   h3 {
     margin: 0 0 14px;
     color: var(--text-strong);

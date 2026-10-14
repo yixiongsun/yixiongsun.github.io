@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "detector": {
+    "name": "ripple_detection.SWR",
+    "sampleRateHz": 1000,
+    "thresholdStandardDeviations": 2,
+    "peakThresholdStandardDeviations": 3,
+    "inputChannel": "ca1-somatic"
+  },
+  "events": [
+    {
+      "startSample": 441,
+      "endSample": 467,
+      "startMs": 441.0,
+      "endMs": 467.0,
+      "normalizedPeakPower": 3.9919965132982305
+    },
+    {
+      "startSample": 2886,
+      "endSample": 2907,
+      "startMs": 2886.0,
+      "endMs": 2907.0,
+      "normalizedPeakPower": 6.395798023089672
+    },
+    {
+      "startSample": 4103,
+      "endSample": 4124,
+      "startMs": 4103.0,
+      "endMs": 4124.0,
+      "normalizedPeakPower": 5.179617058844063
+    },
+    {
+      "startSample": 5417,
+      "endSample": 5439,
+      "startMs": 5417.0,
+      "endMs": 5439.0,
+      "normalizedPeakPower": 3.7799555150837953
+    },
+    {
+      "startSample": 5482,
+      "endSample": 5513,
+      "startMs": 5482.0,
+      "endMs": 5513.0,
+      "normalizedPeakPower": 3.0124544753781417
+    },
+    {
+      "startSample": 7537,
+      "endSample": 7577,
+      "startMs": 7537.0,
+      "endMs": 7577.0,
+      "normalizedPeakPower": 4.812563663519158
+    },
+    {
+      "startSample": 8170,
+      "endSample": 8207,
+      "startMs": 8170.0,
+      "endMs": 8207.0,
+      "normalizedPeakPower": 4.526071060930054
+    },
+    {
+      "startSample": 8244,
+      "endSample": 8269,
+      "startMs": 8244.0,
+      "endMs": 8269.0,
+      "normalizedPeakPower": 3.0773348853369824
+    },
+    {
+      "startSample": 9696,
+      "endSample": 9761,
+      "startMs": 9696.0,
+      "endMs": 9761.0,
+      "normalizedPeakPower": 3.3490072799690087
+    },
+    {
+      "startSample": 9784,
+      "endSample": 9816,
+      "startMs": 9784.0,
+      "endMs": 9816.0,
+      "normalizedPeakPower": 5.151458259298584
+    },
+    {
+      "startSample": 13874,
+      "endSample": 13904,
+      "startMs": 13874.0,
+      "endMs": 13904.0,
+      "normalizedPeakPower": 4.702387581543168
+    },
+    {
+      "startSample": 13952,
+      "endSample": 13973,
+      "startMs": 13952.0,
+      "endMs": 13973.0,
+      "normalizedPeakPower": 4.183869107307138
+    },
+    {
+      "startSample": 16489,
+      "endSample": 16511,
+      "startMs": 16489.0,
+      "endMs": 16511.0,
+      "normalizedPeakPower": 3.3437875872809855
+    },
+    {
+      "startSample": 16555,
+      "endSample": 16575,
+      "startMs": 16555.0,
+      "endMs": 16575.0,
+      "normalizedPeakPower": 4.29911199345471
+    },
+    {
+      "startSample": 17987,
+      "endSample": 18011,
+      "startMs": 17987.0,
+      "endMs": 18011.0,
+      "normalizedPeakPower": 3.0081886644634634
+    },
+    {
+      "startSample": 18035,
+      "endSample": 18069,
+      "startMs": 18035.0,
+      "endMs": 18069.0,
+      "normalizedPeakPower": 3.672878817308716
+    },
+    {
+      "startSample": 19371,
+      "endSample": 19410,
+      "startMs": 19371.0,
+      "endMs": 19410.0,
+      "normalizedPeakPower": 5.414260170410387
+    },
+    {
+      "startSample": 20504,
+      "endSample": 20526,
+      "startMs": 20504.0,
+      "endMs": 20526.0,
+      "normalizedPeakPower": 3.30610471785184
+    },
+    {
+      "startSample": 20631,
+      "endSample": 20661,
+      "startMs": 20631.0,
+      "endMs": 20661.0,
+      "normalizedPeakPower": 3.033013582185634
+    },
+    {
+      "startSample": 20756,
+      "endSample": 20786,
+      "startMs": 20756.0,
+      "endMs": 20786.0,
+      "normalizedPeakPower": 3.713474620319105
+    },
+    {
+      "startSample": 22070,
+      "endSample": 22103,
+      "startMs": 22070.0,
+      "endMs": 22103.0,
+      "normalizedPeakPower": 3.3410237905294666
+    },
+    {
+      "startSample": 24826,
+      "endSample": 24849,
+      "startMs": 24826.0,
+      "endMs": 24849.0,
+      "normalizedPeakPower": 3.312331274426114
+    },
+    {
+      "startSample": 26239,
+      "endSample": 26310,
+      "startMs": 26239.0,
+      "endMs": 26310.0,
+      "normalizedPeakPower": 3.6374244259401087
+    },
+    {
+      "startSample": 27522,
+      "endSample": 27542,
+      "startMs": 27522.0,
+      "endMs": 27542.0,
+      "normalizedPeakPower": 3.660345906972945
+    },
+    {
+      "startSample": 27658,
+      "endSample": 27738,
+      "startMs": 27658.0,
+      "endMs": 27738.0,
+      "normalizedPeakPower": 5.31038848747493
+    },
+    {
+      "startSample": 28823,
+      "endSample": 28846,
+      "startMs": 28823.0,
+      "endMs": 28846.0,
+      "normalizedPeakPower": 3.3650121374797424
+    },
+    {
+      "startSample": 28994,
+      "endSample": 29025,
+      "startMs": 28994.0,
+      "endMs": 29025.0,
+      "normalizedPeakPower": 3.213919258829406
+    },
+    {
+      "startSample": 29061,
+      "endSample": 29097,
+      "startMs": 29061.0,
+      "endMs": 29097.0,
+      "normalizedPeakPower": 4.4182340500269115
+    }
+  ]
+}
